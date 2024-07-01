@@ -10,7 +10,7 @@
 <body>
 <div class="video-container">
   <video autoplay muted loop id="background-video">
-    <source src="/static/videos/ex4.mp4" type="video/mp4">
+    <source id="video-source" type="video/mp4">
   </video>
   <div class="content">
     <h1>Welcome to Viaje</h1>
@@ -18,7 +18,7 @@
   </div>
 </div>
 <button id="bounce-button">
-  <img src="/static/images/book.png" alt="Scroll Down" class="scroll-icon">
+  <img id="scroll-icon" src="/static/images/book.png" alt="Scroll Down" class="scroll-icon">
 </button>
 <div id="slide-up-content">
   <div id="slide-up-inner-content">
@@ -26,5 +26,42 @@
   </div>
 </div>
 <script src="/static/js/start.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const videoContainer = document.getElementById('background-video');
+    const videoSource = document.getElementById('video-source');
+    const scrollIcon = document.getElementById('scroll-icon');
+
+    // 비디오 파일 목록
+    const videos = [
+      '/static/videos/ex1.mp4',
+      '/static/videos/ex2.mp4',
+      '/static/videos/ex3.mp4',
+      '/static/videos/ex4.mp4' // 추가 비디오 파일 경로를 여기에 추가하세요
+    ];
+
+    // 버튼 이미지 파일 목록
+    const images = [
+      '/static/images/book.png',
+      '/static/images/cloud2.png',
+      '/static/images/airplane.png',
+      // '/static/images/shimaenaga.png'
+       // 추가 이미지 파일 경로를 여기에 추가하세요
+    ];
+
+    // 무작위로 비디오 파일 선택
+    const randomVideo = videos[Math.floor(Math.random() * videos.length)];
+
+    // 무작위로 이미지 파일 선택
+    const randomImage = images[Math.floor(Math.random() * images.length)];
+
+    // 비디오 소스 설정
+    videoSource.src = randomVideo;
+    videoContainer.load();
+
+    // 이미지 소스 설정
+    scrollIcon.src = randomImage;
+  });
+</script>
 </body>
 </html>
