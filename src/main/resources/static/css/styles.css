@@ -59,10 +59,10 @@ p {
 
 @keyframes bounce {
   from {
-      transform: translateX(-50%) translateY(0px);
+    transform: translateX(-50%) translateY(0px);
   }
   to {
-      transform: translateX(-50%) translateY(-10px);
+    transform: translateX(-50%) translateY(-10px);
   }
 }
 
