@@ -1,0 +1,28 @@
+/* start.css */
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 20px;
+    padding: 20px;
+    height: 100vh;
+    box-sizing: border-box;
+}
+
+.grid-item {
+    background-color: #f1e4d7;
+    border: 1px solid #d3c0b2;
+    padding: 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.grid-item h2 {
+    margin: 0 0 10px 0;
+}
+
+.grid-item p {
+    margin: 0;
+}
