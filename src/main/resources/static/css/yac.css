@@ -1,12 +1,4 @@
-* {
-  box-sizing: border-box;
-}
-
-body {
-  background-color: #f4f1ff;
-  font-family: 'Noto Sans KR', sans-serif;
-}
-
+/* yac.css */
 .terms {
   background-color: #ffffff;
   border: 1px solid #dedede;
@@ -15,7 +7,6 @@ body {
   margin: 32px auto;
   padding: 40px 19px 100px;
   width: 400px;
-  
 }
 
 .terms-title {
@@ -39,7 +30,7 @@ body {
   background: #f4f3f8;
   border-radius: 8px;
   font-size: 12px;
-  height: 724px;
+  height: 430px;
   overflow: scroll;
   padding: 24px;
 }

@@ -3,10 +3,14 @@ document.addEventListener('DOMContentLoaded', function() {
     const slideUpContent = document.getElementById('slide-up-content');
     const slideUpInnerContent = document.getElementById('slide-up-inner-content');
 
+    console.log('Document is ready');
+
     if (bounceButton && slideUpContent && slideUpInnerContent) {
+        console.log('Elements found:', bounceButton, slideUpContent, slideUpInnerContent);
+
         bounceButton.addEventListener('click', function(event) {
             console.log('Start button clicked');
-            fetch('/templates/start.html')
+            fetch('/src/main/resources/templates/start.html')
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
@@ -14,6 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     return response.text();
                 })
                 .then(data => {
+                    console.log('Data fetched:', data);
                     slideUpInnerContent.innerHTML = data;
                     slideUpContent.classList.add('active');
                 })
