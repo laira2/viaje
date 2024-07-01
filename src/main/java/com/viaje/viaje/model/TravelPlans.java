@@ -40,6 +40,17 @@ public class TravelPlans {
     @Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
     private LocalDateTime updated_at;
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Cart cart;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private PlanStatus status = PlanStatus.PENDING;
+
+    public enum PlanStatus {
+        PENDING, APPROVED, REJECTED, DELETED
+    }
+
     @PrePersist
     protected void onCreate() {
         created_at = LocalDateTime.now();
