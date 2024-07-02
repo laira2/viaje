@@ -16,6 +16,7 @@ public class PlanCert {
     private TravelPlans travelPlans;
 
     private String certification;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private PlanCertification status = PlanCertification.PENDING;
