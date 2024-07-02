@@ -109,7 +109,7 @@ p {
     left: -50%;
     width: 50%; /* 왼쪽 절반만 차지 */
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.9);
+    background-color: rgba(255, 255, 255, 0.9); /* 반투명 배경 */
     color: white;
     transition: left 0.5s ease-in-out;
     z-index: 5;
