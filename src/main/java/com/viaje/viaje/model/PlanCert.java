@@ -9,7 +9,7 @@ public class PlanCert {
     @Id
     @OneToOne
     @MapsId
-    @JoinColumn(name = "plan_id")
+    @JoinColumn(name = "planId")
     private TravelPlans travelPlans;
 
     private String certification;

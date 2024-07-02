@@ -18,10 +18,10 @@ public class Cart {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long cart_id;
+    public Long cartId;
 
     @OneToOne
-    @JoinColumn(name = "user_id", unique = true)
+    @JoinColumn(name = "userId", unique = true)
     public Users users;
 
 }

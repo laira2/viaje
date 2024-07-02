@@ -17,27 +17,27 @@ public class Board {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long board_id;
+    private Long boardId;
 
     @OneToOne
-    @JoinColumn(name="plan_id" )
+    @JoinColumn(name="planId" )
     private TravelPlans travelPlans;
 
     @OneToOne
-    @JoinColumn(name="user_id")
+    @JoinColumn(name="userId")
     private Users user;
 
     @Column(updatable = false, nullable = false)
-    private LocalDateTime created_at;
+    private LocalDateTime createdAt;
 
     @Column(nullable = false)
-    private LocalDateTime updated_at;
+    private LocalDateTime updatedAt;
 
     @Column(nullable = false)
-    private Integer view_count =0 ;
+    private Integer viewCount =0 ;
 
     @Column(nullable = false)
-    private Integer like_count = 0;
+    private Integer likeCount = 0;
 
 
     private BoardStatus boardStatus = BoardStatus.PENDING;
