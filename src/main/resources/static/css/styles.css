@@ -1,6 +1,10 @@
-@import url('/static/css/main.css');
-@import url('/static/css/start.css');
+@import url('./static/css/main.css');
+@import url('./static/css/start.css');
 @import url('/static/css/yac.css');
+@import url('/static/css/login.css');
+@import url('/static/css/join.css');
+@import url('/static/css/admin.css');
+@import url('/static/css/mypage.css');
 
 /* 공통 스타일 */
 * {

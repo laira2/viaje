@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         bounceButton.addEventListener('click', function(event) {
             console.log('Start button clicked');
-            fetch('/src/main/resources/templates/start.html')
+            fetch('/static/templates/start.html') // 경로 수정
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
