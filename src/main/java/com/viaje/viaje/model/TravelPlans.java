@@ -1,12 +1,14 @@
 package com.viaje.viaje.model;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Data
+@Builder
 public class TravelPlans {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

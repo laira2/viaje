@@ -15,6 +15,7 @@ public class TravelPlansDTO {
     private String detail;
     private String fileName;
     private String filePath;
+    private Long planId;
 
 
 }
