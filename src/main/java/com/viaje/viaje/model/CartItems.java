@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Data
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"plan_id", "cart_id"}))
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"planId", "cartId"}))
 public class CartItems {
 
     @Id
