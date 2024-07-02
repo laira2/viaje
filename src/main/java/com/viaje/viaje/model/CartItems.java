@@ -13,31 +13,31 @@ public class CartItems {
     @Id
     @OneToOne
     @MapsId
-    @JoinColumn(name = "plan_id")
+    @JoinColumn(name = "planId")
     public TravelPlans travelPlans;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cart_id", nullable = false)
+    @JoinColumn(name = "cartId", nullable = false)
     private Cart cart;
 
     @Column(nullable = false)
-    private LocalDateTime added_at;
+    private LocalDateTime addedAt;
 
     @Column(nullable = false)
-    private LocalDateTime updated_at;
+    private LocalDateTime updatedAt;
 
     @Column(nullable = false)
     private Integer quantity = 1;
 
     @PrePersist
     protected void onAdded() {
-        added_at = LocalDateTime.now();
-        updated_at = LocalDateTime.now();
+        addedAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
     }
 
     @PreUpdate
     protected void onUpdate() {
-        updated_at = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
     }
 
 }

@@ -15,6 +15,7 @@ public class TravelPlansService {
 
     public Long postPlan(TravelPlans travelPlans){
 
-        return travelPlans.getPlan_id();
+        return travelPlans.getPlanId();
+
     }
 }
