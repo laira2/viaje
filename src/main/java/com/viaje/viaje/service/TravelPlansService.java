@@ -2,11 +2,13 @@ package com.viaje.viaje.service;
 
 import com.viaje.viaje.dto.TravelPlansDTO;
 import com.viaje.viaje.model.TravelPlans;
+import com.viaje.viaje.model.Users;
 import com.viaje.viaje.repository.TravelPlansRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Service;
 
+import java.nio.file.AccessDeniedException;
 import java.util.Optional;
 
 @Service
@@ -50,12 +52,22 @@ public class TravelPlansService {
         }
     }
 
-//    public String deletePlan(HttpSession session,Long planId){
-//        Optional<TravelPlans> plan = travelPlansRepository.findById(planId);
-//        if (plan.isPresent()){
-//
-//        }
-//        travelPlansRepository.deleteById(planId);
-//    }
+    public String deletePlan(HttpSession session, Long planId) {
+        return travelPlansRepository.findById(planId)
+                .map(plan -> {
+                    Users sessionUser = (Users) session.getAttribute("user");
+                    if (sessionUser != null && sessionUser.equals(plan.getUser())) {
+                        travelPlansRepository.deleteById(planId);
+                        return "Plan deleted successfully";
+                    } else {
+                        try {
+                            throw new AccessDeniedException("You don't have permission to delete this plan");
+                        } catch (AccessDeniedException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                })
+                .orElseThrow(() -> new EntityNotFoundException("Travel plan not found with id: " + planId));
+    }
 
 }
