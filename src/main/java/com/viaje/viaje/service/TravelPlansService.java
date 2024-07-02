@@ -13,9 +13,11 @@ public class TravelPlansService {
         this.travelPlansRepository = travelPlansRepository;
     }
 
-    public Long postPlan(TravelPlans travelPlans){
-
-        return travelPlans.getPlanId();
-
-    }
+//    public TravelPlans postPlan(TravelPlans travelPlans){
+//
+//
+//
+//        return travelPlans.getPlanId();
+//
+//    }
 }
