@@ -18,16 +18,11 @@ public class UserService {
     }
 
     public Users registerUser(UserDTO userDTO) {
-//        // 이메일 중복 검사
-//        if (userRepository.existsByEmail(userDTO.getEmail())) {
-//            throw new IllegalArgumentException("이미 사용 중인 이메일입니다: " + userDTO.getEmail());
-//        }
-
-        // 사용자 아이디 중복 검사
-        if (userRepository.existsByUserId(userDTO.getUserId())) {
-            throw new IllegalArgumentException("이미 사용 중인 아이디입니다: " + userDTO.getUserId());
+        // 이메일 유효성 검사
+        if (userRepository.existsByEmail(userDTO.getEmail())) {
+            throw new IllegalArgumentException("이미 사용 중인 이메일입니다: " + userDTO.getEmail());
         } else {
-            System.out.println("사용가능한 아이디입니다.");
+            System.out.println("사용가능한 이메일입니다.");
         }
 
         // User 객체 생성 및 저장
@@ -43,15 +38,6 @@ public class UserService {
                 .build();
 
         return userRepository.save(user);
-    }
-
-    public Users findUserById(String userId) {
-        return userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 ID의 사용자를 찾을 수 없습니다: " + userId));
-    }
-
-    public boolean checkUserId(String userId) {
-        return userRepository.existsByUserId(userId);
     }
 
     public boolean checkEmail(String email) {
