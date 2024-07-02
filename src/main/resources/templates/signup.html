@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원가입 페이지</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+            position: relative;
+        }
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .form-group input {
+            width: calc(100% - 110px);
+            padding: 8px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .form-group button {
+            position: absolute;
+            top: 0;
+            right: 20px;
+            width: 90px;
+            height: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 0 10px 10px 0;
+            font-size: 13px;
+        }
+        .message {
+            margin-top: 10px;
+            font-size: 14px;
+            color: red;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>회원가입</h2>
+    <form id="signupForm" action="/signup/register" method="POST">
+        <input type="hidden" name="_csrf" value="${_csrf.token}">
+        <div class="form-group">
+            <label for="user_id">유저 아이디</label>
+            <input type="text" id="user_id" name="user_id" required>
+            <button type="button" onclick="checkUserId()">아이디 중복 검사</button>
+        </div>
+        <div class="form-group">
+            <label for="user_name">사용자 이름</label>
+            <input type="text" id="user_name" name="user_name" required>
+        </div>
+        <div class="form-group">
+            <label for="nickname">닉네임</label>
+            <input type="text" id="nickname" name="nickname" required>
+        </div>
+        <div class="form-group">
+            <label for="email">이메일</label>
+            <input type="email" id="email" name="email" required>
+            <button type="button" onclick="checkEmail()">이메일 중복 검사</button>
+        </div>
+        <div class="form-group">
+            <label for="password">비밀번호</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        <button type="submit">가입하기</button>
+    </form>
+    <div id="userIdMessage" class="message"></div>
+    <div id="emailMessage" class="message"></div>
+</div>
+
+<script>
+    function checkUserId() {
+        var userId = document.getElementById('user_id').value;
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', '/signup/check-username?user_name=' + encodeURIComponent(userId), true);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    var messageElement = document.getElementById('userIdMessage');
+                    if (response) {
+                        messageElement.innerText = '사용 가능한 아이디입니다.';
+                        messageElement.style.color = 'green';
+                    } else {
+                        messageElement.innerText = '이미 사용 중인 아이디입니다.';
+                        messageElement.style.color = 'red';
+                    }
+                } else {
+                    console.error('아이디 중복 검사에 실패했습니다.');
+                }
+            }
+        };
+        xhr.send();
+    }
+
+    function checkEmail() {
+        var email = document.getElementById('email').value;
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', '/signup/check-email?email=' + encodeURIComponent(email), true);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    var messageElement = document.getElementById('emailMessage');
+                    if (response) {
+                        messageElement.innerText = '사용 가능한 이메일입니다.';
+                        messageElement.style.color = 'green';
+                    } else {
+                        messageElement.innerText = '이미 사용 중인 이메일입니다.';
+                        messageElement.style.color = 'red';
+                    }
+                } else {
+                    console.error('이메일 중복 검사에 실패했습니다.');
+                }
+            }
+        };
+        xhr.send();
+    }
+</script>
+
+</body>
+</html>
