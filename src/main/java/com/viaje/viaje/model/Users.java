@@ -11,11 +11,12 @@
     @Builder  // 빌더 패턴을 사용할 수 있게 해주는 Lombok 어노테이션
     @Getter  // 모든 필드의 Getter 메서드를 자동으로 생성해주는 Lombok 어노테이션
     @Setter  // 모든 필드의 Setter 메서드를 자동으로 생성해주는 Lombok 어노테이션
+    @Table(name = "users") //User 테이블과 매핑
     public class Users {
 
         @Id  // 엔티티의 기본 키임을 나타내는 어노테이션
         @GeneratedValue(strategy = GenerationType.IDENTITY)  // 기본 키 생성 전략을 설정하는 어노테이션
-        private Long userId;  // 사용자 ID
+        private String userId;  // 사용자 ID
 
         @Column(name = "uuid", updatable = false, nullable = false)  // 데이터베이스 컬럼 설정을 지정합니다.
         private String uuid;  // UUID는 문자열로 저장될 것입니다.
