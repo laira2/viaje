@@ -9,7 +9,7 @@ import lombok.*;
 @Builder
 public class UserDTO {
 
-    private long userId;  // 사용자 ID
+    private String userId;  // 사용자 ID
     private String uuid;  // UUID는 문자열로 저장됩니다.
     private String userName;  // 사용자 이름
     private String nickname;  // 닉네임
