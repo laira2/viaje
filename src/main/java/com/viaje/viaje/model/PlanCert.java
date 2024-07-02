@@ -7,9 +7,6 @@ import lombok.Data;
 @Data
 public class PlanCert {
     @Id
-    @Column(name = "plan_id")
-    private String id;
-
     @OneToOne
     @MapsId
     @JoinColumn(name = "plan_id")

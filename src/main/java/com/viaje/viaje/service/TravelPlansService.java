@@ -13,7 +13,7 @@ public class TravelPlansService {
         this.travelPlansRepository = travelPlansRepository;
     }
 
-    public String postPlan(TravelPlans travelPlans){
+    public Long postPlan(TravelPlans travelPlans){
 
         return travelPlans.getPlan_id();
     }

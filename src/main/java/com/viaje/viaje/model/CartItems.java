@@ -11,9 +11,6 @@ import java.time.LocalDateTime;
 public class CartItems {
 
     @Id
-    @Column(name = "plan_id")
-    private String id;
-
     @OneToOne
     @MapsId
     @JoinColumn(name = "plan_id")

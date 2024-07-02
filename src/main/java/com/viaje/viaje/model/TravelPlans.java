@@ -10,11 +10,11 @@ import java.time.LocalDateTime;
 public class TravelPlans {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String plan_id;
+    private Long plan_id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    private Users user;
+    private Users userId;
 
     @Column(nullable = false)
     private String nation;
@@ -39,9 +39,6 @@ public class TravelPlans {
 
     @Column(nullable = false)
     private LocalDateTime updated_at;
-
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Cart cart;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

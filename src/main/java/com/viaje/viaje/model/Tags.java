@@ -9,7 +9,7 @@ public class Tags {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public String tag_id;
+    public Long tag_id;
 
     @Column(nullable = false, unique = true)
     public String tag_name;
