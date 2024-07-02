@@ -28,6 +28,11 @@
 <div class="hamburger-menu">
   <img id="hamburger-icon" src="/static/images/hamburger.png" alt="Menu" class="hamburger-icon">
 </div>
+<div id="menu-content" class="menu-content">
+  <div id="menu-inner-content">
+    <!-- menu.html 파일 내용이 여기 로드됩니다. -->
+  </div>
+</div>
 <script src="/static/js/start.js"></script>
 <script>
   document.addEventListener('DOMContentLoaded', function() {
@@ -38,6 +43,8 @@
     const bounceButton = document.getElementById('bounce-button');
     const slideUpContent = document.getElementById('slide-up-content');
     const slideUpInnerContent = document.getElementById('slide-up-inner-content');
+    const menuContent = document.getElementById('menu-content');
+    const menuInnerContent = document.getElementById('menu-inner-content');
 
     console.log('Document is ready');
 
@@ -104,8 +111,27 @@
 
       // 햄버거 아이콘 클릭 이벤트 추가
       hamburgerIcon.addEventListener('click', function() {
-        window.open('/static/templates/login.html', '_blank'); // 경로 수정
+        fetch('/static/templates/menu.html') // menu.html 경로
+                .then(response => {
+                  if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                  }
+                  return response.text();
+                })
+                .then(data => {
+                  menuInnerContent.innerHTML = data;
+                  menuContent.classList.add('active');
+                })
+                .catch(error => console.error('Error loading menu.html:', error));
       });
+
+      // 오른쪽 아무곳이나 클릭하면 메뉴 숨기기
+      document.body.addEventListener('click', function(event) {
+        if (menuContent.classList.contains('active') && !menuContent.contains(event.target) && !hamburgerIcon.contains(event.target)) {
+          menuContent.classList.remove('active');
+        }
+      });
+
     } else {
       console.error('Button, slide-up content, or inner content not found');
     }
