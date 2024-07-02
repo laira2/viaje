@@ -11,11 +11,11 @@ body {
 
 .menu-container {
     text-align: center;
-    background-color: #fff;
+    background-color: rgba(255, 255, 255, 0.8); /* 배경 투명도 설정 */
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    width: 25%; /* 화면의 1/4 크기로 설정 */
+    width: 12.5%; /* 화면의 1/8 크기로 설정 */
     min-width: 200px; /* 최소 너비 설정 */
     height: 100%;
     position: fixed;
@@ -32,15 +32,17 @@ body {
 .team-name {
     font-size: 24px;
     margin-bottom: 20px;
+    color: black; /* 글자 색상 설정 */
 }
 
 .menu-item {
     font-size: 18px;
     margin: 10px 0;
+    color: black; /* 글자 색상 설정 */
 }
 
 .menu-item a {
-    color: inherit;
+    color: black; /* 링크 글자 색상 설정 */
     text-decoration: none;
 }
 
@@ -50,7 +52,7 @@ body {
 }
 
 .admin-container {
-    position: absolute;
+    position: fixed;
     bottom: 10px;
     left: 10px;
     font-size: 12px; /* 작은 크기로 설정 */
