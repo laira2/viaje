@@ -9,9 +9,9 @@ public class Tags {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long tag_id;
+    public Long tagId;
 
     @Column(nullable = false, unique = true)
-    public String tag_name;
+    public String tagName;
 
 }

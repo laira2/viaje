@@ -10,11 +10,11 @@ import java.time.LocalDateTime;
 public class TravelPlans {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long plan_id;
+    private Long planId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private Users userId;
+    @JoinColumn(name = "userId", nullable = false)
+    private Users user;
 
     @Column(nullable = false)
     private String nation;
@@ -26,19 +26,19 @@ public class TravelPlans {
     private String detail;
 
     @Column(nullable = false)
-    private String file_name;
+    private String fileName;
 
     @Column(nullable = false, columnDefinition = "TEXT")
-    private String file_path;
+    private String filePath;
 
     @Column(nullable = false,columnDefinition = "INTEGER DEFAULT 0")
     private Integer sold;
 
     @Column(nullable = false, updatable = false)
-    private LocalDateTime created_at;
+    private LocalDateTime createdAt;
 
     @Column(nullable = false)
-    private LocalDateTime updated_at;
+    private LocalDateTime updatedAt;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -50,13 +50,13 @@ public class TravelPlans {
 
     @PrePersist
     protected void onCreate() {
-        created_at = LocalDateTime.now();
-        updated_at = LocalDateTime.now();
+        createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
     }
 
     @PreUpdate
     protected void onUpdate() {
-        updated_at = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
     }
 
 
