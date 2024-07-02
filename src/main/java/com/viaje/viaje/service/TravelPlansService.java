@@ -48,9 +48,14 @@ public class TravelPlansService {
         }else{
             return "redirect:/";
         }
-
-
     }
 
+//    public String deletePlan(HttpSession session,Long planId){
+//        Optional<TravelPlans> plan = travelPlansRepository.findById(planId);
+//        if (plan.isPresent()){
+//
+//        }
+//        travelPlansRepository.deleteById(planId);
+//    }
 
 }
