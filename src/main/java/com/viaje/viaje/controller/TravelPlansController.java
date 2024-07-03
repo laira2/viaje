@@ -31,8 +31,9 @@ public class TravelPlansController {
     }
     @PostMapping("/plans/new")
     public String createPlan(HttpSession session,TravelPlansDTO tpDTO){
+        String user_email = (String) session.getAttribute("user_email");
+        Users user = userService.findByEmail(user_email);
 
-        Users user = (Users)session.getAttribute("user");
         if (user != null) {
             TravelPlans travelPlans = TravelPlans.builder()
                     .nation(tpDTO.getNation())

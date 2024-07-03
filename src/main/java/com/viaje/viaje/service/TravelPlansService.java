@@ -21,17 +21,8 @@ public class TravelPlansService {
         this.travelPlansRepository = travelPlansRepository;
     }
 
-    public String postPlan(TravelPlans travelPlans) {
-        try{
+    public void postPlan(TravelPlans travelPlans) {
             travelPlansRepository.save(travelPlans);
-            return "성공";
-        }catch (Exception e){
-            return "오류";
-        }
-
-
-
-
     }
 
     public String updateTravelPlan(HttpSession session, Long planId, TravelPlansDTO updatedDTO) {
@@ -49,8 +40,6 @@ public class TravelPlansService {
         else{
             return "redirect:/plans/new";
         }
-
-
     }
 
     public String updateStatus(HttpSession session, Long planId){
