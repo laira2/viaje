@@ -1,25 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Product List</title>
-  <style>
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    th, td {
-      padding: 8px;
-      text-align: left;
-      border-bottom: 1px solid #ddd;
-    }
-
-    th {
-      background-color: #f2f2f2;
-    }
-  </style>
+  <!-- ... -->
 </head>
 <body>
 <h1>Product List</h1>
@@ -33,42 +18,15 @@
     <th>Status</th>
   </tr>
   </thead>
-  <tbody id="product-table-body">
-  <!-- JavaScript will populate this section -->
+  <tbody>
+  <tr th:each="board : ${boardList}">
+    <td th:text="${board.boardId}"></td>
+    <td th:text="${board.title}"></td>
+    <td th:text="${board.viewCount}"></td>
+    <td th:text="${board.likeCount}"></td>
+    <td th:text="${board.boardStatus}"></td>
+  </tr>
   </tbody>
 </table>
-
-<script>
-  // Assuming you have the 'board_list' array from the controller
-  const boardList = JSON.parse('[[${board_list}]]');
-
-  const tableBody = document.getElementById('product-table-body');
-
-  boardList.forEach(board => {
-    const row = document.createElement('tr');
-
-    const idCell = document.createElement('td');
-    idCell.textContent = board.boardId;
-    row.appendChild(idCell);
-
-    const titleCell = document.createElement('td');
-    titleCell.textContent = board.title;
-    row.appendChild(titleCell);
-
-    const viewCountCell = document.createElement('td');
-    viewCountCell.textContent = board.viewCount;
-    row.appendChild(viewCountCell);
-
-    const likeCountCell = document.createElement('td');
-    likeCountCell.textContent = board.likeCount;
-    row.appendChild(likeCountCell);
-
-    const statusCell = document.createElement('td');
-    statusCell.textContent = board.boardStatus;
-    row.appendChild(statusCell);
-
-    tableBody.appendChild(row);
-  });
-</script>
 </body>
 </html>
