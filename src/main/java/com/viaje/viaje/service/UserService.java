@@ -6,6 +6,7 @@ import com.viaje.viaje.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -41,5 +42,15 @@ public class UserService {
     // 닉네임 유효성 검사
     public boolean checkNickname(String nickname) {
         return userRepository.existsByNickname(nickname);
+    }
+
+    //로그인 기능 구현
+    public boolean authenticate(String email, String password) {
+        Optional<Users> userOptional = userRepository.findByEmail(email);
+        if (userOptional.isPresent()) {
+            Users user = userOptional.get();
+            return user.getPassword().equals(password); // 실제 환경에서는 비밀번호를 해시하고 비교해야 합니다.
+        }
+        return false;
     }
 }
