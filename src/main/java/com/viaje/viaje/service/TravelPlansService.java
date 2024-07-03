@@ -21,16 +21,20 @@ public class TravelPlansService {
         this.travelPlansRepository = travelPlansRepository;
     }
 
-    public String postPlan(TravelPlans travelPlans) {
-        try{
-            travelPlansRepository.save(travelPlans);
-            return "성공";
-        }catch (Exception e){
-            return "오류";
+    public TravelPlans createPlan(Users user,TravelPlansDTO tpDTO) {
+        if (user == null) {
+            throw new IllegalArgumentException("User is required to create a travel plan.");
         }
-
-
-
+        TravelPlans travelPlans = TravelPlans.builder()
+                .nation(tpDTO.getNation())
+                .title(tpDTO.getTitle())
+                .detail(tpDTO.getDetail())
+                .fileName(tpDTO.getFileName())
+                .filePath(tpDTO.getFilePath())
+                .user(user)
+                .build();
+            travelPlansRepository.save(travelPlans);
+            return travelPlans;
 
     }
 
@@ -49,8 +53,6 @@ public class TravelPlansService {
         else{
             return "redirect:/plans/new";
         }
-
-
     }
 
     public String updateStatus(HttpSession session, Long planId){

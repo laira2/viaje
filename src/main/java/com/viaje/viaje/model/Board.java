@@ -148,7 +148,7 @@ public class Board {
 
     private BoardStatus boardStatus = BoardStatus.PENDING;
 
-    private enum BoardStatus {
+    public enum BoardStatus {
         PENDING, APPROVE, REJECTED, DELETED
     }
 
