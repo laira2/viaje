@@ -30,7 +30,9 @@ public class BoardController {
     }
 
     @GetMapping("/product/{type}")
-    public String themePlans(@PathVariable("type") String type, HttpSession session ){
+    public String themePlans(@PathVariable("type") String type, HttpSession session,Model model ){
+        List<Board> listTypePlans = boardService.findProductByType(type);
+        model.addAttribute(listTypePlans);
         return "/test_product";
     }
 
