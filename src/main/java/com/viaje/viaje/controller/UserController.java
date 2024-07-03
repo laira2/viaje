@@ -3,19 +3,21 @@ package com.viaje.viaje.controller;
 import com.viaje.viaje.model.Users;
 import com.viaje.viaje.dto.UserDTO;
 import com.viaje.viaje.service.UserService;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import jakarta.servlet.http.HttpSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 @Controller
 public class UserController {
 
     private final UserService userService;
+
+    //세션 정보 확인용
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     public UserController(UserService userService) {
@@ -30,11 +32,22 @@ public class UserController {
 
     // 회원 가입 API
     @PostMapping("/join/register")
-    public String registerUser(@ModelAttribute UserDTO userDTO) {
-        Users createdUser = userService.registerUser(userDTO);
+    public String registerUser(@ModelAttribute UserDTO userDTO, HttpSession session) {
+        try {
+            // 회원가입 처리
+            Users createdUser = userService.registerUser(userDTO);
 
-        // 가입 처리 후, 리다이렉트할 경로를 반환
-        return "redirect:/login";
+            // 회원가입 후 자동 로그인 처리
+            session.setAttribute("user", userDTO.getEmail());
+            logger.info("User registered and logged in: {}", userDTO.getEmail());
+            logger.info("Session ID: {}", session.getId());
+
+            // 가입 처리 후, 리다이렉트할 경로를 반환
+            return "redirect:/"; // 혹은 다른 리다이렉트할 경로 설정
+        } catch (Exception e) {
+            logger.error("회원가입 및 로그인 실패: {}", e.getMessage());
+            return "redirect:/join"; // 실패 시 리다이렉트할 경로 설정
+        }
     }
 
     // 이메일 중복 검사 API
