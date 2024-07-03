@@ -1,8 +1,8 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: rgba(244, 244, 244, 0.9); /* 배경이 반투명하게 설정 */
+    background-color: rgba(244, 244, 244, 0.9);
     display: flex;
-    justify-content: flex-start; /* 왼쪽에 맞추기 */
+    justify-content: flex-start;
     align-items: center;
     height: 100vh;
     margin: 0;
@@ -12,15 +12,15 @@ body {
 .menu-container {
     display: flex;
     flex-direction: column;
-    justify-content: flex-start; /* 상단부터 시작하도록 설정 */
-    align-items: center; /* 수평 중앙 정렬 */
+    justify-content: flex-start;
+    align-items: center;
     text-align: center;
-    background-color: rgba(255, 255, 255, 0.8); /* 배경 투명도 설정 */
+    background-color: rgba(255, 255, 255, 0.8);
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    width: 12.5%; /* 화면의 1/8 크기로 설정 */
-    min-width: 200px; /* 최소 너비 설정 */
+    width: 12.5%;
+    min-width: 200px;
     height: 100%;
     position: fixed;
     left: 0;
@@ -35,18 +35,19 @@ body {
 
 .team-name {
     font-size: 24px;
-    margin-bottom: 30px; /* 아래 요소들과의 간격을 크게 설정 */
-    color: black; /* 글자 색상 설정 */
+    margin-bottom: 30px;
+    color: black;
+    margin-top: 20vh; /* 위쪽으로 이동 */
 }
 
 .menu-item {
     font-size: 18px;
     margin: 10px 0;
-    color: black; /* 글자 색상 설정 */
+    color: black;
 }
 
 .menu-item a {
-    color: black; /* 링크 글자 색상 설정 */
+    color: black;
     text-decoration: none;
 }
 
@@ -56,25 +57,14 @@ body {
 }
 
 .login, .join {
-    margin-top: 10px; /* 기본적인 간격을 설정 */
-}
-
-/* 중앙보다 살짝 위로 배치하기 위해 추가 */
-.menu-container .team-name,
-.menu-container .login,
-.menu-container .join {
-    margin-top: 20px;
-}
-
-.menu-container .team-name {
-    margin-top: 50px;
+    margin-top: 10px;
 }
 
 .admin-container {
-    position: fixed;
+    position: absolute;
     bottom: 10px;
     left: 10px;
-    font-size: 12px; /* 작은 크기로 설정 */
+    font-size: 12px;
 }
 
 .small a {
