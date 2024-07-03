@@ -33,6 +33,9 @@ public class CartItems {
     protected void onAdded() {
         addedAt = LocalDateTime.now();
         updatedAt = LocalDateTime.now();
+        if (quantity == null) {
+            quantity = 0;
+        }
     }
 
     @PreUpdate

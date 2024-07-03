@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Service;
 
 import java.nio.file.AccessDeniedException;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -20,8 +21,17 @@ public class TravelPlansService {
         this.travelPlansRepository = travelPlansRepository;
     }
 
-    public void postPlan(TravelPlans travelPlans) {
-        travelPlansRepository.save(travelPlans);
+    public String postPlan(TravelPlans travelPlans) {
+        try{
+            travelPlansRepository.save(travelPlans);
+            return "성공";
+        }catch (Exception e){
+            return "오류";
+        }
+
+
+
+
     }
 
     public String updateTravelPlan(HttpSession session, Long planId, TravelPlansDTO updatedDTO) {
@@ -53,21 +63,16 @@ public class TravelPlansService {
     }
 
     public String deletePlan(HttpSession session, Long planId) {
-        return travelPlansRepository.findById(planId)
-                .map(plan -> {
-                    Users sessionUser = (Users) session.getAttribute("user");
-                    if (sessionUser != null && sessionUser.equals(plan.getUser())) {
-                        travelPlansRepository.deleteById(planId);
-                        return "Plan deleted successfully";
-                    } else {
-                        try {
-                            throw new AccessDeniedException("You don't have permission to delete this plan");
-                        } catch (AccessDeniedException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-                })
-                .orElseThrow(() -> new EntityNotFoundException("Travel plan not found with id: " + planId));
+        TravelPlans plan = travelPlansRepository.findById(planId)
+                .orElseThrow();
+        return "plan deleted";
     }
+
+    public List<TravelPlans> viewAllPlans (){
+        List<TravelPlans> plan_list = travelPlansRepository.findAll();
+        return plan_list;
+    }
+
+
 
 }

@@ -152,4 +152,19 @@ public class Board {
         PENDING, APPROVE, REJECTED, DELETED
     }
 
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
+        if (viewCount == null) {
+            viewCount = 0;
+        }
+        if (likeCount == null) {
+            likeCount = 0;
+        }
+        if (boardStatus== null) {
+            boardStatus = BoardStatus.PENDING;
+        }
+    }
+
 }
