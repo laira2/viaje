@@ -32,9 +32,7 @@ public class TravelPlansController {
     }
     @PostMapping("/plans/new")
     public String postPlan(HttpSession session,TravelPlansDTO tpDTO){
-        String user_email = (String) session.getAttribute("user_email");
-        Users user = userService.findByEmail(user_email);
-        TravelPlans created_plan = travelPlansService.createPlan(user,tpDTO);
+        TravelPlans created_plan = travelPlansService.createPlan(session,tpDTO);
 
         return "redirect:/board/detial";
     }
