@@ -21,6 +21,7 @@ public class TravelPlansService {
     }
 
     public void postPlan(TravelPlans travelPlans) {
+
         travelPlansRepository.save(travelPlans);
     }
 
@@ -53,21 +54,11 @@ public class TravelPlansService {
     }
 
     public String deletePlan(HttpSession session, Long planId) {
-        return travelPlansRepository.findById(planId)
-                .map(plan -> {
-                    Users sessionUser = (Users) session.getAttribute("user");
-                    if (sessionUser != null && sessionUser.equals(plan.getUser())) {
-                        travelPlansRepository.deleteById(planId);
-                        return "Plan deleted successfully";
-                    } else {
-                        try {
-                            throw new AccessDeniedException("You don't have permission to delete this plan");
-                        } catch (AccessDeniedException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-                })
-                .orElseThrow(() -> new EntityNotFoundException("Travel plan not found with id: " + planId));
+        TravelPlans plan = travelPlansRepository.findById(planId)
+                .orElseThrow();
+        return "plan deleted";
     }
+
+
 
 }
