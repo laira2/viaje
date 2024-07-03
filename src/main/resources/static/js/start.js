@@ -1,16 +1,18 @@
+// start.js
+
 document.addEventListener('DOMContentLoaded', function() {
     const bounceButton = document.getElementById('bounce-button');
     const slideUpContent = document.getElementById('slide-up-content');
     const slideUpInnerContent = document.getElementById('slide-up-inner-content');
 
-    console.log('Document is ready');
+    console.log('Start.js: Document is ready');
 
     if (bounceButton && slideUpContent && slideUpInnerContent) {
-        console.log('Elements found:', bounceButton, slideUpContent, slideUpInnerContent);
+        console.log('Start.js: Elements found:', bounceButton, slideUpContent, slideUpInnerContent);
 
         bounceButton.addEventListener('click', function(event) {
             console.log('Start button clicked');
-            fetch('/static/templates/start.html') // 경로 수정
+            fetch('/static/templates/start.html')
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
@@ -21,9 +23,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     console.log('Data fetched:', data);
                     slideUpInnerContent.innerHTML = data;
                     slideUpContent.classList.add('active');
+                    // 메뉴바 닫기
+                    const menuContainer = document.querySelector('.menu-container');
+                    if (menuContainer) {
+                        menuContainer.classList.remove('active');
+                    }
                 })
                 .catch(error => console.error('Error loading start.html:', error));
-            event.stopPropagation(); // 이벤트 버블링 중지
+            event.stopPropagation();
         });
 
         document.body.addEventListener('click', function(event) {
@@ -34,9 +41,9 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         slideUpContent.addEventListener('click', function(event) {
-            event.stopPropagation(); // 슬라이드 업된 창 클릭 시 이벤트 버블링 중지
+            event.stopPropagation();
         });
     } else {
-        console.error('Button, slide-up content, or inner content not found');
+        console.error('Start.js: Button, slide-up content, or inner content not found');
     }
 });

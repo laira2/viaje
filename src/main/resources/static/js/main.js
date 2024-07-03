@@ -1,47 +1,17 @@
+// main.js
+
 document.addEventListener('DOMContentLoaded', function() {
     const videoContainer = document.getElementById('background-video');
     const videoSource = document.getElementById('video-source');
     const scrollIcon = document.getElementById('scroll-icon');
     const hamburgerIcon = document.getElementById('hamburger-icon');
-    const bounceButton = document.getElementById('bounce-button');
-    const slideUpContent = document.getElementById('slide-up-content');
-    const slideUpInnerContent = document.getElementById('slide-up-inner-content');
     const menuContent = document.getElementById('menu-content');
     const menuInnerContent = document.getElementById('menu-inner-content');
 
-    console.log('Document is ready');
+    console.log('Main.js: Document is ready');
 
-    if (bounceButton && slideUpContent && slideUpInnerContent) {
-        console.log('Elements found:', bounceButton, slideUpContent, slideUpInnerContent);
-
-        bounceButton.addEventListener('click', function(event) {
-            console.log('Start button clicked');
-            fetch('/static/templates/start.html') // 경로 수정
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.text();
-                })
-                .then(data => {
-                    console.log('Data fetched:', data);
-                    slideUpInnerContent.innerHTML = data;
-                    slideUpContent.classList.add('active');
-                })
-                .catch(error => console.error('Error loading start.html:', error));
-            event.stopPropagation(); // 이벤트 버블링 중지
-        });
-
-        document.body.addEventListener('click', function(event) {
-            if (slideUpContent.classList.contains('active')) {
-                console.log('Body clicked');
-                slideUpContent.classList.remove('active');
-            }
-        });
-
-        slideUpContent.addEventListener('click', function(event) {
-            event.stopPropagation(); // 슬라이드 업된 창 클릭 시 이벤트 버블링 중지
-        });
+    if (videoContainer && videoSource && scrollIcon && hamburgerIcon && menuContent && menuInnerContent) {
+        console.log('Main.js: Elements found');
 
         // 비디오 파일 목록
         const videos = [
@@ -74,8 +44,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // 햄버거 아이콘 클릭 이벤트 추가
         hamburgerIcon.addEventListener('click', function(event) {
-            event.stopPropagation(); // 이벤트 버블링 중지
-            fetch('/static/templates/menu.html') // menu.html 경로
+            event.stopPropagation();
+            fetch('/static/templates/menu.html')
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
@@ -85,18 +55,24 @@ document.addEventListener('DOMContentLoaded', function() {
                 .then(data => {
                     menuInnerContent.innerHTML = data;
                     document.querySelector('.menu-container').classList.add('active');
+                    // 슬라이드 업 창 닫기
+                    const slideUpContent = document.getElementById('slide-up-content');
+                    if (slideUpContent) {
+                        slideUpContent.classList.remove('active');
+                    }
                 })
                 .catch(error => console.error('Error loading menu.html:', error));
         });
 
         // 오른쪽 아무곳이나 클릭하면 메뉴 숨기기
         document.body.addEventListener('click', function(event) {
-            if (document.querySelector('.menu-container').classList.contains('active') && !menuContent.contains(event.target)) {
-                document.querySelector('.menu-container').classList.remove('active');
+            const menuContainer = document.querySelector('.menu-container');
+            if (menuContainer && menuContainer.classList.contains('active') && !menuContent.contains(event.target)) {
+                menuContainer.classList.remove('active');
             }
         });
 
     } else {
-        console.error('Button, slide-up content, or inner content not found');
+        console.error('Main.js: Required elements not found');
     }
 });

@@ -10,6 +10,10 @@ body {
 }
 
 .menu-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* 상단부터 시작하도록 설정 */
+    align-items: center; /* 수평 중앙 정렬 */
     text-align: center;
     background-color: rgba(255, 255, 255, 0.8); /* 배경 투명도 설정 */
     padding: 20px;
@@ -31,7 +35,7 @@ body {
 
 .team-name {
     font-size: 24px;
-    margin-bottom: 20px;
+    margin-bottom: 30px; /* 아래 요소들과의 간격을 크게 설정 */
     color: black; /* 글자 색상 설정 */
 }
 
@@ -49,6 +53,21 @@ body {
 .menu-item:hover {
     font-weight: bold;
     cursor: pointer;
+}
+
+.login, .join {
+    margin-top: 10px; /* 기본적인 간격을 설정 */
+}
+
+/* 중앙보다 살짝 위로 배치하기 위해 추가 */
+.menu-container .team-name,
+.menu-container .login,
+.menu-container .join {
+    margin-top: 20px;
+}
+
+.menu-container .team-name {
+    margin-top: 50px;
 }
 
 .admin-container {
