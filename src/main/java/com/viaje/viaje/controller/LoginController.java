@@ -27,7 +27,7 @@ public class LoginController {
     public ResponseEntity<String> loginUser(@RequestBody UserDTO userDTO, HttpServletResponse response, HttpSession session) {
         boolean isAuthenticated = userService.authenticate(userDTO.getEmail(), userDTO.getPassword());
         if (isAuthenticated) {
-            session.setAttribute("user", userDTO.getEmail()); // 세션에 사용자 정보 저장
+            session.setAttribute("user", userDTO.getEmail());
             logger.info("User logged in: {}", userDTO.getEmail());
 
             // 세션 정보 로그
