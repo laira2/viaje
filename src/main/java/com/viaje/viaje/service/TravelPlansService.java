@@ -19,11 +19,13 @@ public class TravelPlansService {
 
     private final BoardService boardService;
     private final UserService userService;
+    private final TagsService tagsService;
 
-    public TravelPlansService(TravelPlansRepository travelPlansRepository, BoardService boardService, UserService userService) {
+    public TravelPlansService(TravelPlansRepository travelPlansRepository, BoardService boardService, UserService userService, TagsService tagsService) {
         this.travelPlansRepository = travelPlansRepository;
         this.boardService = boardService;
         this.userService = userService;
+        this.tagsService = tagsService;
     }
 
     public TravelPlans createPlan(HttpSession session,TravelPlansDTO tpDTO) {
@@ -41,6 +43,7 @@ public class TravelPlansService {
                 .user(user)
                 .build();
         travelPlansRepository.save(travelPlans);
+        tagsService.insertPlanTag(session, travelPlans);
         boardService.postPlan(user,travelPlans);
         return travelPlans;
     }

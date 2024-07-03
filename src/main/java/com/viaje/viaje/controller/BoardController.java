@@ -9,6 +9,8 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -20,10 +22,15 @@ public class BoardController {
         this.boardService = boardService;
     }
 
-    @GetMapping("/product")
-    public String listPlans(HttpSession session, Model model) throws JsonProcessingException {
-        List<Board> board_list = boardService.findAllBoardProduct();
-        model.addAttribute("board_list", board_list);
+    @GetMapping("/product/All")
+    public String listPlans(HttpSession session, Model model) {
+        List<Board> boardList = boardService.findAllBoardProduct();
+        model.addAttribute("boardList", boardList);
+        return "/test_product";
+    }
+
+    @GetMapping("/product/{type}")
+    public String themePlans(@PathVariable("type") String type, HttpSession session ){
         return "/test_product";
     }
 

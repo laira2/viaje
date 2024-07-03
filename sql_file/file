@@ -1,1 +1,10 @@
 sql 관리
+tag Talbe insert
+INSERT INTO tags (tagName) VALUES ('추천');
+INSERT INTO tags (tagName) VALUES ('액티비티');
+INSERT INTO tags (tagName) VALUES ('맛집');
+INSERT INTO tags (tagName) VALUES ('국내');
+INSERT INTO tags (tagName) VALUES ('해외');
+INSERT INTO tags (tagName) VALUES ('휴식');
+
+select * from tags order By tagId;

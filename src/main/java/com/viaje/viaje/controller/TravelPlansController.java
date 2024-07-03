@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class TravelPlansController {
@@ -31,7 +32,8 @@ public class TravelPlansController {
         return "/test_travelplan";
     }
     @PostMapping("/plans/new")
-    public String postPlan(HttpSession session,TravelPlansDTO tpDTO){
+    public String postPlan(@RequestParam("tagsOptions")String[] tagsOptions, HttpSession session, TravelPlansDTO tpDTO){
+        session.setAttribute("tagsOptions",tagsOptions);
         TravelPlans created_plan = travelPlansService.createPlan(session,tpDTO);
 
         return "redirect:/board/detial";
