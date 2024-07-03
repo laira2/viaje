@@ -55,7 +55,17 @@ public class UserService {
     }
 
     public Users findByEmail(String userEmail) {
-        Users user = (Users) userRepository.findByEmail(userEmail);
-        return user;
+        Optional<Users> optionalUser = userRepository.findByEmail(userEmail);
+        if (optionalUser.isPresent()) {
+            return optionalUser.get();
+        } else {
+            // 사용자가 존재하지 않는 경우 처리
+            throw new UserNotFoundException("User not found with email: " + userEmail);
+        }
+    }
+    public class UserNotFoundException extends RuntimeException {
+        public UserNotFoundException(String message) {
+            super(message);
+        }
     }
 }
