@@ -27,6 +27,7 @@ public class TravelPlansController {
     }
     @GetMapping("/plans/new")
     public String createPlanForm(HttpSession session){
+
         return "/test_travelplan";
     }
     @PostMapping("/plans/new")

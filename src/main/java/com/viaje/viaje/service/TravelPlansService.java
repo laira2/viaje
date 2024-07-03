@@ -35,9 +35,7 @@ public class TravelPlansService {
                 .build();
             travelPlansRepository.save(travelPlans);
             return travelPlans;
-
     }
-
     public String updateTravelPlan(HttpSession session, Long planId, TravelPlansDTO updatedDTO) {
         TravelPlans plan = travelPlansRepository.findById(planId)
                 .orElseThrow(() -> new EntityNotFoundException("TravelPlan not found"));
@@ -70,10 +68,7 @@ public class TravelPlansService {
         return "plan deleted";
     }
 
-    public List<TravelPlans> viewAllPlans (){
-        List<TravelPlans> plan_list = travelPlansRepository.findAll();
-        return plan_list;
-    }
+
 
 
 
