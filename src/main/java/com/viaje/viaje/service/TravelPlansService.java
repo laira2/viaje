@@ -17,11 +17,18 @@ public class TravelPlansService {
 
     private final TravelPlansRepository travelPlansRepository;
 
-    public TravelPlansService(TravelPlansRepository travelPlansRepository) {
+    private final BoardService boardService;
+    private final UserService userService;
+
+    public TravelPlansService(TravelPlansRepository travelPlansRepository, BoardService boardService, UserService userService) {
         this.travelPlansRepository = travelPlansRepository;
+        this.boardService = boardService;
+        this.userService = userService;
     }
 
-    public TravelPlans createPlan(Users user,TravelPlansDTO tpDTO) {
+    public TravelPlans createPlan(HttpSession session,TravelPlansDTO tpDTO) {
+        String user_email = (String) session.getAttribute("user");
+        Users user = userService.findByEmail(user_email);
         if (user == null) {
             throw new IllegalArgumentException("User is required to create a travel plan.");
         }
@@ -33,8 +40,9 @@ public class TravelPlansService {
                 .filePath(tpDTO.getFilePath())
                 .user(user)
                 .build();
-            travelPlansRepository.save(travelPlans);
-            return travelPlans;
+        travelPlansRepository.save(travelPlans);
+        boardService.postPlan(user,travelPlans);
+        return travelPlans;
     }
     public String updateTravelPlan(HttpSession session, Long planId, TravelPlansDTO updatedDTO) {
         TravelPlans plan = travelPlansRepository.findById(planId)

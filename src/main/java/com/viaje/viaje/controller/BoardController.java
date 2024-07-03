@@ -1,5 +1,8 @@
 package com.viaje.viaje.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.viaje.viaje.model.Board;
 import com.viaje.viaje.model.TravelPlans;
 import com.viaje.viaje.service.BoardService;
 import jakarta.servlet.http.HttpSession;
@@ -18,10 +21,10 @@ public class BoardController {
     }
 
     @GetMapping("/product")
-    public String listPlans(HttpSession session, Model model){
-        List<TravelPlans> product_List = boardService.viewAllPlans();
-        model.addAttribute("product_list",product_List);
-        return "product";
+    public String listPlans(HttpSession session, Model model) throws JsonProcessingException {
+        List<Board> board_list = boardService.findAllBoardProduct();
+        model.addAttribute("board_list", board_list);
+        return "/test_product";
     }
 
 }
