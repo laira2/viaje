@@ -18,13 +18,6 @@ public class UserService {
     }
 
     public Users registerUser(UserDTO userDTO) {
-        // 이메일 유효성 검사
-        if (userRepository.existsByEmail(userDTO.getEmail())) {
-            throw new IllegalArgumentException("이미 사용 중인 이메일입니다: " + userDTO.getEmail());
-        } else {
-            System.out.println("사용가능한 이메일입니다.");
-        }
-
         // User 객체 생성 및 저장
         Users user = Users.builder()
                 .userId(userDTO.getUserId())
@@ -40,7 +33,13 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    //이메일 유효성 검사
     public boolean checkEmail(String email) {
         return userRepository.existsByEmail(email);
+    }
+
+    // 닉네임 유효성 검사
+    public boolean checkNickname(String nickname) {
+        return userRepository.existsByNickname(nickname);
     }
 }

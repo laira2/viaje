@@ -31,7 +31,6 @@ public class UserController {
         return "redirect:/login";
     }
 
-
     // 이메일 중복 검사 API
     @GetMapping("/join/check-email")
     @ResponseBody
@@ -39,7 +38,12 @@ public class UserController {
         return userService.checkEmail(email);
     }
 
-
+    // 닉네임 중복 검사 API
+    @GetMapping("/join/check-nickname")
+    @ResponseBody
+    public boolean checkNicname(@RequestParam String nickname) {
+        return userService.checkNickname(nickname);
+    }
 
     // 가입 성공 후 리턴 페이지
     @GetMapping("/login")
