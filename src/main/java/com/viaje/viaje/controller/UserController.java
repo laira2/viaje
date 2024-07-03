@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class UserController {
@@ -45,7 +46,7 @@ public class UserController {
     // 닉네임 중복 검사 API
     @GetMapping("/join/check-nickname")
     @ResponseBody
-    public boolean checkNicname(@RequestParam String nickname) {
+    public boolean checkNickname(@RequestParam String nickname) {
         return userService.checkNickname(nickname);
     }
 
@@ -53,17 +54,6 @@ public class UserController {
     @GetMapping("/login")
     public String login() {
         return "login"; // login.html 파일 반환
-    }
-
-    // 로그인 기능 구현
-    @PostMapping("/login")
-    public ResponseEntity<String> loginUser(@RequestBody UserDTO userDTO, HttpServletResponse response) {
-        boolean isAuthenticated = userService.authenticate(userDTO.getEmail(), userDTO.getPassword());
-        if (isAuthenticated) {
-            return ResponseEntity.ok("로그인 성공");
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인 실패: 이메일 또는 비밀번호가 올바르지 않습니다.");
-        }
     }
 
 }
