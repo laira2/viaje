@@ -18,8 +18,6 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    
-
     public Users registerUser(UserDTO userDTO) {
         // User 객체 생성 및 저장
         Users user = Users.builder()
@@ -32,8 +30,8 @@ public class UserService {
                 .updatedAt(userDTO.getUpdatedAt() != null ? userDTO.getUpdatedAt() : LocalDateTime.now())
                 .point(userDTO.getPoint() != null ? userDTO.getPoint() : "0")
                 .build();
-
-        return userRepository.save(user);
+        userRepository.save(user);
+        return user;
     }
 
     //이메일 유효성 검사
@@ -54,5 +52,10 @@ public class UserService {
             return user.getPassword().equals(password); // 실제 환경에서는 비밀번호를 해시하고 비교해야 합니다.
         }
         return false;
+    }
+
+    public Users findByEmail(String userEmail) {
+        Users user = (Users) userRepository.findByEmail(userEmail);
+        return user;
     }
 }

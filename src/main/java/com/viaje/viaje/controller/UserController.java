@@ -31,6 +31,7 @@ public class UserController {
     @PostMapping("/join/register")
     public String registerUser(@ModelAttribute UserDTO userDTO) {
         Users createdUser = userService.registerUser(userDTO);
+
         // 가입 처리 후, 리다이렉트할 경로를 반환
         return "redirect:/login";
     }
