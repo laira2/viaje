@@ -16,6 +16,7 @@ public class BoardDTO {
     private Integer viewCount;
     private Integer likeCount;
     private Board.BoardStatus boardStatus;
+    private String title;
 
 
 }
