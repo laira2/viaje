@@ -3,8 +3,88 @@
 <head>
     <meta charset="UTF-8">
     <title>회원가입 Page</title>
+    <script>
+        // 이메일 중복 검사
+        function checkEmail() {
+            const email = document.getElementById("email").value;
+            const xhr = new XMLHttpRequest();
+            xhr.open("GET", `/join/check-email?email=${encodeURIComponent(email)}`, true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    const response = JSON.parse(xhr.responseText);
+                    const emailMessage = document.getElementById("emailMessage");
+                    const submitButton = document.getElementById("submitButton");
+
+                    if (response) {
+                        emailMessage.textContent = "이미 사용 중인 이메일입니다.";
+                        emailMessage.style.color = "red";
+                        submitButton.disabled = true; // 이미 사용 중인 이메일이면 버튼 비활성화
+                    } else {
+                        emailMessage.textContent = "사용 가능한 이메일입니다.";
+                        emailMessage.style.color = "green";
+                        submitButton.disabled = false; // 사용 가능한 이메일이면 버튼 활성화
+                    }
+                }
+            };
+            xhr.send();
+        }
+
+        // 폼 제출 전에 이메일 중복 검사와 비밀번호 일치 여부 검사 수행
+        function validateForm(event) {
+            const password = document.getElementById("password").value;
+            const confirmPassword = document.getElementById("confirmPassword").value;
+            const passwordMessage = document.getElementById("passwordMessage");
+            const submitButton = document.getElementById("submitButton");
+
+            if (password !== confirmPassword) {
+                passwordMessage.textContent = "비밀번호가 일치하지 않습니다.";
+                passwordMessage.style.color = "red";
+                event.preventDefault();  // 폼 제출을 막습니다.
+                submitButton.disabled = true; // 비밀번호 불일치 시 버튼 비활성화
+                return false;
+            } else {
+                passwordMessage.textContent = ""; // 메시지 초기화
+                submitButton.disabled = false; // 비밀번호 일치 시 버튼 활성화
+                return true;
+            }
+        }
+
+        // 폼이 제출되기 전에 validateForm 함수가 호출되도록 이벤트 리스너를 추가
+        document.addEventListener("DOMContentLoaded", function() {
+            const joinForm = document.getElementById("joinForm");
+            joinForm.addEventListener("submit", validateForm);
+        });
+    </script>
 </head>
 <body>
-
+<h2>회원가입</h2>
+<form id="joinForm" action="/join/register" method="POST">
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+    <div class="form-group">
+        <label for="email">유저 아이디</label>
+        <input type="email" id="email" name="email" required>
+        <button type="button" onclick="checkEmail()">이메일 중복 검사</button>
+    </div>
+    <div class="form-group">
+        <label for="userName">사용자 이름</label>
+        <input type="text" id="userName" name="userName" required>
+    </div>
+    <div class="form-group">
+        <label for="nickname">닉네임</label>
+        <input type="text" id="nickname" name="nickname" required>
+    </div>
+    <div class="form-group">
+        <label for="password">비밀번호</label>
+        <input type="password" id="password" name="password" required>
+    </div>
+    <div class="form-group">
+        <label for="confirmPassword">비밀번호 확인</label>
+        <input type="password" id="confirmPassword" name="confirmPassword" required>
+    </div>
+    <button type="submit">가입하기</button>
+</form>
+<div id="emailMessage" class="message"></div>
+<div id="passwordMessage" class="message"></div>
+</div>
 </body>
 </html>
