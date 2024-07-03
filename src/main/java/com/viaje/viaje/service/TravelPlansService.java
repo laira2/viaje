@@ -21,8 +21,21 @@ public class TravelPlansService {
         this.travelPlansRepository = travelPlansRepository;
     }
 
-    public void postPlan(TravelPlans travelPlans) {
+    public TravelPlans createPlan(Users user,TravelPlansDTO tpDTO) {
+        if (user == null) {
+            throw new IllegalArgumentException("User is required to create a travel plan.");
+        }
+        TravelPlans travelPlans = TravelPlans.builder()
+                .nation(tpDTO.getNation())
+                .title(tpDTO.getTitle())
+                .detail(tpDTO.getDetail())
+                .fileName(tpDTO.getFileName())
+                .filePath(tpDTO.getFilePath())
+                .user(user)
+                .build();
             travelPlansRepository.save(travelPlans);
+            return travelPlans;
+
     }
 
     public String updateTravelPlan(HttpSession session, Long planId, TravelPlansDTO updatedDTO) {

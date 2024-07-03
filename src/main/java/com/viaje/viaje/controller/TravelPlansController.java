@@ -30,23 +30,12 @@ public class TravelPlansController {
         return "/test_travelplan";
     }
     @PostMapping("/plans/new")
-    public String createPlan(HttpSession session,TravelPlansDTO tpDTO){
+    public String postPlan(HttpSession session,TravelPlansDTO tpDTO){
         String user_email = (String) session.getAttribute("user_email");
         Users user = userService.findByEmail(user_email);
+        TravelPlans created_plan = travelPlansService.createPlan(user,tpDTO);
 
-        if (user != null) {
-            TravelPlans travelPlans = TravelPlans.builder()
-                    .nation(tpDTO.getNation())
-                    .title(tpDTO.getTitle())
-                    .detail(tpDTO.getDetail())
-                    .fileName(tpDTO.getFileName())
-                    .filePath(tpDTO.getFilePath())
-                    .user(user)
-                    .build();
-//        user 생성 필요
-            travelPlansService.postPlan(travelPlans);
-        }
-        return "redirect:/";
+        return "redirect:/board/detial";
     }
 
 }

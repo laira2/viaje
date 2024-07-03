@@ -4,6 +4,7 @@ import com.viaje.viaje.model.Users;
 import com.viaje.viaje.dto.UserDTO;
 import com.viaje.viaje.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
