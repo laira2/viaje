@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Service;
 
 import java.nio.file.AccessDeniedException;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -20,9 +21,17 @@ public class TravelPlansService {
         this.travelPlansRepository = travelPlansRepository;
     }
 
-    public void postPlan(TravelPlans travelPlans) {
+    public String postPlan(TravelPlans travelPlans) {
+        try{
+            travelPlansRepository.save(travelPlans);
+            return "성공";
+        }catch (Exception e){
+            return "오류";
+        }
 
-        travelPlansRepository.save(travelPlans);
+
+
+
     }
 
     public String updateTravelPlan(HttpSession session, Long planId, TravelPlansDTO updatedDTO) {
@@ -57,6 +66,11 @@ public class TravelPlansService {
         TravelPlans plan = travelPlansRepository.findById(planId)
                 .orElseThrow();
         return "plan deleted";
+    }
+
+    public List<TravelPlans> viewAllPlans (){
+        List<TravelPlans> plan_list = travelPlansRepository.findAll();
+        return plan_list;
     }
 
 

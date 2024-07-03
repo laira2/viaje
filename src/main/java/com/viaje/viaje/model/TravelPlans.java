@@ -33,8 +33,8 @@ public class TravelPlans {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String filePath;
 
-    @Column(nullable = false,columnDefinition = "INTEGER DEFAULT 0")
-    private Integer sold;
+    @Column(nullable = false)
+    private Integer sold=0;
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
@@ -54,6 +54,12 @@ public class TravelPlans {
     protected void onCreate() {
         createdAt = LocalDateTime.now();
         updatedAt = LocalDateTime.now();
+        if (sold == null) {
+            sold = 0;
+        }
+        if (status== null) {
+            status = PlanStatus.PENDING;
+        }
     }
 
     @PreUpdate
