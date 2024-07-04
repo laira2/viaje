@@ -71,9 +71,4 @@ public class TravelPlans {
         updatedAt = LocalDateTime.now();
     }
 
-
-
-
-
-
 }
