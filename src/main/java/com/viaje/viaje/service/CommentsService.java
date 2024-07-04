@@ -45,10 +45,10 @@ public class CommentsService {
         Long parentId = commentDTO.getParentId(); // parentId는 Long 타입으로 선언
 
         Comments parentComment = null;
-        if (parentId != null) { // null 체크를 추가하여 NullPointerException 방지
-            parentComment = commentsRepository.findById(parentId)
-                    .orElseThrow(() -> new IllegalArgumentException("Invalid parent comment ID"));
-        }
+//        if (parentId != null) { // null 체크를 추가하여 NullPointerException 방지
+//            parentComment = commentsRepository.findById(parentId)
+//                    .orElseThrow(() -> new IllegalArgumentException("Invalid parent comment ID"));
+//        }
 
         Comments comment = Comments.builder()
                 .plan(plan)
