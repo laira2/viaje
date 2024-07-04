@@ -1,4 +1,8 @@
-/* yac.css */
+body {
+  background-color: lavender;  /* 연보라색 배경 추가 */
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
 .terms {
   background-color: #ffffff;
   border: 1px solid #dedede;
