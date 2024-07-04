@@ -11,9 +11,14 @@ import lombok.NoArgsConstructor;
 @Entity
 public class PlanTag {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne
     @JoinColumn(name="planId")
     private TravelPlans travelPlans;
 
+    @ManyToOne
     @JoinColumn(name="tagId")
     private Tags tags;
 }

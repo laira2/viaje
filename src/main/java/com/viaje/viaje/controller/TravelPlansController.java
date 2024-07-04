@@ -32,11 +32,12 @@ public class TravelPlansController {
         return "/test_travelplan";
     }
     @PostMapping("/plans/new")
-    public String postPlan(@RequestParam("tagsOptions")String[] tagsOptions, HttpSession session, TravelPlansDTO tpDTO){
+    public String postPlan(@RequestParam(value = "tagsOptions", required = false)String[] tagsOptions, HttpSession session, TravelPlansDTO tpDTO){
+
         session.setAttribute("tagsOptions",tagsOptions);
         TravelPlans created_plan = travelPlansService.createPlan(session,tpDTO);
 
-        return "redirect:/board/detial";
+        return "/product/detial";
     }
 
 }
