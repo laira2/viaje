@@ -38,7 +38,7 @@ public class Comments {
     private LocalDateTime updatedAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "parentId")
+    @JoinColumn(name = "parentId", nullable = true)
     private Comments parentComment; // 부모 댓글의 코멘트Id 참조
 
     // 댓글 수정
