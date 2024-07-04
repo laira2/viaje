@@ -1,5 +1,6 @@
 package com.viaje.viaje.model;
 
+import com.viaje.viaje.dto.CommentsDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,7 +21,7 @@ public class Comments {
     private Long commentId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name ="planId" , nullable = false)
+    @JoinColumn(name = "planId", referencedColumnName = "planId", nullable = false) //referencedColumnName 참조 외래키
     private TravelPlans plan;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -36,17 +37,14 @@ public class Comments {
     @Column(nullable = false)
     private LocalDateTime updatedAt;
 
-    private long parentId; // 부모 댓글의 코멘트Id 참조
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "parentId")
+    private Comments parentComment; // 부모 댓글의 코멘트Id 참조
 
     // 댓글 수정
     public void update(String content) {
         this.content = content;
         this.updatedAt = LocalDateTime.now();
-    }
-
-    // 댓글 삭제
-    public void delete() {
-        // 필요한 삭제 로직 추가 (예: Soft Delete 혹은 실제 데이터베이스에서 삭제)
     }
 
     @PrePersist  // 엔티티가 저장되기 전에 실행될 메서드를 지정하는 JPA 어노테이션
@@ -56,4 +54,21 @@ public class Comments {
 
     }
 
+    @PreUpdate
+    protected void onUpdate() {
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    // Comments 엔티티에서 CommentsDTO로의 변환 메서드 추가 (옵셔널)
+    public CommentsDTO toDTO() {
+        return new CommentsDTO(
+                this.commentId,
+                this.plan.getPlanId(),
+                this.user.getUserId(),
+                this.content,
+                this.parentComment != null ? this.parentComment.getCommentId() : null,
+                this.createdAt,
+                this.updatedAt
+        );
+    }
 }
