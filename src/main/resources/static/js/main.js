@@ -42,11 +42,10 @@ document.addEventListener('DOMContentLoaded', function() {
         // 이미지 소스 설정
         scrollIcon.src = randomImage;
 
-        let menuLoaded = false;
-
-        // 메뉴 HTML을 미리 로드
-        function loadMenu() {
-            return fetch('/static/templates/menu.html')
+        // 햄버거 아이콘 클릭 이벤트 추가
+        hamburgerIcon.addEventListener('click', function(event) {
+            event.stopPropagation();
+            fetch('/static/templates/menu.html')
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
@@ -55,30 +54,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 })
                 .then(data => {
                     menuInnerContent.innerHTML = data;
-                    menuLoaded = true;
+                    document.querySelector('.menu-container').classList.add('active');
+                    // 슬라이드 업 창 닫기
+                    const slideUpContent = document.getElementById('slide-up-content');
+                    if (slideUpContent) {
+                        slideUpContent.classList.remove('active');
+                    }
                 })
                 .catch(error => console.error('Error loading menu.html:', error));
-        }
-
-        // 페이지 로드 시 메뉴 HTML 미리 로드
-        loadMenu();
-
-        // 햄버거 아이콘 클릭 이벤트 추가
-        hamburgerIcon.addEventListener('click', function(event) {
-            event.stopPropagation();
-            if (menuLoaded) {
-                document.querySelector('.menu-container').classList.add('active');
-            } else {
-                // 메뉴가 아직 로드되지 않았다면 로드 후 표시
-                loadMenu().then(() => {
-                    document.querySelector('.menu-container').classList.add('active');
-                });
-            }
-            // 슬라이드 업 창 닫기
-            const slideUpContent = document.getElementById('slide-up-content');
-            if (slideUpContent) {
-                slideUpContent.classList.remove('active');
-            }
         });
 
         // 오른쪽 아무곳이나 클릭하면 메뉴 숨기기
