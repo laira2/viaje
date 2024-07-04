@@ -35,6 +35,66 @@
         </section>
 
         <!-- 여기에 추가 기능 (예: 구매 버튼, 댓글 섹션 등)을 넣을 수 있습니다 -->
+        <form action="/comments/add" method="post">
+            <!-- Hidden input field to pass planId -->
+            <input type="hidden" id="planId" name="planId" th:value="${selectedPlan.planId}"> <!-- 이 부분을 서버에서 동적으로 처리하도록 변경 -->
+
+            <label for="userId">User ID:</label>
+            <input type="text" id="userId" name="userId" th:value="${selectedPlan.user.userId}"><br><br>
+
+            <label for="comments">Content:</label><br>
+            <textarea id="comments" name="comments" rows="4" cols="50" required></textarea><br><br>
+
+            <button type="submit">Submit Comment</button>
+        </form>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+            // 댓글 등록을 위한 AJAX 처리
+            $('#commentForm').submit(function(event) {
+                event.preventDefault(); // 기본 폼 제출 방지
+
+                var formData = $(this).serialize(); // 폼 데이터 직렬화
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/comments/add', // 적절한 엔드포인트로 수정 필요
+                    data: formData,
+                    success: function(response) {
+                        // 성공적으로 등록되면, 새로운 댓글을 목록에 추가하는 로직 구현
+                        var newCommentHtml = '<div class="comment">' + response.content + '</div>';
+                        $('#comments').append(newCommentHtml);
+                        $('#comment').val(''); // 입력창 초기화
+                    },
+                    error: function(error) {
+                        console.error('댓글 등록 실패:', error);
+                        // 실패 시 사용자에게 알림을 추가할 수 있음
+                    }
+                });
+            });
+
+            // 대댓글 등록을 위한 AJAX 처리 (예시)
+            $(document).on('submit', '.replyForm', function(event) {
+                event.preventDefault(); // 기본 폼 제출 방지
+
+                var formData = $(this).serialize(); // 폼 데이터 직렬화
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/api/comments/reply', // 적절한 엔드포인트로 수정 필요
+                    data: formData,
+                    success: function(response) {
+                        // 성공적으로 등록되면, 새로운 대댓글을 해당 댓글 하단에 추가하는 로직 구현
+                        var newReplyHtml = '<div class="reply">' + response.content + '</div>';
+                        $(event.target).closest('.comment').find('.replies').append(newReplyHtml);
+                        $(event.target).find('.replyText').val(''); // 입력창 초기화
+                    },
+                    error: function(error) {
+                        console.error('대댓글 등록 실패:', error);
+                        // 실패 시 사용자에게 알림을 추가할 수 있음
+                    }
+                });
+            });
+        </script>
     </article>
 
     <div th:unless="${selectedPlan}">
