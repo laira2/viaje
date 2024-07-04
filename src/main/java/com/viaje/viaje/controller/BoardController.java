@@ -41,7 +41,7 @@ public class BoardController {
     }
 
     @GetMapping("/product_detail/{id}")
-    public String productDetial(@PathVariable("id")Long id, HttpSession session, Model model){
+    public String productDetail(@PathVariable("id")Long id, HttpSession session, Model model){
         TravelPlans selectedPlan = travelPlansService.findByPlanId(id);
         model.addAttribute("selectedPlan",selectedPlan);
         return "/test_product_detail";
