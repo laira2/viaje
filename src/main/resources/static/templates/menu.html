@@ -1,33 +1,25 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/static/css/menu.css">
-    <title>Menu</title>
-</head>
-<body data-user="${session?.user != null ? session.user : ''}">
+<body>
 <div class="menu-container">
     <h1 class="team-name">Viaje</h1>
-    <div class="menu-item login" th:if="${session?.user == null}">
+    <div class="menu-item login" data-if-not-logged-in>
         <a href="login">로그인</a>
     </div>
-    <div class="menu-item join" th:if="${session?.user == null}">
+    <div class="menu-item join" data-if-not-logged-in>
         <a href="join">회원 가입</a>
     </div>
-    <div class="menu-item mypage" style="display: none;" th:if="${session?.user != null}">
+    <div class="menu-item mypage" data-if-logged-in>
         <a href="mypage">마이페이지</a>
     </div>
-    <div class="menu-item cart" style="display: none;" th:if="${session?.user != null}">
+    <div class="menu-item cart" data-if-logged-in>
         <a href="cart">장바구니</a>
     </div>
-    <div class="menu-item products" style="display: none;" th:if="${session?.user != null}">
+    <div class="menu-item products" data-if-logged-in>
         <a href="products">상품</a>
     </div>
-    <div class="menu-item board" style="display: none;" th:if="${session?.user != null}">
+    <div class="menu-item board" data-if-logged-in>
         <a href="board">게시판</a>
     </div>
-    <div class="menu-item logout" style="display: none;" th:if="${session?.user != null}">
+    <div class="menu-item logout" data-if-logged-in>
         <a href="/logout">로그아웃</a>
     </div>
     <div class="admin-container">
@@ -37,7 +29,9 @@
     </div>
 </div>
 
+
 <script src="/js/login.js"></script>
 
 </body>
 </html>
+
