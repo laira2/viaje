@@ -6,6 +6,7 @@ import com.viaje.viaje.model.Users;
 import com.viaje.viaje.repository.TravelPlansRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpSession;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.nio.file.AccessDeniedException;
@@ -27,7 +28,7 @@ public class TravelPlansService {
         this.userService = userService;
         this.tagsService = tagsService;
     }
-
+    @Transactional
     public TravelPlans createPlan(HttpSession session,TravelPlansDTO tpDTO) {
         String user_email = (String) session.getAttribute("user");
         Users user = userService.findByEmail(user_email);
@@ -46,6 +47,12 @@ public class TravelPlansService {
         tagsService.insertPlanTag(session, travelPlans);
         boardService.postPlan(user,travelPlans);
         return travelPlans;
+    }
+    public TravelPlans findByPlanId(Long planId){
+        TravelPlans plan = travelPlansRepository.findById(planId)
+                .orElseThrow(() -> new EntityNotFoundException("TravelPlan not found"));
+
+        return plan;
     }
     public String updateTravelPlan(HttpSession session, Long planId, TravelPlansDTO updatedDTO) {
         TravelPlans plan = travelPlansRepository.findById(planId)
