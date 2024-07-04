@@ -2,8 +2,11 @@ package com.viaje.viaje.controller;
 
 import com.viaje.viaje.dto.CommentsDTO;
 import com.viaje.viaje.service.CommentsService;
+import com.viaje.viaje.service.TravelPlansService;
+import com.viaje.viaje.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,18 +14,23 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@RestController
-@RequestMapping("/comments")
+@Controller
 public class CommentsController {
 
     private final Logger logger = LoggerFactory.getLogger(CommentsController.class);
+;
 
     @Autowired
     private CommentsService commentsService;
 
-    @PostMapping("/add")
+    @GetMapping("/comments")
+    public String comments(){
+        return "addcomments";
+    }
+
+    @PostMapping("/comments/add")
     public ResponseEntity<CommentsDTO> addCommentFromUrlParam(
-            @RequestParam("comment") String comment,
+            @RequestParam("comments") String comment,
             @RequestParam("planId") Long planId,
             @RequestParam("userId") Long userId) {
         CommentsDTO commentDTO = new CommentsDTO();
@@ -42,7 +50,7 @@ public class CommentsController {
         return ResponseEntity.ok(createdComment);
     }
 
-    @PostMapping("/add-json")
+    @PostMapping("/comments/add-json")
     public ResponseEntity<CommentsDTO> addCommentFromJson(@RequestBody CommentsDTO commentDTO) {
 
         // 로그 추가
