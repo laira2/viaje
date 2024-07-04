@@ -20,13 +20,13 @@ public class Board {
     private Long boardId;
 
     @OneToOne
-    @JoinColumn(name="planId" )
+    @JoinColumn(name="planId")
     private TravelPlans travelPlans;
 
     @Column(nullable = false)
     private String title;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name="userId")
     private Users user;
 

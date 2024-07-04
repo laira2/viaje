@@ -18,7 +18,7 @@ public class TagsService {
     }
 
     public void insertPlanTag(HttpSession session, TravelPlans travelPlans){
-        String tagOption = "맛집";
+        String tagOption = "해외";
         PlanTag plantag = new PlanTag();
         plantag.setTags(tagsRepository.findByTagName(tagOption));
         plantag.setTravelPlans(travelPlans);
