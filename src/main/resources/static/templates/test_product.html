@@ -20,7 +20,9 @@
   <tbody>
   <tr th:each="board : ${boardList}">
     <td th:text="${board.boardId}"></td>
-    <td th:text="${board.title}"></td>
+    <td>
+      <a th:href="@{/product_detail/{id}(id=${board.travelPlans.planId})}" th:text="${board.travelPlans.title}"></a>
+    </td>
     <td th:text="${board.viewCount}"></td>
     <td th:text="${board.likeCount}"></td>
     <td th:text="${board.boardStatus}"></td>

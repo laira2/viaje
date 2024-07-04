@@ -15,12 +15,14 @@ import java.time.LocalDateTime;
 public class CartItems {
 
     @Id
-    @OneToOne
-    @MapsId
-    @JoinColumn(name = "planId")
-    public TravelPlans travelPlans;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
+    @JoinColumn(name = "planId", nullable = false)
+    private TravelPlans travelPlans;
+
+    @ManyToOne
     @JoinColumn(name = "cartId", nullable = false)
     private Cart cart;
 

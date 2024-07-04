@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.viaje.viaje.model.Board;
 import com.viaje.viaje.model.TravelPlans;
 import com.viaje.viaje.service.BoardService;
+import com.viaje.viaje.service.TravelPlansService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,8 +19,11 @@ import java.util.List;
 public class BoardController {
     public final BoardService boardService;
 
-    public BoardController(BoardService boardService) {
+    public final TravelPlansService travelPlansService;
+
+    public BoardController(BoardService boardService, TravelPlansService travelPlansService) {
         this.boardService = boardService;
+        this.travelPlansService = travelPlansService;
     }
 
     @GetMapping("/product/all")
@@ -35,5 +39,13 @@ public class BoardController {
         model.addAttribute(listTypePlans);
         return "/test_product";
     }
+
+    @GetMapping("/product_detail/{id}")
+    public String productDetial(@PathVariable("id")Long id, HttpSession session, Model model){
+        TravelPlans selectedPlan = travelPlansService.findByPlanId(id);
+        model.addAttribute("selectedPlan",selectedPlan);
+        return "/test_product_detail";
+    }
+
 
 }
