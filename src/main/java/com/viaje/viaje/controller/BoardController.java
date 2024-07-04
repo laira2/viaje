@@ -22,7 +22,7 @@ public class BoardController {
         this.boardService = boardService;
     }
 
-    @GetMapping("/product/All")
+    @GetMapping("/product/all")
     public String listPlans(HttpSession session, Model model) {
         List<Board> boardList = boardService.findAllBoardProduct();
         model.addAttribute("boardList", boardList);
