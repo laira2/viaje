@@ -1,12 +1,12 @@
-@import url('/static/css/admin.css');
-@import url('/static/css/cart.css');
-@import url('/static/css/join.css');
-@import url('/static/css/login.css');
-@import url('/static/css/main.css');
-@import url('/static/css/menu.css');
-@import url('/static/css/mypage.css');
-@import url('/static/css/start.css');
-@import url('/static/css/yac.css');
+@import url('../css/admin.css');
+@import url('../css/cart.css');
+@import url('../css/join.css');
+@import url('../css/login.css');
+@import url('../css/main.css');
+@import url('../css/menu.css');
+@import url('../css/mypage.css');
+@import url('../css/start.css');
+@import url('../css/yac.css');
 
 /* 공통 스타일 */
 * {

@@ -61,19 +61,11 @@ body {
     margin-top: 10px;
 }
 
-/*.menu-container .admin-container {*/
-/*    position: static !important;*/
-/*    margin-top: auto !important;*/
-/*    padding-bottom: 20px !important;*/
-/*    width: 100% !important;*/
-/*    text-align: left !important;*/
-/*}*/
-
 .menu-container .admin-container {
     position: static !important;
     margin-top: auto !important;
-    padding-bottom: 30px !important; /* 이 값을 늘리세요 */
-    margin-bottom: -40px !important; /* 필요하다면 이 줄을 추가하세요 */
+    padding-bottom: 30px !important;
+    margin-bottom: -40px !important;
     width: 100% !important;
     text-align: left !important;
 }
