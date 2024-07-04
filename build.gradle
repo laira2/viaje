@@ -40,6 +40,12 @@ dependencies {
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+	// Webjars Locator Core클라이언트 사이드 웹 라이브러리를 JAR 파일로 패키징하여 사용할 수 있게 해줌 이를 통해 정적 리소스의 버전 관리와 로딩을 더 쉽게할수 있음
+	implementation 'org.webjars:webjars-locator-core'
+
+	// Resource Resolver 리소스 URL을 더 유연하게 처리할 수 있게해줌
+	implementation 'org.springframework:spring-webmvc:6.0.9'
 }
 
 tasks.named('test') {

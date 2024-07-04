@@ -12,8 +12,15 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        // 기존 코드
         registry.addResourceHandler("/static/**")
                 .addResourceLocations("classpath:/static/");
+
+        // 새로 추가된 코드
+        registry.addResourceHandler("/**")
+                .addResourceLocations("classpath:/static/")
+                .setCachePeriod(3600)
+                .resourceChain(true);
     }
 
     @Bean
