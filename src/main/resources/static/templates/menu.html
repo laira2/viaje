@@ -7,7 +7,7 @@
     <title>Menu</title>
 </head>
 <body data-user="${session?.user != null ? session.user : ''}">
-<div class="menu-container">
+<div class="menu-container" id="menuContainer">
     <h1 class="team-name">Viaje</h1>
     <div class="menu-item login" th:if="${session?.user == null}">
         <a href="login">로그인</a>
@@ -15,19 +15,19 @@
     <div class="menu-item join" th:if="${session?.user == null}">
         <a href="join">회원 가입</a>
     </div>
-    <div class="menu-item mypage" style="display: none;" th:if="${session?.user != null}">
+    <div class="menu-item mypage" th:if="${session?.user != null}">
         <a href="mypage">마이페이지</a>
     </div>
-    <div class="menu-item cart" style="display: none;" th:if="${session?.user != null}">
+    <div class="menu-item cart" th:if="${session?.user != null}">
         <a href="cart">장바구니</a>
     </div>
-    <div class="menu-item products" style="display: none;" th:if="${session?.user != null}">
+    <div class="menu-item products" th:if="${session?.user != null}">
         <a href="products">상품</a>
     </div>
-    <div class="menu-item board" style="display: none;" th:if="${session?.user != null}">
-        <a href="board">게시판</a>
+    <div class="menu-item board" th:if="${session?.user != null}">
+        <a href="board.html">게시판</a>
     </div>
-    <div class="menu-item logout" style="display: none;" th:if="${session?.user != null}">
+    <div class="menu-item logout" th:if="${session?.user != null}">
         <a href="/logout">로그아웃</a>
     </div>
     <div class="admin-container">
@@ -37,7 +37,6 @@
     </div>
 </div>
 
-<script src="/js/MenuController.js"></script>
-
+<script src="/static/js/menu.js"></script>
 </body>
 </html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Viaje - 게시판</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/board.css">
+</head>
+<body>
+<div class="container">
+  <div class="board-container">
+    <div class="board-header">
+      <h1>Viaje 게시판</h1>
+      <p>여행 경험을 공유해보세요</p>
+    </div>
+    <div class="board-content">
+      <table>
+        <thead>
+        <tr>
+          <th>번호</th>
+          <th>플랜 ID</th>
+          <th>유저 ID</th>
+          <th>제목</th>
+          <th>작성일</th>
+          <th>수정일</th>
+          <th>조회수</th>
+          <th>좋아요 수</th>
+          <th>상태</th>
+        </tr>
+        </thead>
+        <tbody id="board-content">
+        <!-- JavaScript를 통해 데이터를 삽입합니다. -->
+        </tbody>
+      </table>
+    </div>
+    <div class="board-footer">
+      <button class="write-btn" onclick="location.href='/board/write'">글쓰기 <i class="fas fa-pen"></i></button>
+    </div>
+  </div>
+</div>
+<script src="/static/js/board.js"></script>
+</body>
+</html>
