@@ -30,18 +30,18 @@ public class BoardController {
         this.userService = userService;
     }
 
-    @GetMapping("/product/all")
+    @GetMapping("/product")
     public String listPlans(HttpSession session, Model model) {
         List<Board> boardList = boardService.findAllBoardProduct();
         model.addAttribute("boardList", boardList);
-        return "/test_product";
+        return "/board";
     }
 
     @GetMapping("/product/{type}")
     public String themePlans(@PathVariable("type") String type, HttpSession session,Model model ){
-        List<Board> listTypePlans = boardService.findProductByType(type);
-        model.addAttribute(listTypePlans);
-        return "/test_product";
+        List<Board> boardList = boardService.findProductByType(type);
+        model.addAttribute("boardList",boardList);
+        return "/board";
     }
 
     @GetMapping("/product_detail/{id}")
