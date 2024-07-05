@@ -42,6 +42,9 @@ public class Users {
     @Column(nullable = false)
     private String point;  // 포인트
 
+    @Column(nullable = false, columnDefinition = "TINYINT(1) DEFAULT 0")
+    private boolean isAdmin;  // 관리자 여부
+
     @PrePersist  // 엔티티가 저장되기 전에 실행될 메서드를 지정하는 JPA 어노테이션
     protected void onCreate() {
         this.uuid = UUID.randomUUID().toString();  // 랜덤 UUID를 생성하여 문자열로 변환하여 UUID 필드에 설정
@@ -51,6 +54,8 @@ public class Users {
         if (this.point == null) {
             this.point = "0";  // 기본 포인트를 0으로 설정
         }
+        // isAdmin 초기값 설정
+        this.isAdmin = false;
     }
 
     @PreUpdate  // 엔티티가 업데이트되기 전에 실행될 메서드를 지정하는 JPA 어노테이션
