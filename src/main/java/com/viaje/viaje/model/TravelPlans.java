@@ -6,7 +6,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 @Entity
 @Data
@@ -23,6 +25,21 @@ public class TravelPlans {
     private Users user;
 
     @Column(nullable = false)
+    private LocalDate startDate;
+
+    @Column(nullable = false)
+    private LocalDate endDate;
+
+    @Column(nullable = false)
+    private long nights;
+
+    @Column(nullable = false)
+    private long days;
+
+    @Column(nullable = false)
+    private String duration;
+
+    @Column(nullable = false)
     private String nation;
 
     @Column(nullable = false)
@@ -30,6 +47,12 @@ public class TravelPlans {
 
     @Column(nullable = false, columnDefinition = "TEXT")
     private String detail;
+
+    @Column(nullable = false)
+    private Integer totalBudget;
+
+    @Column
+    private Integer price;
 
     @Column(nullable = false)
     private String fileName;
@@ -61,14 +84,39 @@ public class TravelPlans {
         if (sold == null) {
             sold = 0;
         }
-        if (status== null) {
+        if (status == null) {
             status = PlanStatus.PENDING;
         }
+        calculateDuration();
     }
 
     @PreUpdate
     protected void onUpdate() {
+
         updatedAt = LocalDateTime.now();
+        calculateDuration();
+    }
+
+
+
+    private void calculateDuration() {
+        if (startDate != null && endDate != null) {
+            this.nights = ChronoUnit.DAYS.between(startDate, endDate);
+            this.days = this.nights + 1;
+            this.duration = this.nights + "박 " + this.days + "일";
+        }
+    }
+
+    // Getter and Setter methods
+
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
+        calculateDuration();
+    }
+
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
+        calculateDuration();
     }
 
 }
