@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,39 +9,44 @@
     <script defer src="/static/js/login.js"></script>
 </head>
 <body>
-<div class="background"></div>
 <div class="container">
-    <form id="loginForm" class="form" onsubmit="return false" autocomplete="off">
-        <div class="form-inner">
-            <h2>여행 시작하기</h2>
-            <div class="input-wrapper">
-                <label for="login-username">Username</label>
-                <div class="input-group">
-                    <span class="icon">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z"/>
-                        </svg>
-                    </span>
-                    <input type="text" id="login-username" name="username" required>
+    <div class="background"></div>
+    <div class="viaje-logo">
+        <a th:href="@{/}" ><img src="/static/images/start/Viaje_logo2.png" alt="Viaje Logo"></a>
+    </div>
+    <div class="form-wrapper">
+        <form action="/loginPage" id="loginForm" class="form" method="post" >
+            <div class="form-inner">
+                <h2>User Login</h2>
+                <div class="input-wrapper">
+                    <label for="login-username">Username</label>
+                    <div class="input-group">
+                        <span class="icon">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z"/>
+                            </svg>
+                        </span>
+                        <input type="email" id="login-username" name="email" required>
+                    </div>    
+                </div>
+                <div class="input-wrapper">
+                    <label for="login-password">Password</label>
+                    <div class="input-group">
+                        <span class="icon">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z"/>
+                            </svg>
+                        </span>
+                        <input type="password" id="login-password" name="password" required>
+                    </div>
+                </div>
+                <div class="btn-group">
+                    <button type="submit" class="btn btn--primary">Sign In</button>
+                    <a href="#" class="btn--text">Forgot password?</a>
                 </div>
             </div>
-            <div class="input-wrapper">
-                <label for="login-password">Password</label>
-                <div class="input-group">
-                    <span class="icon">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z"/>
-                        </svg>
-                    </span>
-                    <input type="password" id="login-password" name="password" required>
-                </div>
-            </div>
-            <div class="btn-group">
-                <button type="submit" class="btn btn--primary">Sign In</button>
-                <a href="#" class="btn--text">Forgot password?</a>
-            </div>
-        </div>
-    </form>
+        </form>
+    </div>
 </div>
 </body>
 </html>

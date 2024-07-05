@@ -22,15 +22,23 @@ public class LoginController {
 
     @Autowired
     private UserService userService;
+    @GetMapping("/loginPage")
+    public String loginPage(){
+        return "login";
+    }
 
-    @PostMapping("/login")
-    public ResponseEntity<String> loginUser(@RequestBody UserDTO userDTO, HttpSession session) {
+    @PostMapping("/loginPage")
+    public  String loginUser(UserDTO userDTO, HttpSession session) {
         boolean isAuthenticated = userService.authenticate(userDTO.getEmail(), userDTO.getPassword());
+
+        logger.info("로그인 isauthenticated :", userService.authenticate(userDTO.getEmail(), userDTO.getPassword()));
         if (isAuthenticated) {
             session.setAttribute("user", userDTO.getEmail());
-            return ResponseEntity.ok("로그인 성공");
+//            return ResponseEntity.ok("로그인 성공");
+            return "/main";
         } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인 실패: 이메일 또는 비밀번호가 올바르지 않습니다.");
+            return "/loginPage";
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인 실패: 이메일 또는 비밀번호가 올바르지 않습니다.");
         }
     }
 
