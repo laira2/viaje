@@ -7,6 +7,22 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/yac.css">
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const termsContent = document.getElementById('terms-content');
+      const confirmButton = document.getElementById('confirm-button');
+
+      termsContent.addEventListener('scroll', function() {
+        if (termsContent.scrollTop + termsContent.clientHeight >= termsContent.scrollHeight) {
+          confirmButton.disabled = false;
+        }
+      });
+
+      confirmButton.addEventListener('click', function() {
+        window.location.href = '/join';
+      });
+    });
+  </script>
 </head>
 <body>
 <div class="terms">
@@ -14,7 +30,7 @@
   <p class="terms-description">
     Viaje에 오신걸 환영합니다. 아래 약관을 확인해주세요.
   </p>
-  <div class="terms-content">
+  <div class="terms-content" id="terms-content">
     <h2 class="terms-content-heading">제1장 총칙</h2>
     <h3>제1조 (목적)</h3>
     <p>
@@ -42,6 +58,7 @@
     </p>
     <p>...</p>
   </div>
+  <button id="confirm-button" disabled>이용 약관을 확인 하였습니다.</button>
 </div>
 </body>
 </html>
