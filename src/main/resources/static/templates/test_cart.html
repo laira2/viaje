@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>장바구니</title>
+    <!-- 필요한 CSS 파일 연결 -->
+</head>
+<body>
+<header>
+    <h1>장바구니</h1>
+    <!-- 네비게이션 메뉴 등 필요한 헤더 내용 추가 -->
+</header>
+
+<main>
+    <section class="cart-items">
+        <h2>장바구니 목록</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>여행 계획</th>
+                <th>가격</th>
+                <th>수량</th>
+                <th>합계</th>
+                <th>삭제</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="item : ${cartItems}">
+                <td th:text="${item.plan.title}">여행 계획 제목</td>
+                <td th:text="${item.plan.price}">가격</td>
+                <td>
+                    <input type="number" th:value="${item.quantity}" min="1" max="10">
+                </td>
+                <td th:text="${item.plan.price * item.quantity}">합계</td>
+                <td>
+                    <form th:action="@{/cart/remove}" method="post">
+                        <input type="hidden" name="planId" th:value="${item.plan.planId}">
+                        <button type="submit">삭제</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section class="cart-summary">
+        <h3>총 금액: <span th:text="${totalAmount}">0</span>원</h3>
+        <form th:action="@{/order/checkout}" method="post">
+            <button type="submit">결제하기</button>
+        </form>
+    </section>
+</main>
+
+<footer>
+    <!-- 푸터 내용 -->
+    <p>&copy; 2023 여행 계획 서비스. All rights reserved.</p>
+</footer>
+
+<script src="/js/cart.js"></script> <!-- 필요한 JavaScript 파일 연결 -->
+</body>
+</html>
