@@ -7,8 +7,11 @@ import com.viaje.viaje.service.CartService;
 import com.viaje.viaje.service.TravelPlansService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -29,12 +32,40 @@ public class CartController {
         Cart cart = cartService.getCart((String)session.getAttribute("user"));
         cartService.addToCart(cart,selectedPlan,1);
         session.setAttribute("cart",cart);
-        return "/cart/detail";
+        return "redirect:/cart/detail";
     }
 
     @GetMapping("/cart/detail")
-    public List<CartItems> allCartItem (HttpSession session){
-        List<CartItems> itemsList = cartService.findAllcartItmes((Cart) session.getAttribute("cart"));
-        return itemsList;
+    public String allCartItem (HttpSession session, Model model){
+        Cart isCart = (Cart)session.getAttribute("cart");
+        List<CartItems> itemsList;
+        if (isCart !=null) {
+            itemsList = cartService.findAllcartItmes(isCart);
+        }else {
+            Cart cart = cartService.getCart((String) session.getAttribute("user"));
+            itemsList = cartService.findAllcartItmes(cart);
+        }
+        model.addAttribute("itemsList", itemsList);
+        return "/test_cart";
+
+    }
+
+    @PostMapping("/cart/remove")
+    public String removeCartItem(HttpSession session,
+                                 @RequestParam("id") Long id,
+                                 @RequestParam("cart_user_email") String email,
+                                 RedirectAttributes redirectAttributes) {
+        String sessionUserEmail = (String) session.getAttribute("user");
+        if (sessionUserEmail != null && sessionUserEmail.equals(email)) {
+            try {
+                cartService.removeCartItem(id);
+                redirectAttributes.addFlashAttribute("message", "Item successfully removed from cart.");
+            } catch (Exception e) {
+                redirectAttributes.addFlashAttribute("error", "Failed to remove item from cart: " + e.getMessage());
+            }
+        } else {
+            redirectAttributes.addFlashAttribute("error", "You don't have permission to remove this item.");
+        }
+        return "redirect:/cart/detail";
     }
 }
