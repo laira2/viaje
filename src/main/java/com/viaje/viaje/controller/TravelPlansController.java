@@ -36,7 +36,7 @@ public class TravelPlansController {
 
         session.setAttribute("tagsOptions",tagsOptions);
         TravelPlans created_plan = travelPlansService.createPlan(session,tpDTO);
-        return "/product/detial";
+        return "redirect:/product_detail/" + created_plan.getPlanId();
     }
 
 }

@@ -64,40 +64,36 @@ body {
     margin-top: 10px;
 }
 
-.menu-container .admin-container {
-    position: static !important;
-    margin-top: auto !important;
-    padding-bottom: 30px !important;
-    margin-bottom: -40px !important;
-    width: 100% !important;
-    text-align: left !important;
+.bottom-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-top: auto;
+    padding-top: 20px;
 }
 
-.menu-container .admin-container .menu-item.small {
-    position: static !important;
-}
-
-.menu-container .admin-container .menu-item.small a {
-    position: static !important;
-}
-
-.small a {
+.menu-item.small {
     font-size: 12px;
+}
+
+.menu-item.small a {
     color: gray;
 }
 
-.small:hover a {
+.menu-item.small:hover a {
     color: black;
+}
+
+.menu-item.small.admin {
+    text-align: left;
+}
+
+.menu-item.small.logout {
+    text-align: right;
 }
 
 .logged-in,
 .logout-btn {
     display: none;
-}
-
-.bottom-buttons {
-    display: flex;
-    justify-content: space-between;
-    margin-top: auto;
-    width: 100%;
 }

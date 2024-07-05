@@ -1,23 +1,30 @@
 document.addEventListener('DOMContentLoaded', function () {
     const menuContainer = document.getElementById('menuContainer');
-    const teamName = document.querySelector('.team-name');
+    const guestMenu = document.getElementById('guestMenu');
+    const userMenu = document.getElementById('userMenu');
+    const logoutButton = document.querySelector('.logout');
 
-    // 메뉴 토글 버튼 클릭 이벤트 (이미 있다고 가정)
-    document.querySelector('.menu-toggle-btn').addEventListener('click', function() {
-        menuContainer.classList.toggle('active');
+    function updateMenu(isLoggedIn) {
+        if (isLoggedIn) {
+            guestMenu.style.display = 'none';
+            userMenu.style.display = 'block';
+            logoutButton.style.display = 'block';
+        } else {
+            guestMenu.style.display = 'block';
+            userMenu.style.display = 'none';
+            logoutButton.style.display = 'none';
+        }
+    }
 
-        // 메뉴 상태 변경 시 로고 스타일 유지
-        teamName.style.letterSpacing = 'normal';
-        teamName.style.fontKerning = 'normal';
-        teamName.style.textRendering = 'optimizeLegibility';
+    // 서버에서 전달된 isLoggedIn 값을 사용하여 초기 메뉴 상태 설정
+    updateMenu(document.body.classList.contains('logged-in'));
+
+    // 로그인/로그아웃 이벤트 리스너
+    document.body.addEventListener('login', function() {
+        updateMenu(true);
     });
 
-    const user = document.body.dataset.user;
-    if (user) {
-        document.querySelectorAll('.menu-item').forEach(function (item) {
-            item.style.display = 'block';
-        });
-        document.querySelector('.login').style.display = 'none';
-        document.querySelector('.join').style.display = 'none';
-    }
+    document.body.addEventListener('logout', function() {
+        updateMenu(false);
+    });
 });
