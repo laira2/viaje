@@ -1,3 +1,4 @@
+/*
 document.addEventListener("DOMContentLoaded", () => {
     const loginForm = document.getElementById("loginForm");
     const container = document.querySelector('.container');
@@ -8,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     async function login() {
-        const username = document.getElementById("login-username").value;
+        const email = document.getElementById("login-username").value;
         const password = document.getElementById("login-password").value;
         const errorMessage = document.getElementById("error-message");
 
@@ -40,3 +41,12 @@ document.addEventListener("DOMContentLoaded", () => {
         container.classList.remove('expanded');
     });
 });
+
+container.addEventListener('mouseenter', () => {
+        container.classList.add('expanded');
+    });
+
+    container.addEventListener('mouseleave', () => {
+        container.classList.remove('expanded');
+    });
+*/
