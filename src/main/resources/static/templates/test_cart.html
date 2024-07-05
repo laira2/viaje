@@ -30,7 +30,7 @@
                 <td th:text="${item.travelPlans.title}">여행 계획 제목</td>
                 <td >가격</td>
                 <td>
-                    <input type="number" th:value="${item.quantity}" min="1" max="10">
+                    <input type="number" th:value="${item.quantity}" readonly>
                 </td>
                 <td >합계</td>
                 <td>
@@ -46,7 +46,7 @@
     </section>
 
     <section class="cart-summary">
-        <h3>총 금액: <span>0</span>원</h3>
+        <h3>총 금액: <span></span>원</h3>
         <form th:action="@{/order/checkout}" method="post">
             <button type="submit">결제하기</button>
         </form>
