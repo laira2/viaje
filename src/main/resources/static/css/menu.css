@@ -39,6 +39,9 @@ body {
     margin-bottom: 30px;
     color: black;
     margin-top: 20vh;
+    letter-spacing: normal;
+    font-kerning: normal;
+    text-rendering: optimizeLegibility;
 }
 
 .menu-item {
