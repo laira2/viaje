@@ -10,13 +10,12 @@ import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 @Controller
 public class UserController {
 
     private final UserService userService;
 
-    //세션 정보 확인용
+    // 세션 정보 확인용
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
@@ -69,5 +68,4 @@ public class UserController {
     public String login() {
         return "login"; // login.html 파일 반환
     }
-
 }
