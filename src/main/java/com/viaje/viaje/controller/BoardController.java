@@ -53,5 +53,4 @@ public class BoardController {
         return "/test_product_detail";
     }
 
-
 }
