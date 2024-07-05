@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -30,7 +30,19 @@
         </tr>
         </thead>
         <tbody id="board-content">
-        <!-- JavaScript를 통해 데이터를 삽입합니다. -->
+        <tr th:each="board : ${boardList}">
+          <td th:text="${board.boardId}"></td>
+          <td th:text="${board.travelPlans.planId}"></td>
+          <td th:text="${board.user.userId}"></td>
+          <td>
+            <a th:href="@{/product_detail/{id}(id=${board.travelPlans.planId})}" th:text="${board.travelPlans.title}"></a>
+          </td>
+          <td th:text="${board.createdAt}"></td>
+          <td th:text="${board.updatedAt}"></td>
+          <td th:text="${board.viewCount}"></td>
+          <td th:text="${board.likeCount}"></td>
+          <td th:text="${board.boardStatus}"></td>
+        </tr>
         </tbody>
       </table>
     </div>
