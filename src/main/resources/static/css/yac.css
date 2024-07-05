@@ -9,8 +9,9 @@ body {
   border-radius: 24px;
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05);
   margin: 32px auto;
-  padding: 40px 19px 100px;
+  padding: 40px 19px 60px; /* 여기서 100px에서 60px로 변경 */
   width: 400px;
+  position: relative; /* 부모 요소를 기준으로 자식 요소 위치 설정 */
 }
 
 .terms-title {
@@ -46,3 +47,31 @@ body {
   letter-spacing: 0.01em;
   line-height: 24px;
 }
+
+#confirm-button {
+  display: block;
+  position: absolute; /* 절대 위치 설정 */
+  bottom: -40px; /* 부모 요소의 하단에서 20px 위로 */
+  left: 50%; /* 부모 요소의 가운데 정렬 */
+  transform: translateX(-50%); /* 가운데 정렬을 위한 변환 */
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 700;
+  background-color: #53329B;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#confirm-button:disabled {
+  background-color: #a4a4a4;
+  cursor: not-allowed;
+}
+
+#confirm-button:not(:disabled):hover {
+  background-color: #3e2670;
+}
+
+
