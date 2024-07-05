@@ -26,16 +26,17 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="item : ${cartItems}">
-                <td th:text="${item.plan.title}">여행 계획 제목</td>
-                <td th:text="${item.plan.price}">가격</td>
+            <tr th:each="item : ${itemsList}">
+                <td th:text="${item.travelPlans.title}">여행 계획 제목</td>
+                <td >가격</td>
                 <td>
                     <input type="number" th:value="${item.quantity}" min="1" max="10">
                 </td>
-                <td th:text="${item.plan.price * item.quantity}">합계</td>
+                <td >합계</td>
                 <td>
                     <form th:action="@{/cart/remove}" method="post">
-                        <input type="hidden" name="planId" th:value="${item.plan.planId}">
+                        <input type="hidden" name="id" th:value="${item.id}">
+                        <input type="hidden" name="cart_user_email" th:value="${item.cart.users.email}">
                         <button type="submit">삭제</button>
                     </form>
                 </td>
@@ -45,7 +46,7 @@
     </section>
 
     <section class="cart-summary">
-        <h3>총 금액: <span th:text="${totalAmount}">0</span>원</h3>
+        <h3>총 금액: <span>0</span>원</h3>
         <form th:action="@{/order/checkout}" method="post">
             <button type="submit">결제하기</button>
         </form>
