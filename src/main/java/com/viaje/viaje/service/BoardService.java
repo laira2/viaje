@@ -30,8 +30,7 @@ public class BoardService {
         this.tagsRepository = tagsRepository;
     }
     public List<Board> findAllBoardProduct (){
-        List<Board> board_list = boardRepository.findAll();
-        return board_list;
+        return boardRepository.findAll();
     }
     public List<Board> findProductByType(String type) {
         Tags tagType = tagsRepository.findByTagName(type);

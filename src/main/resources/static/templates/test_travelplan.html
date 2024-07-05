@@ -16,6 +16,12 @@
 <body>
 <h1>새 여행 계획 작성</h1>
 <form action="/plans/new" method="post">
+    <label for="startDate">시작일:</label>
+    <input type="date" id="startDate" name="startDate" required>
+
+    <label for="endDate">종료일:</label>
+    <input type="date" id="endDate" name="endDate" required>
+
     <label for="nation">국가:</label>
     <input type="text" id="nation" name="nation" required>
 
@@ -24,6 +30,9 @@
 
     <label for="detail">상세 내용:</label>
     <textarea id="detail" name="detail" rows="4" required></textarea>
+
+    <label for="totalBudget">제목:</label>
+    <input type="text" id="totalBudget" name="totalBudget" required>
 
     <label for="fileName">파일 이름:</label>
     <input type="text" id="fileName" name="fileName">

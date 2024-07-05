@@ -36,13 +36,17 @@ public class TravelPlansService {
             throw new IllegalArgumentException("User is required to create a travel plan.");
         }
         TravelPlans travelPlans = TravelPlans.builder()
+                .startDate(tpDTO.getStartDate())
+                .endDate(tpDTO.getEndDate())
                 .nation(tpDTO.getNation())
                 .title(tpDTO.getTitle())
                 .detail(tpDTO.getDetail())
                 .fileName(tpDTO.getFileName())
                 .filePath(tpDTO.getFilePath())
+                .totalBudget(tpDTO.getTotalBudget())
                 .user(user)
                 .build();
+
         travelPlansRepository.save(travelPlans);
         tagsService.insertPlanTag(session, travelPlans);
         boardService.postPlan(user,travelPlans);
