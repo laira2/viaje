@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const nicknameInput = document.getElementById('nickname');
     const passwordInput = document.getElementById('password');
     const confirmPasswordInput = document.getElementById('confirmPassword');
+    const submitBtn = document.querySelector('.submit-btn');
 
     let isEmailValid = false;
     let isNicknameValid = false;
@@ -24,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function checkEmail() {
         const email = emailInput.value;
-        fetch(`/join/check-email?email=${encodeURIComponent(email)}`)
+        return fetch(`/join/check-email?email=${encodeURIComponent(email)}`)
             .then(response => response.json())
             .then(data => {
                 if (data.exists) {
@@ -34,12 +35,18 @@ document.addEventListener('DOMContentLoaded', function() {
                     clearError(emailInput);
                     isEmailValid = true;
                 }
+                toggleSubmitButton();
+            })
+            .catch(() => {
+                showError(emailInput, '이메일 검증 중 오류가 발생했습니다. 다시 시도해 주세요.');
+                isEmailValid = false;
+                toggleSubmitButton();
             });
     }
 
     function checkNickname() {
         const nickname = nicknameInput.value;
-        fetch(`/join/check-nickname?nickname=${encodeURIComponent(nickname)}`)
+        return fetch(`/join/check-nickname?nickname=${encodeURIComponent(nickname)}`)
             .then(response => response.json())
             .then(data => {
                 if (data.exists) {
@@ -49,38 +56,72 @@ document.addEventListener('DOMContentLoaded', function() {
                     clearError(nicknameInput);
                     isNicknameValid = true;
                 }
+                toggleSubmitButton();
+            })
+            .catch(() => {
+                showError(nicknameInput, '닉네임 검증 중 오류가 발생했습니다. 다시 시도해 주세요.');
+                isNicknameValid = false;
+                toggleSubmitButton();
             });
+    }
+
+    function toggleSubmitButton() {
+        if (isEmailValid && isNicknameValid &&
+            passwordInput.value.length >= 8 &&
+            passwordInput.value === confirmPasswordInput.value) {
+            submitBtn.disabled = false;
+        } else {
+            submitBtn.disabled = true;
+        }
     }
 
     emailInput.addEventListener('blur', checkEmail);
     nicknameInput.addEventListener('blur', checkNickname);
 
-    form.addEventListener('submit', function(event) {
-        event.preventDefault();
-
-        checkEmail();
-        checkNickname();
-
-        // 비밀번호 검증
+    passwordInput.addEventListener('input', function() {
         if (passwordInput.value.length < 8) {
             showError(passwordInput, '비밀번호는 8자 이상이어야 합니다.');
         } else {
             clearError(passwordInput);
         }
+        toggleSubmitButton();
+    });
 
+    confirmPasswordInput.addEventListener('input', function() {
         if (passwordInput.value !== confirmPasswordInput.value) {
             showError(confirmPasswordInput, '비밀번호가 일치하지 않습니다.');
         } else {
             clearError(confirmPasswordInput);
         }
+        toggleSubmitButton();
+    });
 
-        // 모든 검증이 통과되었는지 확인
-        setTimeout(() => {
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        // 이메일 및 닉네임 검증이 완료될 때까지 대기
+        Promise.all([checkEmail(), checkNickname()]).then(() => {
             if (isEmailValid && isNicknameValid &&
                 passwordInput.value.length >= 8 &&
                 passwordInput.value === confirmPasswordInput.value) {
                 form.submit();
+            } else {
+                if (!isEmailValid) {
+                    showError(emailInput, '이미 사용 중인 이메일입니다.');
+                }
+                if (!isNicknameValid) {
+                    showError(nicknameInput, '이미 사용 중인 닉네임입니다.');
+                }
+                if (passwordInput.value.length < 8) {
+                    showError(passwordInput, '비밀번호는 8자 이상이어야 합니다.');
+                }
+                if (passwordInput.value !== confirmPasswordInput.value) {
+                    showError(confirmPasswordInput, '비밀번호가 일치하지 않습니다.');
+                }
+                alert('모든 입력 항목을 올바르게 작성해 주세요.');
             }
-        }, 1000); // 서버 응답을 기다리기 위해 약간의 지연 추가
+        }).catch(() => {
+            alert('오류가 발생했습니다. 다시 시도해 주세요.');
+        });
     });
 });
