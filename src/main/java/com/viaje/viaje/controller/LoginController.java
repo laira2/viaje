@@ -24,7 +24,7 @@ public class LoginController {
     private UserService userService;
     @GetMapping("/loginPage")
     public String loginPage(){
-        return "/login";
+        return "login";
     }
 
     @PostMapping("/loginPage")
