@@ -49,7 +49,7 @@
             <input type="hidden" id="planId" name="planId" th:value="${selectedPlan.planId}"> <!-- 이 부분을 서버에서 동적으로 처리하도록 변경 -->
 
             <label for="userId">User ID:</label>
-            <input type="text" id="userId" name="userId" th:value="${selectedPlan.user.userId}"><br><br>
+            <input type="text" id="userId" name="userId" th:value="${user.userId}"><br><br>
 
             <label for="comments">Content:</label><br>
             <textarea id="comments" name="comments" rows="4" cols="50" required></textarea><br><br>
@@ -64,7 +64,7 @@
 
                 var formData = $(this).serialize(); // 폼 데이터 직렬화
 
-                $.ajax({
+                $.ajax({ 
                     type: 'POST',
                     url: '/comments/add', // 적절한 엔드포인트로 수정 필요
                     data: formData,
