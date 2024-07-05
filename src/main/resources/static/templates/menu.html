@@ -6,33 +6,37 @@
     <link rel="stylesheet" href="/static/css/menu.css">
     <title>Menu</title>
 </head>
-<body data-user="${session?.user != null ? session.user : ''}">
+<body>
 <div class="menu-container" id="menuContainer">
     <h1 class="team-name">Viaje</h1>
-    <div class="menu-item login" th:if="${session?.user == null}">
-        <a href="login">로그인</a>
+    <div id="guestMenu" th:if="${!isLoggedIn}">
+        <div class="menu-item login">
+            <a href="login">로그인</a>
+        </div>
+        <div class="menu-item join">
+            <a href="join">회원 가입</a>
+        </div>
     </div>
-    <div class="menu-item join" th:if="${session?.user == null}">
-        <a href="join">회원 가입</a>
+    <div id="userMenu" th:if="${isLoggedIn}">
+        <div class="menu-item mypage">
+            <a href="mypage">마이페이지</a>
+        </div>
+        <div class="menu-item cart">
+            <a href="cart">장바구니</a>
+        </div>
+        <div class="menu-item products">
+            <a href="products">상품</a>
+        </div>
+        <div class="menu-item board">
+            <a href="board.html">게시판</a>
+        </div>
     </div>
-    <div class="menu-item mypage" th:if="${session?.user != null}">
-        <a href="mypage">마이페이지</a>
-    </div>
-    <div class="menu-item cart" th:if="${session?.user != null}">
-        <a href="cart">장바구니</a>
-    </div>
-    <div class="menu-item products" th:if="${session?.user != null}">
-        <a href="products">상품</a>
-    </div>
-    <div class="menu-item board" th:if="${session?.user != null}">
-        <a href="board.html">게시판</a>
-    </div>
-    <div class="menu-item logout" th:if="${session?.user != null}">
-        <a href="/logout">로그아웃</a>
-    </div>
-    <div class="admin-container">
-        <div class="menu-item small">
+    <div class="bottom-container">
+        <div class="menu-item small admin">
             <a href="admin.html">관리자</a>
+        </div>
+        <div class="menu-item small logout" th:if="${isLoggedIn}">
+            <a href="/logout">로그아웃</a>
         </div>
     </div>
 </div>

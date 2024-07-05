@@ -1,42 +1,42 @@
-$(document).ready(function() {
-    let signup = $(".links").find("li").find("#signup");
-    let signin = $(".links").find("li").find("#signin");
-    let reset = $(".links").find("li").find("#reset");
-    let first_input = $("form").find(".first-input");
-    let hidden_input = $("form").find(".input__block").find("#repeat__password");
-    let signin_btn = $("form").find(".signin__btn");
+document.addEventListener("DOMContentLoaded", () => {
+    const loginForm = document.getElementById("loginForm");
+    const container = document.querySelector('.container');
 
-    //----------- sign up ---------------------
-    signup.on("click", function(e) {
-        e.preventDefault();
-        $(this).parent().parent().siblings("h1").text("SIGN UP");
-        $(this).parent().css("opacity", "1");
-        $(this).parent().siblings().css("opacity", ".6");
-        first_input.removeClass("first-input__block").addClass("signup-input__block");
-        hidden_input.css({
-            "opacity": "1",
-            "display": "block"
-        });
-        signin_btn.text("Sign up");
+    loginForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        login();
     });
 
-    //----------- sign in ---------------------
-    signin.on("click", function(e) {
-        e.preventDefault();
-        $(this).parent().parent().siblings("h1").text("SIGN IN");
-        $(this).parent().css("opacity", "1");
-        $(this).parent().siblings().css("opacity", ".6");
-        first_input.addClass("first-input__block").removeClass("signup-input__block");
-        hidden_input.css({
-            "opacity": "0",
-            "display": "none"
+    async function login() {
+        const username = document.getElementById("login-username").value;
+        const password = document.getElementById("login-password").value;
+        const errorMessage = document.getElementById("error-message");
+
+        const response = await fetch("/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ username, password }),
         });
-        signin_btn.text("Sign in");
+
+        if (response.ok) {
+            // 로그인 성공 시
+            errorMessage.textContent = "";
+            alert("로그인 성공!");
+            window.location.href = "/";
+        } else {
+            // 로그인 실패 시
+            const errorText = await response.text();
+            errorMessage.textContent = `로그인 실패: ${errorText}`;
+        }
+    }
+
+    container.addEventListener('mouseenter', () => {
+        container.classList.add('expanded');
     });
 
-    //----------- reset ---------------------
-    reset.on("click", function(e) {
-        e.preventDefault();
-        $(this).parent().parent().siblings("form").find(".input__block").find(".input").val("");
+    container.addEventListener('mouseleave', () => {
+        container.classList.remove('expanded');
     });
 });
