@@ -12,15 +12,31 @@
       const termsContent = document.getElementById('terms-content');
       const confirmButton = document.getElementById('confirm-button');
 
-      termsContent.addEventListener('scroll', function() {
-        if (termsContent.scrollTop + termsContent.clientHeight >= termsContent.scrollHeight) {
+      function checkScroll() {
+        // 약간의 여유를 두고 계산 (1px 정도)
+        if (termsContent.scrollTop + termsContent.clientHeight >= termsContent.scrollHeight - 1) {
           confirmButton.disabled = false;
+          console.log('Button enabled');
+        } else {
+          confirmButton.disabled = true;
+          console.log('Button disabled');
         }
-      });
+      }
+
+      // 초기 로드 시 체크
+      checkScroll();
+
+      // 스크롤 이벤트에 checkScroll 함수 연결
+      termsContent.addEventListener('scroll', checkScroll);
 
       confirmButton.addEventListener('click', function() {
         window.location.href = '/join';
       });
+
+      // 디버깅을 위한 로그
+      console.log('Script loaded');
+      console.log('Terms content height:', termsContent.scrollHeight);
+      console.log('Terms content client height:', termsContent.clientHeight);
     });
   </script>
 </head>
