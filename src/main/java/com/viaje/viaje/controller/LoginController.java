@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,12 +29,13 @@ public class LoginController {
     }
 
     @PostMapping("/loginPage")
-    public  String loginUser(UserDTO userDTO, HttpSession session) {
+    public  String loginUser(UserDTO userDTO, HttpSession session, Model model) {
         boolean isAuthenticated = userService.authenticate(userDTO.getEmail(), userDTO.getPassword());
 
         logger.info("로그인 isauthenticated :", userService.authenticate(userDTO.getEmail(), userDTO.getPassword()));
         if (isAuthenticated) {
             session.setAttribute("user", userDTO.getEmail());
+            model.addAttribute("isLoggedIn", true);
 //            return ResponseEntity.ok("로그인 성공");
             return "/main";
         } else {

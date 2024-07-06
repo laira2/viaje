@@ -6,6 +6,7 @@ import com.viaje.viaje.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +32,7 @@ public class UserController {
 
     // 회원 가입 API
     @PostMapping("/join/register")
-    public String registerUser(@ModelAttribute UserDTO userDTO, HttpSession session) {
+    public String registerUser(@ModelAttribute UserDTO userDTO, HttpSession session, Model model) {
         try {
             // 회원가입 처리
             Users createdUser = userService.registerUser(userDTO);
@@ -40,7 +41,7 @@ public class UserController {
             session.setAttribute("user", userDTO.getEmail());
             logger.info("User registered and logged in: {}", userDTO.getEmail());
             logger.info("Session ID: {}", session.getId());
-
+            model.addAttribute("isLoggedIn", true);
             // 가입 처리 후, 리다이렉트할 경로를 반환
             return "redirect:/"; // 혹은 다른 리다이렉트할 경로 설정
         } catch (Exception e) {
