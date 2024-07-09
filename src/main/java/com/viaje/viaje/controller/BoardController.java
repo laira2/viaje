@@ -59,4 +59,10 @@ public class BoardController {
         return "/test_product_detail";
     }
 
+    @GetMapping("/board/write")
+    public String showWriteForm(Model model) {
+        // 필요한 경우 모델에 데이터를 추가합니다.
+        return "write";
+    }
+
 }
