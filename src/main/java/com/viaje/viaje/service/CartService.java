@@ -29,9 +29,7 @@ public class CartService {
     public void addToCart(Cart cart, TravelPlans plan, int quantity) {
         CartItems existingItem = cartItemsRepository.findByCartAndTravelPlans(cart, plan);
         if (existingItem != null) {
-            // 이미 존재하는 항목이면 수량만 증가
-            existingItem.setQuantity(existingItem.getQuantity() + quantity);
-            cartItemsRepository.save(existingItem);
+
         } else {
             // 새로운 항목이면 새로 생성
             CartItems newItem = new CartItems();
@@ -60,5 +58,9 @@ public class CartService {
 
     public void removeCartItem(Long id) {
         cartItemsRepository.deleteById(id);
+    }
+    public Integer getTotalPriceForCart(Long cartId) {
+        Integer totalPrice = cartRepository.calculateTotalPriceByCartId(cartId);
+        return totalPrice != null ? totalPrice : 0;
     }
 }
