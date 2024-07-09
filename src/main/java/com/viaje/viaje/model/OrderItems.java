@@ -15,9 +15,13 @@ public class OrderItems {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long OrderItemId;
 
+//    @ManyToOne
+//    @JoinColumn(name="cartId", nullable = false)
+//    private Cart cart;
+
     @ManyToOne
-    @JoinColumn(name="cartId", nullable = false)
-    private Cart cart;
+    @JoinColumn(name="orderId")
+    private Orders orders;
 
     @OneToOne
     @JoinColumn(name = "planId", nullable = false)
@@ -25,9 +29,6 @@ public class OrderItems {
 
     @Column(nullable = false)
     private Integer quantity;
-
-    @Column(nullable = false)
-    private int price;
 
     @PrePersist
     public void onCreate(){
