@@ -123,3 +123,37 @@ p {
 #menu-inner-content {
     padding: 20px;
 }
+
+/*--메뉴바 하단 페이지 수정--*/
+#menu-overlay {
+    position: fixed;
+    top: 0;
+    left: -250px; /* 초기에는 화면 밖에 위치 */
+    width: 250px;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.9);
+    transition: left 0.3s ease-in-out;
+    z-index: 1000;
+}
+
+#menu-overlay.active {
+    left: 0;
+}
+
+#slide-up-content {
+    position: fixed;
+    bottom: -80%; /* 초기에는 화면 밖에 위치 */
+    left: 0;
+    width: 100%;
+    height: 80%;
+    background-color: rgba(0, 0, 0, 0.9);
+    color: white;
+    transition: bottom 0.3s ease-in-out;
+    z-index: 999; /* 메뉴보다 낮은 z-index */
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+#slide-up-content.active {
+    bottom: 0;
+}
