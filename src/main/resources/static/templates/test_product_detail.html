@@ -34,8 +34,9 @@
             <h3>첨부 이미지</h3>
             <div th:if="${not #lists.isEmpty(selectedPlan.imagePaths)}">
                 <div th:each="imagePath : ${selectedPlan.imagePaths}">
-                    <img th:src="@{${imagePath}}" th:alt="'Travel Plan Image'">
+                    <img th:src="@{${imagePath}}" th:alt="${imagePath}">
                 </div>
+
             </div>
             <p th:if="${#lists.isEmpty(selectedPlan.imagePaths)}">첨부된 이미지가 없습니다.</p>
         </section>

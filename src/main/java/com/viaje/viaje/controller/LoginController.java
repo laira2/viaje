@@ -40,6 +40,7 @@ public class LoginController {
             return "main";
         } else {
             return "/login";
+
         }
     }
 
