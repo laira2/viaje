@@ -58,9 +58,11 @@ public class CommentsController {
     @PostMapping("/modify/{commentId}")  //수정
     public String updateComment(
             @PathVariable Long commentId,
-            @RequestParam("content") String content, Model model) {
+            @RequestParam("content") String content, HttpSession session) {
         CommentsDTO updatedComment = commentsService.updateComment(commentId, content);
-        return "redirect:/plan/" + model.getAttribute("id");
+        TravelPlans plan = (TravelPlans)session.getAttribute("selectedPlan");
+
+        return "redirect:/product_detail/" + plan.getPlanId();
     }
 
     @DeleteMapping("/delete/{commentId}") //삭제

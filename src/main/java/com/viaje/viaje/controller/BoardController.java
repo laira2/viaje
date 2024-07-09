@@ -53,7 +53,8 @@ public class BoardController {
         Users user = userService.findByEmail((String) session.getAttribute("user"));
         TravelPlans selectedPlan = travelPlansService.findByPlanId(id);
         List<Comments> comments = commentsController.getComments(id);
-        model.addAttribute("selectedPlan",selectedPlan);
+        session.setAttribute("selectedPlan",selectedPlan);
+        model.addAttribute("selectedPlan", selectedPlan);
         model.addAttribute("user", user);
         model.addAttribute("comments",comments);
         return "/test_product_detail";
