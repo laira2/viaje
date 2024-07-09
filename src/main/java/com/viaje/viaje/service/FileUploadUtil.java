@@ -35,7 +35,7 @@ public class FileUploadUtil {
         try (InputStream inputStream = file.getInputStream()) {
             Path filePath = uploadPath.resolve(uniqueFileName);
             Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
-            return "/uploads/" + uniqueFileName;
+            return uniqueFileName;
         } catch (IOException ioe) {
             throw new IOException("Could not save file: " + fileName, ioe);
         }

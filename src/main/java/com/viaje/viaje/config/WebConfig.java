@@ -30,12 +30,12 @@ public class WebConfig implements WebMvcConfigurer {
                 .resourceChain(true);
 
         // 파일 업로드 디렉토리 설정
-        registry.addResourceHandler("/uploads/**")
+        registry.addResourceHandler("/uploads/plan/**")
                 .addResourceLocations("file:" + planUploadDir + "/")
                 .setCachePeriod(3600)
                 .resourceChain(true);
 
-        registry.addResourceHandler("/uploads/**")
+        registry.addResourceHandler("/uploads/cert/**")
                 .addResourceLocations("file:" + certUploadDir + "/")
                 .setCachePeriod(3600)
                 .resourceChain(true);
