@@ -79,19 +79,17 @@ public class CommentsService {
     }
 
     @Transactional(readOnly = true)
-    public List<CommentsDTO> getCommentsByPlanId(Long planId) {
+    public List<Comments> getCommentsByPlanId(Long planId) {
         List<Comments> comments = commentsRepository.findByPlan_PlanId(planId);
 
         // 디버그 로그 추가
         if (comments != null && !comments.isEmpty()) {
-            comments.forEach(comment -> logger.debug("Fetched Comment: {}", comment));
+            comments.forEach(comment -> logger.debug("레포지토리 코멘트 불러오기: {}", comment));
         } else {
             logger.debug("No comments found for planId: {}", planId);
         }
 
-        return comments.stream()
-                .map(Comments::toDTO) // 변경된 부분
-                .collect(Collectors.toList());
+        return comments;
     }
 
     @Transactional(readOnly = true)

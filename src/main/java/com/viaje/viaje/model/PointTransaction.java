@@ -37,8 +37,15 @@ public class PointTransaction {
     @Column(nullable = false)
     private TransactionStatus transactionStatus;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private TransactionType transactionType;
+
     public enum TransactionStatus{
         PENDING, PROCESSING, COMPLETED, CANCELLED
+    }
+    public enum TransactionType{
+        CREDIT, DEBIT
     }
 
     @PrePersist  // 엔티티가 저장되기 전에 실행될 메서드를 지정하는 JPA 어노테이션
@@ -47,6 +54,9 @@ public class PointTransaction {
         this.updatedAt = LocalDateTime.now();  // 현재 시간을 업데이트 일시로 설정
         if (transactionStatus== null) {
             transactionStatus= TransactionStatus.PENDING;
+        }
+        if (transactionType== null) {
+            transactionType= TransactionType.CREDIT;
         }
 
     }
