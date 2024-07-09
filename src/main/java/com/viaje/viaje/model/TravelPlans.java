@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -55,12 +57,6 @@ public class TravelPlans {
     private Integer price;
 
     @Column(nullable = false)
-    private String fileName;
-
-    @Column(nullable = false, columnDefinition = "TEXT")
-    private String filePath;
-
-    @Column(nullable = false)
     private Integer sold=0;
 
     @Column(nullable = false, updatable = false)
@@ -68,6 +64,11 @@ public class TravelPlans {
 
     @Column(nullable = false)
     private LocalDateTime updatedAt;
+
+    @ElementCollection
+    @CollectionTable(name = "plan_images", joinColumns = @JoinColumn(name = "plan_id"))
+    @Column(name = "image_path")
+    private List<String> imagePaths = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

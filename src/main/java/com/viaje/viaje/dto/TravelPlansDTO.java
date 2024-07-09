@@ -4,8 +4,10 @@ import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -22,7 +24,5 @@ public class TravelPlansDTO {
     private String fileName;
     private String filePath;
     private Long planId;
-
-
-
+    private List<MultipartFile> planImages;
 }
