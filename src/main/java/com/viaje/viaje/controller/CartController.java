@@ -45,7 +45,9 @@ public class CartController {
             Cart cart = cartService.getCart((String) session.getAttribute("user"));
             itemsList = cartService.findAllcartItmes(cart);
         }
+        Integer total_price = cartService.getTotalPriceForCart(isCart.getCartId());
         model.addAttribute("itemsList", itemsList);
+        model.addAttribute("total_price", total_price);
         return "/test_cart";
 
     }
@@ -68,4 +70,12 @@ public class CartController {
         }
         return "redirect:/cart/detail";
     }
+
+//    @PostMapping("/createOrder")
+//    public String createOrder(HttpSession session){
+//
+//
+//    }
+
+
 }
