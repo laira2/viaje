@@ -72,7 +72,7 @@
                         </div>
                         <button type="submit">수정</button>
                     </form>
-                    <form th:action="@{/delete/{commentId}(commentId=${comment.commentId})}" method="post" class="delete-form">
+                    <form th:action="@{'/delete/' + ${comment.commentId}}" method="post">
                         <input type="hidden" name="_method" value="delete">
                         <button type="submit">삭제</button>
                     </form>

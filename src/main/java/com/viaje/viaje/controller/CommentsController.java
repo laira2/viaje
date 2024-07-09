@@ -65,16 +65,13 @@ public class CommentsController {
         return "redirect:/product_detail/" + plan.getPlanId();
     }
 
-    @DeleteMapping("/delete/{commentId}") //삭제
-    public ResponseEntity<Void> deleteComment(@PathVariable Long commentId, HttpSession session) {
-        try {
-            //if문 세션 user, comment user 동일하면 삭제
-            commentsService.deleteComment(commentId);
-            return ResponseEntity.ok().build();
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+    @PostMapping("/delete/{commentId}") //삭제
+    public String deleteComment(@PathVariable Long commentId, HttpSession session) {
+        commentsService.deleteComment(commentId);
+        TravelPlans plan = (TravelPlans)session.getAttribute("selectedPlan");
+        return "redirect:/product_detail/" + plan.getPlanId();
     }
+
 
     // planId값을 가진 모든 comments 불러오기
     public List<Comments> getComments(@PathVariable Long planId) {
