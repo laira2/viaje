@@ -13,6 +13,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @Controller
 public class TravelPlansController {
@@ -26,16 +29,18 @@ public class TravelPlansController {
         this.travelPlansService = travelPlansService;
         this.userService = userService;
     }
-    @GetMapping("/plans/new")
+    @GetMapping("/createPlan")
     public String createPlanForm(HttpSession session){
 
-        return "/test_travelplan";
+        return "/write";
     }
-    @PostMapping("/plans/new")
-    public String postPlan(@RequestParam(value = "tagsOptions", required = false)String[] tagsOptions, HttpSession session, TravelPlansDTO tpDTO){
+    @PostMapping("/plan/submit")
+    public String postPlan(@RequestParam("image") MultipartFile file,
+                           @RequestParam(value = "tagsOptions", required = false)String[] tagsOptions,
+                           HttpSession session, TravelPlansDTO tpDTO) throws IOException {
 
         session.setAttribute("tagsOptions",tagsOptions);
-        TravelPlans created_plan = travelPlansService.createPlan(session,tpDTO);
+        TravelPlans created_plan = travelPlansService.createPlan(session,tpDTO, file);
         return "redirect:/product_detail/" + created_plan.getPlanId();
     }
 
