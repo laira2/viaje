@@ -41,7 +41,7 @@
                 <label for="confirmPassword"><i class="fas fa-lock"></i></label>
                 <span class="error-message" id="confirmPasswordError"></span>
             </div>
-            <button type="submit" class="submit-btn" disabled>여행 시작하기 <i class="fas fa-paper-plane"></i></button>
+            <a th:href="@{/join/register}"><button type="submit" class="submit-btn" disabled>여행 시작하기 <i class="fas fa-paper-plane"></i></button></a>
         </form>
         <div class="form-footer">
             <p>이미 계정이 있으신가요? <a href="/login">로그인</a></p>

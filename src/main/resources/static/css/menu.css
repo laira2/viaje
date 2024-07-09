@@ -9,7 +9,7 @@ body {
     position: relative;
 }
 
-.menu-container {
+#menu-overlay {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -30,7 +30,7 @@ body {
     box-sizing: border-box;
 }
 
-.menu-container.active {
+#menu-overlay.active {
     transform: translateX(0);
 }
 
