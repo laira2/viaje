@@ -28,8 +28,7 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Controller
-@RequestMapping("/comments") // 모든 메소드에 대해 기본 경로 설정
+@Controller// 모든 메소드에 대해 기본 경로 설정
 public class CommentsController {
 
     private static final Logger logger = LoggerFactory.getLogger(CommentsController.class);
@@ -40,8 +39,9 @@ public class CommentsController {
     @Autowired
     private TravelPlansRepository travelPlansRepository;
 
-    @PostMapping("/add")
-    public ResponseEntity<CommentsDTO> addCommentFromUrlParam(
+
+    @PostMapping("/comment/add")    //댓글 추가
+    public String addCommentFromUrlParam(
             @RequestParam("comments") String comment,
             @RequestParam("planId") Long planId,
             @RequestParam("userId") Long userId) {
@@ -52,26 +52,21 @@ public class CommentsController {
         commentDTO.setUserId(userId);
 
         CommentsDTO createdComment = commentsService.addComment(commentDTO);
-        return ResponseEntity.ok(createdComment); // JSON 응답으로 반환
+        return "redirect:/product_detail/" + planId;
     }
 
-    @GetMapping("/plan/{planId}")
-    public ResponseEntity<List<CommentsDTO>> getCommentsByPlanId(@PathVariable Long planId) {
-        List<CommentsDTO> comments = commentsService.getCommentsByPlanId(planId);
-        return ResponseEntity.ok(comments);
-    }
-
-    @PutMapping("/{commentId}")
-    public ResponseEntity<CommentsDTO> updateComment(
+    @PostMapping("/modify/{commentId}")  //수정
+    public String updateComment(
             @PathVariable Long commentId,
-            @RequestParam("content") String content) {
+            @RequestParam("content") String content, Model model) {
         CommentsDTO updatedComment = commentsService.updateComment(commentId, content);
-        return ResponseEntity.ok(updatedComment);
+        return "redirect:/plan/" + model.getAttribute("id");
     }
 
-    @DeleteMapping("/{commentId}")
-    public ResponseEntity<Void> deleteComment(@PathVariable Long commentId) {
+    @DeleteMapping("/delete/{commentId}") //삭제
+    public ResponseEntity<Void> deleteComment(@PathVariable Long commentId, HttpSession session) {
         try {
+            //if문 세션 user, comment user 동일하면 삭제
             commentsService.deleteComment(commentId);
             return ResponseEntity.ok().build();
         } catch (Exception e) {
@@ -79,38 +74,12 @@ public class CommentsController {
         }
     }
 
-    @GetMapping("/replies/{commentId}")
-    public ResponseEntity<List<CommentsDTO>> getRepliesByCommentId(@PathVariable Long commentId) {
-        List<CommentsDTO> replies = commentsService.getRepliesByCommentId(commentId);
-        return ResponseEntity.ok(replies);
-    }
-
-    @GetMapping("/plan/details/{planId}")
-    public String getPlanDetails(@PathVariable Long planId, Model model, HttpServletRequest request) {
+    // planId값을 가진 모든 comments 불러오기
+    public List<CommentsDTO> getComments(@PathVariable Long planId) {
 
         // 주어진 planId에 해당하는 댓글 목록 호출
         List<CommentsDTO> comments = commentsService.getCommentsByPlanId(planId);
-        model.addAttribute("comments", comments);
 
-        // 세션에서 사용자 정보 호출
-        Users user = (Users) request.getSession().getAttribute("loggedInUser");
-        if (user != null) {
-            model.addAttribute("user", user);
-        } else {
-            // 사용자 정보가 없을 경우 로그인 페이지로 리다이렉트
-            return "redirect:/login";
-        }
-
-        // 주어진 planId에 해당하는 여행 계획 정보 호출
-        Optional<TravelPlans> optionalPlan = travelPlansRepository.findById(planId);
-        if (optionalPlan.isPresent()) {
-            TravelPlans plan = optionalPlan.get();
-            model.addAttribute("selectedPlan", plan);
-        } else {
-            // 여행 계획이 존재하지 않을 경우 에러 페이지로 리다이렉트
-            return "error_page";
-        }
-        // 데이터를 담은 모델을 뷰로 전달
-        return "test_product_detail";
+        return comments;
     }
 }

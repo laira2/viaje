@@ -2,7 +2,9 @@ package com.viaje.viaje.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.viaje.viaje.dto.CommentsDTO;
 import com.viaje.viaje.model.Board;
+import com.viaje.viaje.model.Comments;
 import com.viaje.viaje.model.TravelPlans;
 import com.viaje.viaje.model.Users;
 import com.viaje.viaje.service.BoardService;
@@ -23,11 +25,13 @@ public class BoardController {
 
     public final TravelPlansService travelPlansService;
     public final UserService userService;
+    public final CommentsController commentsController;
 
-    public BoardController(BoardService boardService, TravelPlansService travelPlansService, UserService userService) {
+    public BoardController(BoardService boardService, TravelPlansService travelPlansService, UserService userService, CommentsController commentsController) {
         this.boardService = boardService;
         this.travelPlansService = travelPlansService;
         this.userService = userService;
+        this.commentsController = commentsController;
     }
 
     @GetMapping("/products")
@@ -48,8 +52,10 @@ public class BoardController {
     public String productDetail(@PathVariable("id")Long id, HttpSession session, Model model){
         Users user = userService.findByEmail((String) session.getAttribute("user"));
         TravelPlans selectedPlan = travelPlansService.findByPlanId(id);
+        List<CommentsDTO> comments = commentsController.getComments(id);
         model.addAttribute("selectedPlan",selectedPlan);
         model.addAttribute("user", user);
+        model.addAttribute("comments");
         return "/test_product_detail";
     }
 
