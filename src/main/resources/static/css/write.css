@@ -149,6 +149,33 @@ textarea {
     margin-top: 10px;
 }
 
+.submit-btn {
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    transition: background-color 0.3s;
+}
+
+.submit-btn:hover {
+    background-color: #2980b9;
+}
+
+.button-group {
+    text-align: right;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 60px;
+    /*position: absolute; !* 부모 요소를 기준으로 절대 위치 지정 *!*/
+    /*bottom: -20px; !* 아래로 20px 이동 (원하는 만큼 조절 가능) *!*/
+    /*right: 20px; !* 오른쪽으로 20px 이동 (원하는 만큼 조절 가능) *!*/
+}
+
 .dropdown-content div {
     padding: 12px 16px;
     font-size: 14px;
@@ -181,3 +208,4 @@ footer {
     bottom: 0;
     width: 100%;
 }
+
