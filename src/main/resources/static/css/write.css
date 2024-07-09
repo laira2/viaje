@@ -209,3 +209,22 @@ footer {
     width: 100%;
 }
 
+/* 기존 스타일 생략 */
+
+.back-btn {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+}
+
+.back-btn img {
+    width: 40px; /* 이미지 크기를 원하는 크기로 조절 */
+    height: 40px; /* 이미지 크기를 원하는 크기로 조절 */
+}
+
+.footer p {
+    margin-top: 20px;
+}
