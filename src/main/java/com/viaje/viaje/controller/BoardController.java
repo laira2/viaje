@@ -62,7 +62,7 @@ public class BoardController {
     @GetMapping("/board/write")
     public String showWriteForm(Model model) {
         // 필요한 경우 모델에 데이터를 추가합니다.
-        return "test_file_upload";
+        return "write";
     }
 
 }

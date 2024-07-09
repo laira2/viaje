@@ -116,45 +116,20 @@ textarea {
 
 .currency-group {
     position: relative;
+    display: flex;
+    align-items: center;
 }
 
-.currency-group input[type="text"] {
-    width: calc(100% - 40px);
+.currency-group input[type="number"] {
+    flex: 1;
     padding-right: 40px;
 }
 
-.currency-group .dropdown-content {
+.currency-symbol {
     position: absolute;
-    right: 0;
-    top: 0;
-    width: 40px;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #ecf0f1;
-    border-left: 1px solid #bdc3c7;
-    cursor: pointer;
-}
-
-.button-group {
-    text-align: right;
-}
-
-.submit-btn {
-    background-color: #27ae60;
-    color: #fff;
-    border: none;
-    padding: 12px 20px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: 600;
-    transition: background-color 0.3s;
-}
-
-.submit-btn:hover {
-    background-color: #2ecc71;
+    right: 10px;
+    font-size: 18px;
+    color: #2d3e50;
 }
 
 .custom-select {
