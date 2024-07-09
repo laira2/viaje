@@ -51,7 +51,7 @@ body {
 #confirm-button {
   display: block;
   position: absolute; /* 절대 위치 설정 */
-  bottom: 10px; /* 부모 요소의 하단에서 10px 위로 */
+  bottom: 32px; /* 부모 요소의 하단에서 10px 위로 (이용약관 버튼 위치조정)*/
   left: 50%; /* 부모 요소의 가운데 정렬 */
   transform: translateX(-50%); /* 가운데 정렬을 위한 변환 */
   padding: 10px 20px;
