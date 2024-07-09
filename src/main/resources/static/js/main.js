@@ -1,16 +1,13 @@
-// main.js
-
 document.addEventListener('DOMContentLoaded', function() {
     const videoContainer = document.getElementById('background-video');
     const videoSource = document.getElementById('video-source');
     const scrollIcon = document.getElementById('scroll-icon');
     const hamburgerIcon = document.getElementById('hamburger-icon');
-    const menuContent = document.getElementById('menu-content');
-    const menuInnerContent = document.getElementById('menu-inner-content');
+    const menuOverlay = document.getElementById('menu-overlay');
 
     console.log('Main.js: Document is ready');
 
-    if (videoContainer && videoSource && scrollIcon && hamburgerIcon && menuContent && menuInnerContent) {
+    if (videoContainer && videoSource && scrollIcon && hamburgerIcon && menuOverlay) {
         console.log('Main.js: Elements found');
 
         // 비디오 파일 목록
@@ -45,30 +42,13 @@ document.addEventListener('DOMContentLoaded', function() {
         // 햄버거 아이콘 클릭 이벤트 추가
         hamburgerIcon.addEventListener('click', function(event) {
             event.stopPropagation();
-            fetch('/static/templates/menu.html')
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.text();
-                })
-                .then(data => {
-                    menuInnerContent.innerHTML = data;
-                    document.querySelector('.menu-container').classList.add('active');
-                    // 슬라이드 업 창 닫기
-                    const slideUpContent = document.getElementById('slide-up-content');
-                    if (slideUpContent) {
-                        slideUpContent.classList.remove('active');
-                    }
-                })
-                .catch(error => console.error('Error loading menu.html:', error));
+            menuOverlay.classList.toggle('active');
         });
 
-        // 오른쪽 아무곳이나 클릭하면 메뉴 숨기기
-        document.body.addEventListener('click', function(event) {
-            const menuContainer = document.querySelector('.menu-container');
-            if (menuContainer && menuContainer.classList.contains('active') && !menuContent.contains(event.target)) {
-                menuContainer.classList.remove('active');
+        // 메뉴 외부 클릭 시 닫기
+        document.addEventListener('click', function(event) {
+            if (!menuOverlay.contains(event.target) && event.target !== hamburgerIcon) {
+                menuOverlay.classList.remove('active');
             }
         });
 

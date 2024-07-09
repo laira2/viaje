@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>나의 경험을 너도 해봐!</title>
   <link rel="stylesheet" href="/static/css/main.css">
+  <link rel="stylesheet" href="/static/css/menu.css">
 </head>
 <body>
 <div class="video-container">
@@ -19,6 +20,41 @@
 <button id="bounce-button">
   <img id="scroll-icon" src="/static/images/book.png" alt="Scroll Down" class="scroll-icon">
 </button>
+<div id="menu-overlay">
+  <div class="menu-container" id="menuContainer">
+    <h1 class="team-name">Viaje</h1>
+    <div id="guestMenu" th:if="${!isLoggedIn}">
+      <div class="menu-item login">
+        <a href="login" >로그인</a>
+      </div>
+      <div class="menu-item join">
+        <a href="yac">회원 가입</a> <!-- 변경된 부분 -->
+      </div>
+    </div>
+    <div id="userMenu" th:if="${isLoggedIn}">
+      <div class="menu-item mypage">
+        <a href="mypage">마이페이지</a>
+      </div>
+      <div class="menu-item cart">
+        <a href="cart">장바구니</a>
+      </div>
+      <div class="menu-item products">
+        <a href="products">상품</a>
+      </div>
+      <div class="menu-item board">
+        <a href="board.html">게시판</a>
+      </div>
+    </div>
+    <div class="bottom-container">
+      <div class="menu-item small admin">
+        <a href="admin.html">관리자</a>
+      </div>
+      <div class="menu-item small logout" th:if="${isLoggedIn}">
+        <a href="/logout">로그아웃</a>
+      </div>
+    </div>
+  </div>
+</div>
 <div id="slide-up-content">
   <div id="slide-up-inner-content">
     <!-- start.html 파일 내용이 여기 로드됨. -->
@@ -27,11 +63,6 @@
 <!-- 햄버거 메뉴 아이콘 추가 -->
 <div class="hamburger-menu">
   <img id="hamburger-icon" src="/static/images/hamburger.png" alt="Menu" class="hamburger-icon">
-</div>
-<div id="menu-content" class="menu-content">
-  <div id="menu-inner-content">
-    <!-- menu.html 파일 내용이 여기 로드됨. -->
-  </div>
 </div>
 <script src="/static/js/start.js"></script>
 <script src="/static/js/main.js"></script> <!-- main.js 파일 추가 -->
