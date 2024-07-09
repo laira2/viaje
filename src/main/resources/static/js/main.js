@@ -4,10 +4,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const scrollIcon = document.getElementById('scroll-icon');
     const hamburgerIcon = document.getElementById('hamburger-icon');
     const menuOverlay = document.getElementById('menu-overlay');
+    const slideUpContent = document.getElementById('slide-up-content');
 
     console.log('Main.js: Document is ready');
 
-    if (videoContainer && videoSource && scrollIcon && hamburgerIcon && menuOverlay) {
+    if (videoContainer && videoSource && scrollIcon && hamburgerIcon && menuOverlay && slideUpContent) {
         console.log('Main.js: Elements found');
 
         // 비디오 파일 목록
@@ -35,20 +36,39 @@ document.addEventListener('DOMContentLoaded', function() {
         // 비디오 소스 설정
         videoSource.src = randomVideo;
         videoContainer.load();
+        videoContainer.play().catch(error => console.error("Video play failed:", error));
 
         // 이미지 소스 설정
         scrollIcon.src = randomImage;
 
-        // 햄버거 아이콘 클릭 이벤트 추가
+        // 햄버거 아이콘 클릭 이벤트
         hamburgerIcon.addEventListener('click', function(event) {
             event.stopPropagation();
             menuOverlay.classList.toggle('active');
+            if (slideUpContent.classList.contains('active')) {
+                slideUpContent.classList.remove('active');
+            }
+        });
+
+        // 스크롤 아이콘 클릭 이벤트
+        scrollIcon.addEventListener('click', function() {
+            slideUpContent.classList.toggle('active');
+            if (menuOverlay.classList.contains('active')) {
+                menuOverlay.classList.remove('active');
+            }
         });
 
         // 메뉴 외부 클릭 시 닫기
         document.addEventListener('click', function(event) {
             if (!menuOverlay.contains(event.target) && event.target !== hamburgerIcon) {
                 menuOverlay.classList.remove('active');
+            }
+        });
+
+        // 하단 페이지 외부 클릭 시 닫기
+        document.addEventListener('click', function(event) {
+            if (!slideUpContent.contains(event.target) && event.target !== scrollIcon) {
+                slideUpContent.classList.remove('active');
             }
         });
 
