@@ -75,10 +75,11 @@ public class CommentsController {
     }
 
     // planId값을 가진 모든 comments 불러오기
-    public List<CommentsDTO> getComments(@PathVariable Long planId) {
+    public List<Comments> getComments(@PathVariable Long planId) {
 
         // 주어진 planId에 해당하는 댓글 목록 호출
-        List<CommentsDTO> comments = commentsService.getCommentsByPlanId(planId);
+        List<Comments> comments = commentsService.getCommentsByPlanId(planId);
+        logger.info("comments list : {}", commentsService.getCommentsByPlanId(planId));
 
         return comments;
     }

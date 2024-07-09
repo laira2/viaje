@@ -52,10 +52,10 @@ public class BoardController {
     public String productDetail(@PathVariable("id")Long id, HttpSession session, Model model){
         Users user = userService.findByEmail((String) session.getAttribute("user"));
         TravelPlans selectedPlan = travelPlansService.findByPlanId(id);
-        List<CommentsDTO> comments = commentsController.getComments(id);
+        List<Comments> comments = commentsController.getComments(id);
         model.addAttribute("selectedPlan",selectedPlan);
         model.addAttribute("user", user);
-        model.addAttribute("comments");
+        model.addAttribute("comments",comments);
         return "/test_product_detail";
     }
 
