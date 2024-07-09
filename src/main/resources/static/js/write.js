@@ -77,40 +77,78 @@ document.addEventListener('DOMContentLoaded', function() {
         { code: 'RU', name: '러시아', flag: '🇷🇺' },
     ];
 
-    const countrySearch = document.getElementById('countrySearch');
-    const countryDropdown = document.getElementById('countryDropdown');
-    const selectedCountry = document.getElementById('selectedCountry');
+    const tags = [
+        { code: 'nature', name: '자연' },
+        { code: 'city', name: '도시' },
+        { code: 'culture', name: '문화' },
+        { code: 'relax', name: '휴식' },
+        { code: 'adventure', name: '모험' }
+        // 더 많은 태그를 추가할 수 있습니다
+    ];
 
-    function renderCountries(countriesArr) {
-        countryDropdown.innerHTML = '';
-        countriesArr.forEach(country => {
-            const div = document.createElement('div');
-            div.innerHTML = `<span class="country-flag">${country.flag}</span> ${country.name}`;
-            div.addEventListener('click', () => {
-                selectedCountry.value = country.code;
-                countrySearch.value = `${country.flag} ${country.name}`;
-                countryDropdown.style.display = 'none';
-            });
-            countryDropdown.appendChild(div);
+    const currencies = [
+        { code: 'KRW', name: '원화' },
+        { code: 'USD', name: '달러' },
+        { code: 'JPY', name: '엔화' },
+        { code: 'EUR', name: '유로' },
+        { code: 'CNY', name: '위안화' }
+        // 더 많은 화폐 단위를 추가할 수 있습니다
+    ];
+
+    function setupDropdown(inputId, dropdownId, items) {
+        const input = document.getElementById(inputId);
+        const dropdown = document.getElementById(dropdownId);
+        const hiddenInput = document.getElementById(`selected${capitalizeFirstLetter(inputId)}`);
+
+        input.addEventListener('focus', () => {
+            renderDropdown(items, dropdown, hiddenInput, input);
+            dropdown.style.display = 'block';
+        });
+
+        input.addEventListener('input', () => {
+            const filtered = items.filter(item =>
+                item.name.toLowerCase().includes(input.value.toLowerCase())
+            );
+            renderDropdown(filtered, dropdown, hiddenInput, input);
+            dropdown.style.display = 'block';
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!input.contains(e.target) && !dropdown.contains(e.target)) {
+                dropdown.style.display = 'none';
+            }
         });
     }
 
-    countrySearch.addEventListener('focus', () => {
-        renderCountries(countries);
-        countryDropdown.style.display = 'block';
-    });
+    function renderDropdown(items, dropdown, hiddenInput, input) {
+        dropdown.innerHTML = '';
+        items.forEach(item => {
+            const div = document.createElement('div');
+            div.innerHTML = item.flag ? `<span class="country-flag">${item.flag}</span> ${item.name}` : item.name;
+            div.addEventListener('click', () => {
+                hiddenInput.value = item.code;
+                input.value = item.name;
+                dropdown.style.display = 'none';
+            });
+            dropdown.appendChild(div);
+        });
+    }
 
-    countrySearch.addEventListener('input', () => {
-        const filtered = countries.filter(country =>
-            country.name.toLowerCase().includes(countrySearch.value.toLowerCase())
-        );
-        renderCountries(filtered);
-        countryDropdown.style.display = 'block';
-    });
+    function populateSelect(selectId, items) {
+        const select = document.getElementById(selectId);
+        items.forEach(item => {
+            const option = document.createElement('option');
+            option.value = item.code;
+            option.textContent = item.name;
+            select.appendChild(option);
+        });
+    }
 
-    document.addEventListener('click', (e) => {
-        if (!countrySearch.contains(e.target) && !countryDropdown.contains(e.target)) {
-            countryDropdown.style.display = 'none';
-        }
-    });
+    function capitalizeFirstLetter(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
+    setupDropdown('countrySearch', 'countryDropdown', countries);
+    setupDropdown('tagsSearch', 'tagsDropdown', tags);
+    populateSelect('currency', currencies);
 });

@@ -10,10 +10,15 @@
     <link rel="stylesheet" href="/static/css/write.css">
 </head>
 <body>
+<div class="video-container">
+    <video autoplay muted loop id="background-video">
+        <source src="/static/videos/boardVideo/board.mp4" type="video/mp4">
+    </video>
+</div>
 <div class="container">
     <div class="write-container">
         <div class="write-header">
-            <h1>🌟 새로운 여행 스토리 만들기</h1>
+            <h1>🌿 새로운 여행 스토리 만들기</h1>
             <p>당신의 특별한 여행 경험을 공유해주세요!</p>
         </div>
         <div class="write-content">
@@ -33,12 +38,40 @@
                     <input type="hidden" id="selectedCountry" name="country" required>
                 </div>
                 <div class="form-group">
+                    <label for="startDate">📅 여행 시작일</label>
+                    <input type="date" id="startDate" name="startDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="endDate">📅 여행 종료일</label>
+                    <input type="date" id="endDate" name="endDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="cost">💵 총 여행 경비</label>
+                    <input type="number" id="cost" name="cost" required placeholder="총 여행 경비를 입력해주세요">
+                </div>
+                <div class="form-group">
+                    <label for="tagsSearch">🏷️ 태그 옵션</label>
+                    <div class="custom-select">
+                        <input type="text" id="tagsSearch" placeholder="태그 검색...">
+                        <div id="tagsDropdown" class="dropdown-content">
+                            <!-- 태그 목록은 JavaScript로 동적으로 추가됩니다 -->
+                        </div>
+                    </div>
+                    <input type="hidden" id="selectedTags" name="tags" required>
+                </div>
+                <div class="form-group">
                     <label for="content">✏️ 여행 이야기</label>
                     <textarea id="content" name="content" rows="10" required placeholder="당신의 특별했던 순간들을 자세히 들려주세요"></textarea>
                 </div>
-                <div class="form-group">
-                    <label for="image">📸 여행 사진</label>
-                    <input type="file" id="image" name="image" accept="image/*">
+                <div class="form-group file-group">
+                    <div class="file-input">
+                        <label for="image">📸 여행 사진</label>
+                        <input type="file" id="image" name="image" accept="image/*">
+                    </div>
+                    <div class="file-input">
+                        <label for="documentImage">📄 여행 증명사진</label>
+                        <input type="file" id="documentImage" name="documentImage" accept="image/*">
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="travelPlan">🗺️ 연결된 여행 계획</label>
@@ -47,43 +80,11 @@
                         <!-- 여행 계획 목록 동적 추가 -->
                     </select>
                 </div>
-                <div class="form-group">
+                <div class="form-group button-group">
                     <button type="submit" class="submit-btn">여행 스토리 공유하기 <i class="fas fa-paper-plane"></i></button>
                 </div>
             </form>
         </div>
-    </div>
-
-    <div class="plan-details" th:if="${selectedPlan}">
-        <h2>🏞️ 여행 계획 상세</h2>
-        <h3 th:text="${selectedPlan.title}">여행 계획 제목</h3>
-        <p><strong>🌍 국가:</strong> <span th:text="${selectedPlan.nation}"></span></p>
-        <p><strong>✍️ 작성자:</strong> <span th:text="${selectedPlan.user.userName}"></span></p>
-        <p><strong>📅 작성일:</strong> <span th:text="${#temporals.format(selectedPlan.createdAt, 'yyyy-MM-dd HH:mm')}"></span></p>
-        <p><strong>🔄 최종 수정일:</strong> <span th:text="${#temporals.format(selectedPlan.updatedAt, 'yyyy-MM-dd HH:mm')}"></span></p>
-        <p><strong>💼 판매 수:</strong> <span th:text="${selectedPlan.sold}"></span></p>
-        <p><strong>🏷️ 상태:</strong> <span th:text="${selectedPlan.status}"></span></p>
-
-        <div class="plan-content">
-            <h4>📝 상세 내용</h4>
-            <p th:text="${selectedPlan.detail}"></p>
-        </div>
-
-        <div class="plan-image">
-            <h4>🖼️ 첨부 이미지</h4>
-            <img th:src="${selectedPlan.filePath}" th:alt="${selectedPlan.fileName}">
-        </div>
-
-        <button class="cart-btn">🛒 카트에 추가</button>
-
-        <div class="plan-actions">
-            <button class="edit-btn">✏️ 수정</button>
-            <button class="delete-btn">🗑️ 삭제</button>
-        </div>
-    </div>
-
-    <div class="no-plan" th:unless="${selectedPlan}">
-        <p>😢 선택된 여행 계획이 없습니다.</p>
     </div>
 </div>
 
