@@ -37,11 +37,10 @@ public class LoginController {
             session.setAttribute("user", userDTO.getEmail());
             session.setAttribute("userName", userDTO.getUserName());
             model.addAttribute("isLoggedIn", true);
-//            return ResponseEntity.ok("로그인 성공");
             return "main";
         } else {
-            return "/loginPage";
-//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인 실패: 이메일 또는 비밀번호가 올바르지 않습니다.");
+            return "/login";
+
         }
     }
 

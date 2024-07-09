@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>여행 계획 상세</title> <!-- 필요한 CSS 파일 연결 -->
+    <title>여행 계획 상세</title>
+    <!-- 필요한 CSS 파일 연결 -->
 </head>
 <body>
 <header>
@@ -29,9 +30,15 @@
             <div th:utext="${selectedPlan.detail}"></div>
         </section>
 
-        <section class="plan-image">
+        <section class="plan-images">
             <h3>첨부 이미지</h3>
-            <img th:src="${selectedPlan.filePath}" th:alt="${selectedPlan.fileName}">
+            <div th:if="${not #lists.isEmpty(selectedPlan.imagePaths)}">
+                <div th:each="imagePath : ${selectedPlan.imagePaths}">
+                    <img th:src="@{${imagePath}}" th:alt="${imagePath}">
+                </div>
+
+            </div>
+            <p th:if="${#lists.isEmpty(selectedPlan.imagePaths)}">첨부된 이미지가 없습니다.</p>
         </section>
 
         <!-- 여기에 추가 기능 (예: 구매 버튼, 댓글 섹션 등)을 넣을 수 있습니다 -->
@@ -76,9 +83,11 @@
                         <input type="hidden" name="_method" value="delete">
                         <button type="submit">삭제</button>
                     </form>
+
                 </div>
             </div>
         </div>
+
 
 <!--        <div>-->
 <!--            <h3>디버그 데이터:</h3>-->
@@ -95,6 +104,10 @@
 <!--            <textarea id="editContent" rows="4"></textarea>-->
 <!--            <button type="submit">수정 완료</button>-->
 <!--        </form>-->
+
+        <!-- 여기에 댓글 추가 폼과 수정 폼을 추가할 수 있습니다 -->
+
+
     </article>
 
     <div th:unless="${selectedPlan}">
@@ -107,6 +120,5 @@
     <p>&copy; 2023 여행 계획 서비스. All rights reserved.</p>
 </footer>
 
-<script src="/js/script.js"></script> <!-- 필요한 JavaScript 파일 연결 -->
 </body>
 </html>
