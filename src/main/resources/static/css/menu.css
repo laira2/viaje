@@ -12,7 +12,7 @@ body {
 #menu-overlay {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
     text-align: center;
     background-color: rgba(255, 255, 255, 0.8);
@@ -71,6 +71,10 @@ body {
     width: 100%;
     margin-top: auto;
     padding-top: 20px;
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    right: 0;
 }
 
 .menu-item.small {
@@ -87,10 +91,12 @@ body {
 
 .menu-item.small.admin {
     text-align: left;
+    margin-left: 20px;
 }
 
 .menu-item.small.logout {
     text-align: right;
+    margin-right: 20px;
 }
 
 .logged-in,

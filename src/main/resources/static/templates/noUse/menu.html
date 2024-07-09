@@ -11,10 +11,10 @@
     <h1 class="team-name">Viaje</h1>
     <div id="guestMenu" th:if="${!isLoggedIn}">
         <div class="menu-item login">
-            <a href="login" >로그인</a>
+            <a href="login">로그인</a>
         </div>
         <div class="menu-item join">
-            <a href="yac">회원 가입</a> <!-- 변경된 부분 -->
+            <a href="yac">회원 가입</a>
         </div>
     </div>
     <div id="userMenu" th:if="${isLoggedIn}">
@@ -28,19 +28,17 @@
             <a href="products">상품</a>
         </div>
         <div class="menu-item board">
-            <a href="../board.html">게시판</a>
+            <a href="board.html">게시판</a>
         </div>
     </div>
     <div class="bottom-container">
         <div class="menu-item small admin">
-            <a href="../admin.html">관리자</a>
+            <a href="admin.html">관리자</a>
         </div>
         <div class="menu-item small logout" th:if="${isLoggedIn}">
             <a href="/logout">로그아웃</a>
         </div>
     </div>
 </div>
-
-<script src="/static/js/menu.js"></script>
 </body>
 </html>
