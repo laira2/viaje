@@ -20,7 +20,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.*;
 import java.util.ArrayList;
+
+import java.nio.file.AccessDeniedException;
+import java.time.temporal.ChronoUnit;
+import java.util.HashMap;
+
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -50,6 +56,7 @@ public class TravelPlansService {
         if (user == null) {
             throw new IllegalArgumentException("User is required to create a travel plan.");
         }
+
         List<String> planFilePaths = new ArrayList<>();
         for (MultipartFile planImage : tpDTO.getPlanImages()) {
             String planFileName = fileUploadUtil.saveFile(planImage, true);
@@ -64,7 +71,12 @@ public class TravelPlansService {
             certFilePaths.add(certFilePath);
         }
 
+        Map<String,Number> durations = calculateDurationAndPrice(tpDTO);
+
         TravelPlans travelPlans = TravelPlans.builder()
+                .nights((Long) durations.get("nights"))
+                .days((Long) durations.get("days"))
+                .price((Integer) durations.get("price"))
                 .startDate(tpDTO.getStartDate())
                 .endDate(tpDTO.getEndDate())
                 .nation(tpDTO.getNation())
@@ -126,6 +138,34 @@ public class TravelPlansService {
         return "plan deleted";
     }
 
+
+    private Map<String, Number> calculateDurationAndPrice(TravelPlansDTO tpDTO) {
+        Map<String, Number> durations = new HashMap<>();
+        if (tpDTO.getStartDate() != null && tpDTO.getEndDate() != null) {
+            long nights = ChronoUnit.DAYS.between(tpDTO.getStartDate(), tpDTO.getEndDate());
+            long days = nights + 1;
+            int price;
+            if (nights > 10) {
+                price = 5000;
+            } else if (nights > 7) {
+                price = 5000;
+            } else if (nights > 5) {
+                price = 4000;
+            } else if (nights > 3) {
+                price = 3000;
+            } else {
+                price = 1000;
+            }
+
+            durations.put("nights", nights);
+            durations.put("days", days);
+            durations.put("price", price);
+
+            return durations;
+        }
+
+        return null; // 또는 예외 처리
+    }
 
 
 
