@@ -1,12 +1,16 @@
 package com.viaje.viaje.service;
 
+import com.viaje.viaje.dto.PlanCertificationDTO;
 import com.viaje.viaje.dto.TravelPlansDTO;
+import com.viaje.viaje.model.PlanCertification;
 import com.viaje.viaje.model.TravelPlans;
 import com.viaje.viaje.model.Users;
+import com.viaje.viaje.repository.PlanCertificationRepository;
 import com.viaje.viaje.repository.TravelPlansRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -15,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -23,29 +28,41 @@ import java.util.UUID;
 public class TravelPlansService {
 
 
-    @Value("${file.upload-dir}")
-    private String uploadDir;
+    private final FileUploadUtil fileUploadUtil;
     private final TravelPlansRepository travelPlansRepository;
 
     private final BoardService boardService;
     private final UserService userService;
     private final TagsService tagsService;
-
-    public TravelPlansService(TravelPlansRepository travelPlansRepository, BoardService boardService, UserService userService, TagsService tagsService) {
+    private final PlanCertificationRepository planCertificationRepository;
+    public TravelPlansService(FileUploadUtil fileUploadUtil, TravelPlansRepository travelPlansRepository, BoardService boardService, UserService userService, TagsService tagsService, PlanCertificationRepository planCertificationRepository) {
         this.travelPlansRepository = travelPlansRepository;
         this.boardService = boardService;
         this.userService = userService;
         this.tagsService = tagsService;
+        this.planCertificationRepository = planCertificationRepository;
+        this.fileUploadUtil=fileUploadUtil;
     }
     @Transactional
-    public TravelPlans createPlan(HttpSession session,TravelPlansDTO tpDTO, MultipartFile file) throws IOException {
+    public TravelPlans createPlan(HttpSession session, TravelPlansDTO tpDTO, PlanCertificationDTO pcDTO) throws IOException {
         String user_email = (String) session.getAttribute("user");
         Users user = userService.findByEmail(user_email);
         if (user == null) {
             throw new IllegalArgumentException("User is required to create a travel plan.");
         }
-        String fileName = saveFile(file,user);
-        String filePath = "/uploads/" + fileName;
+        List<String> planFilePaths = new ArrayList<>();
+        for (MultipartFile planImage : tpDTO.getPlanImages()) {
+            String planFileName = fileUploadUtil.saveFile(planImage, true);
+            String planFilePath = fileUploadUtil.getPlanUploadDir() + "/" + planFileName;
+            planFilePaths.add(planFilePath);
+        }
+
+        List<String> certFilePaths = new ArrayList<>();
+        for (MultipartFile certImage : pcDTO.getCertImages()) {
+            String certFileName = fileUploadUtil.saveFile(certImage, false);
+            String certFilePath = fileUploadUtil.getCertUploadDir() + "/" + certFileName;
+            certFilePaths.add(certFilePath);
+        }
 
         TravelPlans travelPlans = TravelPlans.builder()
                 .startDate(tpDTO.getStartDate())
@@ -53,34 +70,24 @@ public class TravelPlansService {
                 .nation(tpDTO.getNation())
                 .title(tpDTO.getTitle())
                 .detail(tpDTO.getDetail())
-                .fileName(fileName)
-                .filePath(filePath)
+                .imagePaths(planFilePaths)
                 .totalBudget(tpDTO.getTotalBudget())
                 .user(user)
                 .build();
 
-        travelPlansRepository.save(travelPlans);
+        TravelPlans savedPlan = travelPlansRepository.save(travelPlans);
+
+        PlanCertification planCertification = PlanCertification.builder()
+                .travelPlans(savedPlan)
+                .certImagePaths(certFilePaths)
+                .build();
+        planCertificationRepository.save(planCertification);
+
         tagsService.insertPlanTag(session, travelPlans);
-        boardService.postPlan(user,travelPlans);
+        boardService.postPlan(user, travelPlans);
         return travelPlans;
     }
-    private String saveFile(MultipartFile file, Users user) throws IOException {
-        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-        String uniqueFileName = user.getUuid()+ "_" + fileName;
-        Path uploadPath = Paths.get(uploadDir);
 
-        if (!Files.exists(uploadPath)) {
-            Files.createDirectories(uploadPath);
-        }
-
-        try (InputStream inputStream = file.getInputStream()) {
-            Path filePath = uploadPath.resolve(uniqueFileName);
-            Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
-            return uniqueFileName;
-        } catch (IOException ioe) {
-            throw new IOException("Could not save file: " + fileName, ioe);
-        }
-    }
     public TravelPlans findByPlanId(Long planId){
         TravelPlans plan = travelPlansRepository.findById(planId)
                 .orElseThrow(() -> new EntityNotFoundException("TravelPlan not found"));
