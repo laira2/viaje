@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 @Data
@@ -68,7 +69,8 @@ public class Comments {
                 this.content,
                 this.parentComment != null ? this.parentComment.getCommentId() : null,
                 this.createdAt,
-                this.updatedAt
-        );
+                this.updatedAt,
+                this.user.getNickname(), // Users 객체에서 nickname 가져오기
+                this.createdAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))); // 문자열로 변환
     }
 }

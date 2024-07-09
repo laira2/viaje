@@ -44,65 +44,201 @@
             </form>
         </section>
 
-        <form action="/comments/add" method="post">
-            <!-- Hidden input field to pass planId -->
-            <input type="hidden" id="planId" name="planId" th:value="${selectedPlan.planId}"> <!-- 이 부분을 서버에서 동적으로 처리하도록 변경 -->
+        <!-- 댓글 섹션 -->
+        <div id="commentsSection">
+            <!-- 댓글이 존재하는 경우에만 출력 -->
+            <div th:each="comment : ${comments}">
+                <p><strong th:text="${comment.nickname}"></strong>: <span th:text="${comment.content}"></span></p>
+                <p th:text="${#temporals.format(comment.createdAt, 'yyyy-MM-dd HH:mm')}"></p>
 
-            <label for="userId">User ID:</label>
-            <input type="text" id="userId" name="userId" th:value="${user.userId}"><br><br>
+                <!-- 수정 버튼을 로그인한 사용자와 댓글 작성자가 일치할 때만 보이도록 설정 -->
+                <div th:if="${user != null and user.nickname == comment.nickname}">
+                    <button onclick="showEditForm('${comment.commentId}', '${comment.content.replace("'", "\\'")}')">
+                    수정
+                    </button>
+<!--                    <button th:if="${user != null and user.nickname == comment.nickname}" onclick="deleteComment('${comment.commentId}')">-->
+<!--                        삭제-->
+<!--                    </button>-->
+                </div>
+            </div>
+        </div>
 
+        <div>
+            <h3>디버그 데이터:</h3>
+            <p th:text="'User: ' + ${user.nickname}"></p>
+<!--            <p th:text="'Comments: ' + ${comment.nickname}"></p>-->
+            <h4>디버그 원본 데이터</h4>
+            <p th:text="'User: ' + ${user}"></p>
+            <p th:text="'Comments: ' + ${comment}"></p>
+        </div>
+
+        <!-- 댓글 추가 폼 -->
+        <form id="commentForm" method="post">
+            <input type="hidden" id="planId" name="planId" th:value="${selectedPlan.planId}">
+            <!-- 현재 로그인한 사용자의 정보를 출력 -->
+            <input type="hidden" id="userId" name="userId" th:value="${user.userId}" readonly>
+            <input type="hidden" id="nickname" name="nickname" th:value="${user.nickname}" readonly>
             <label for="comments">Content:</label><br>
             <textarea id="comments" name="comments" rows="4" cols="50" required></textarea><br><br>
-
             <button type="submit">Submit Comment</button>
         </form>
+
+        <!-- 댓글 수정 폼 -->
+        <form id="editCommentForm" style="display:none;" method="post">
+            <input type="hidden" id="editCommentId">
+            <textarea id="editContent" rows="4"></textarea>
+            <button type="submit">수정 완료</button>
+        </form>
+
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script>
-            // 댓글 등록을 위한 AJAX 처리
-            $('#commentForm').submit(function(event) {
-                event.preventDefault(); // 기본 폼 제출 방지
+            $(document).ready(function() {
+                var planId = $('#planId').val(); // 페이지에 있는 planId를 가져옵니다.
+                var commentsGot = []; // 댓글을 저장할 배열 선언
 
-                var formData = $(this).serialize(); // 폼 데이터 직렬화
-
-                $.ajax({ 
-                    type: 'POST',
-                    url: '/comments/add', // 적절한 엔드포인트로 수정 필요
-                    data: formData,
-                    success: function(response) {
-                        // 성공적으로 등록되면, 새로운 댓글을 목록에 추가하는 로직 구현
-                        var newCommentHtml = '<div class="comment">' + response.content + '</div>';
-                        $('#comments').append(newCommentHtml);
-                        $('#comment').val(''); // 입력창 초기화
-                    },
-                    error: function(error) {
-                        console.error('댓글 등록 실패:', error);
-                        // 실패 시 사용자에게 알림을 추가할 수 있음
-                    }
-                });
-            });
-
-            // 대댓글 등록을 위한 AJAX 처리 (예시)
-            $(document).on('submit', '.replyForm', function(event) {
-                event.preventDefault(); // 기본 폼 제출 방지
-
-                var formData = $(this).serialize(); // 폼 데이터 직렬화
-
+                // 댓글 가져오기
                 $.ajax({
-                    type: 'POST',
-                    url: '/api/comments/reply', // 적절한 엔드포인트로 수정 필요
-                    data: formData,
-                    success: function(response) {
-                        // 성공적으로 등록되면, 새로운 대댓글을 해당 댓글 하단에 추가하는 로직 구현
-                        var newReplyHtml = '<div class="reply">' + response.content + '</div>';
-                        $(event.target).closest('.comment').find('.replies').append(newReplyHtml);
-                        $(event.target).find('.replyText').val(''); // 입력창 초기화
-                    },
-                    error: function(error) {
-                        console.error('대댓글 등록 실패:', error);
-                        // 실패 시 사용자에게 알림을 추가할 수 있음
-                    }
-                });
+    type: 'GET',
+    url: '/comments/plan/' + planId,
+    success: function(response) {
+        response.forEach(function(comment) {
+            // LocalDateTime 배열을 JavaScript의 Date 객체로 변환합니다.
+            var createdAt = new Date(comment.createdAt[0], comment.createdAt[1] - 1, comment.createdAt[2], comment.createdAt[3], comment.createdAt[4], comment.createdAt[5]);
+            var updatedAt = new Date(comment.updatedAt[0], comment.updatedAt[1] - 1, comment.updatedAt[2], comment.updatedAt[3], comment.updatedAt[4], comment.updatedAt[5]);
+
+            // 원하는 형식으로 날짜를 출력합니다.
+            var formattedCreatedAt = createdAt.getFullYear() + '-' +
+                ('0' + (createdAt.getMonth() + 1)).slice(-2) + '-' +
+                ('0' + createdAt.getDate()).slice(-2) + ' ' +
+                ('0' + createdAt.getHours()).slice(-2) + ':' +
+                ('0' + createdAt.getMinutes()).slice(-2);
+
+            // 원하는 형식으로 날짜를 출력합니다.
+            var formattedUpdatedAt = updatedAt.getFullYear() + '-' +
+                ('0' + (updatedAt.getMonth() + 1)).slice(-2) + '-' +
+                ('0' + updatedAt.getDate()).slice(-2) + ' ' +
+                ('0' + updatedAt.getHours()).slice(-2) + ':' +
+                ('0' + updatedAt.getMinutes()).slice(-2);
+
+            // 댓글 HTML 생성
+            var userNickname = document.getElementById("nickname").value;
+            var newCommentHtml = '<div class="comment">' +
+                '<p><strong>' + comment.nickname + '</strong>: ' + comment.content + '</p>' +
+                '<p>' + formattedCreatedAt + '---' + formattedUpdatedAt + '</p>';
+
+            if (userNickname != null && userNickname == comment.nickname) {
+                newCommentHtml += '<th:block>' +
+                    '<button onclick="showEditForm(' + comment.commentId + ', \'' + comment.content + '\')">수정</button>' +
+                    '</th:block>';
+            }
+
+            newCommentHtml += '</div>';
+
+            // 댓글 섹션에 추가
+            $('#commentsSection').append(newCommentHtml);
+
+            // 배열에 댓글 추가
+            commentsGot.push(comment);
             });
+
+            // commentsGot 배열을 전역 변수로 사용할 수 있습니다.
+            console.log('commentsGot 배열:', commentsGot);
+            },
+            error: function(error) {
+                console.error('댓글 가져오기 실패:', error);
+                }
+            });
+
+                // 댓글 추가
+                $('#commentForm').submit(function(event) {
+                    event.preventDefault();
+                    var formData = $(this).serialize();
+                    $.ajax({
+                        type: 'POST',
+                        url: '/comments/add',
+                        data: formData,
+                        success: function(response) {
+                            // LocalDateTime 배열을 JavaScript의 Date 객체로 변환합니다.
+                            var createdAt = new Date(response.createdAt[0], response.createdAt[1] - 1, response.createdAt[2], response.createdAt[3], response.createdAt[4], response.createdAt[5]);
+
+                            // 원하는 형식으로 날짜를 출력합니다.
+                            var formattedCreatedAt = createdAt.getFullYear() + '-' +
+                                ('0' + (createdAt.getMonth() + 1)).slice(-2) + '-' +
+                                ('0' + createdAt.getDate()).slice(-2) + ' ' +
+                                ('0' + createdAt.getHours()).slice(-2) + ':' +
+                                ('0' + createdAt.getMinutes()).slice(-2);
+
+                            // 새로운 댓글 HTML 생성
+                            //var newCommentHtml = '<div class="comment">' +
+                                //'<p><strong>' + response.nickname + '</strong>: ' + response.content + '</p>' +
+                                //'<p>' + formattedCreatedAt + '</p>' +
+                                //'</div>';
+                                location.reload();
+
+                            // 새로운 댓글을 댓글 섹션에 추가
+                            $('#commentsSection').append(newCommentHtml);
+
+                            // 댓글 입력란을 비움
+                            $('#comments').val('');
+
+                            // 배열에 새로운 댓글 추가
+                            commentsGot.push(response);
+                            console.log('commentsGot 배열:', commentsGot);
+                        },
+                        error: function(error) {
+                            console.error('댓글 등록 실패:', error);
+                        }
+                    });
+                });
+
+                // 댓글 수정
+                $("#editCommentForm").on("submit", function (e) {
+                    e.preventDefault();
+
+                    var commentId = $("#editCommentId").val();
+                    var content = $("#editContent").val();
+
+                    $.ajax({
+                        url: "/comments/" + commentId,
+                        type: "PUT",
+                        data: { content: content },
+                        success: function (data) {
+                            alert("댓글이 수정되었습니다.");
+                            location.reload(); // 페이지를 새로고침하여 업데이트된 댓글을 표시
+                        }
+                    });
+                });
+
+                // 수정 폼 초기화
+                $('#editCommentForm').hide();
+
+                // 수정 폼을 보이도록 하는 함수
+                window.showEditForm = function(commentId, content) {
+                    console.log('showEditForm 호출됨');
+                    // 수정 폼에 댓글 ID와 내용을 설정
+                    $('#editCommentId').val(commentId);
+                    $('#editContent').val(content);
+
+                    // 수정 폼을 보이도록 변경
+                    $('#editCommentForm').show();
+                    };
+                });
+            // 댓글삭제
+            function deleteComment(commentId) {
+                if (confirm('정말로 이 댓글을 삭제하시겠습니까?')) {
+                    $.ajax({
+                        url: '/comments/' + commentId,
+                        type: 'DELETE',
+                        success: function(response) {
+                            alert('댓글이 삭제되었습니다.');
+                            location.reload(); // 페이지 새로고침
+                        },
+                        error: function(error) {
+                            console.error('댓글 삭제 실패:', error);
+                        }
+                    });
+                }
+            }
         </script>
     </article>
 
