@@ -67,7 +67,7 @@ public class CommentsService {
     public CommentsDTO updateComment(Long commentId, String content) {
         Comments comment = commentsRepository.findById(commentId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid comment ID"));
-        comment.update(content);
+        comment.setContent(content);
         comment.setUpdatedAt(LocalDateTime.now()); // 업데이트 시간을 현재 시간으로 설정
         commentsRepository.save(comment);
         return comment.toDTO();
