@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Data
 @Builder
 public class Orders {
 

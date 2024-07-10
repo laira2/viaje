@@ -27,16 +27,12 @@ public class OrdersController {
     public String orderPage (HttpSession session, Model model){
         List<OrderItems> newOrderList = ordersService.createOrderItems(session,model);
         model.addAttribute("orderItemList", newOrderList);
-        double totalPrice = newOrderList.stream()
-                .mapToDouble(item -> item.getTravelPlans().getPrice() * item.getQuantity())
-                .sum();
-        model.addAttribute("total_price", totalPrice);
-        return "/test_order";
+        return "/orderPage";
     }
 
     @PostMapping("/order/create")
     public String createOrders(HttpSession session, Model model){
-
+        ordersService.payorder(session);
         return "OrderComplete";
     }
 }
