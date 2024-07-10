@@ -1,0 +1,153 @@
+/* admin.css */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body 스타일 설정 */
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #2c3e50 0%, #4ca1af 100%);
+    color: #ecf0f1;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* 헤더 스타일 설정 */
+header {
+    background-color: #34495e;
+    padding: 20px 0;
+}
+
+/* 네비게이션 바 스타일 설정 */
+nav {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+/* 로고 스타일 설정 */
+.logo {
+    font-size: 24px;
+    font-weight: 600;
+    color: #ecf0f1;
+}
+
+/* 네비게이션 링크 스타일 설정 */
+.nav-links {
+    list-style: none;
+    display: flex;
+}
+
+.nav-links li {
+    margin-left: 20px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    font-size: 16px;
+    color: #ecf0f1;
+    transition: color 0.3s;
+}
+
+.nav-links a:hover {
+    color: #1abc9c;
+}
+
+/* 메인 컨텐츠 스타일 설정 */
+main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 컨테이너 스타일 설정 */
+.container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background: rgba(44, 62, 80, 0.8);
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    text-align: center;
+}
+
+/* h1 스타일 설정 */
+h1 {
+    color: #ecf0f1;
+    margin-bottom: 20px;
+}
+
+/* 통계 섹션 스타일 설정 */
+.stats {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.stat-item {
+    background: rgba(236, 240, 241, 0.2);
+    border-radius: 10px;
+    padding: 20px;
+    width: 30%;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s;
+}
+
+.stat-item i {
+    font-size: 32px;
+    color: #1abc9c;
+    margin-bottom: 10px;
+}
+
+.stat-item p {
+    font-size: 18px;
+    color: #ecf0f1;
+}
+
+.stat-item:hover {
+    transform: translateY(-10px);
+}
+
+/* 액션 버튼 섹션 스타일 설정 */
+.actions {
+    display: flex;
+    justify-content: space-around;
+}
+
+.action-btn {
+    padding: 15px 30px;
+    background: #1abc9c;
+    color: #ecf0f1;
+    border: none;
+    border-radius: 25px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.action-btn i {
+    margin-right: 10px;
+}
+
+.action-btn:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* 푸터 스타일 설정 */
+footer {
+    text-align: center;
+    padding: 20px 0;
+    background-color: #34495e;
+    color: #ecf0f1;
+    width: 100%;
+}
