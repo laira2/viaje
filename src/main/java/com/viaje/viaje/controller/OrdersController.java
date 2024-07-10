@@ -4,6 +4,7 @@ import com.viaje.viaje.model.OrderItems;
 import com.viaje.viaje.model.Orders;
 import com.viaje.viaje.service.OrdersService;
 import jakarta.servlet.http.HttpSession;
+import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -21,12 +22,15 @@ public class OrdersController {
     public OrdersController(OrdersService ordersService) {
         this.ordersService = ordersService;
     }
+
     @PostMapping("/order")
     public String orderPage (HttpSession session, Model model){
         List<OrderItems> newOrderList = ordersService.createOrderItems(session,model);
-
-        logger.info("오더 아이템 리스트 정보: {}", ordersService.createOrderItems(session,model));
         model.addAttribute("orderItemList", newOrderList);
+        double totalPrice = newOrderList.stream()
+                .mapToDouble(item -> item.getTravelPlans().getPrice() * item.getQuantity())
+                .sum();
+        model.addAttribute("total_price", totalPrice);
         return "/test_order";
     }
 

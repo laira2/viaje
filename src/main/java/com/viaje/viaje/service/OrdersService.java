@@ -7,9 +7,10 @@ import com.viaje.viaje.model.Orders;
 import com.viaje.viaje.repository.OrdersItemRepository;
 import com.viaje.viaje.repository.OrdersRepository;
 import jakarta.servlet.http.HttpSession;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
-
+import java.util.ArrayList;
 import java.util.List;
 @Service
 public class OrdersService {
@@ -26,22 +27,23 @@ public class OrdersService {
     }
 
 
-
-    public List<OrderItems> createOrderItems(HttpSession session,Model model) {
+    @Transactional
+    public List<OrderItems> createOrderItems(HttpSession session, Model model) {
         Cart cart = cartService.getCart((String) session.getAttribute("user"));
         Orders order = newOrders((String) session.getAttribute("user"), cart);
         List<CartItems> cartItemsList = cartService.findAllcartItmes(cart);
-        for (CartItems item :cartItemsList){
+        List<OrderItems> newOrderItems = new ArrayList<>();
+
+        for (CartItems item : cartItemsList) {
             OrderItems additem = OrderItems.builder()
                     .orders(order)
                     .travelPlans(item.getTravelPlans())
                     .quantity(1)
                     .build();
-            ordersItemRepository.save(additem);
+            newOrderItems.add(ordersItemRepository.save(additem));
         }
-        return ordersItemRepository.findAllByOrders(order);
 
-
+        return newOrderItems;
     }
 
     public Orders newOrders(String currentUser, Cart cart) {
