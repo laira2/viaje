@@ -48,11 +48,15 @@ body {
     text-align: right;
 }
 .deleteBtn{
-
+     background-color: rgba(220,53,69,0.7);
+     border: none;
+     border-radius: 8px;
+     padding: 8px 16px; /* 패딩 추가 */
+     font-size: 11px; /* 글꼴 크기 증가 */
 }
 .submitBtn{
     padding: 12px 24px;
-    background-color: #198754;
+    background-color: #667eea;
     color: white;
     border: none;
     border-radius: 25px;
