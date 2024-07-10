@@ -22,7 +22,7 @@
             <p>당신의 특별한 여행 경험을 공유해주세요!</p>
         </div>
         <div class="write-content">
-            <form th:action="@{/board/submit}" method="post" enctype="multipart/form-data">
+            <form th:action="@{/plan/save}" method="post" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="title">📌 여행 제목</label>
                     <input type="text" id="title" name="title" required placeholder="당신의 경험이 담긴 제목을 지어주세요">
@@ -35,7 +35,7 @@
                             <!-- 국가 목록은 JavaScript로 동적으로 추가됩니다 -->
                         </div>
                     </div>
-                    <input type="hidden" id="selectedCountry" name="country" required>
+                    <input type="hidden" id="selectedCountry" name="nation" required>
                 </div>
                 <div class="form-group">
                     <label for="startDate">📅 여행 시작일</label>
@@ -48,7 +48,7 @@
                 <div class="form-group">
                     <label for="cost">💵 총 여행 경비</label>
                     <div class="currency-group">
-                        <input type="number" id="cost" name="cost" required placeholder="총 여행 경비를 입력해주세요">
+                        <input type="number" id="cost" name="totalBudget" required placeholder="총 여행 경비를 입력해주세요">
                         <span id="currencySymbol" class="currency-symbol"></span>
                     </div>
                 </div>
@@ -64,16 +64,16 @@
                 </div>
                 <div class="form-group">
                     <label for="content">✏️ 여행 이야기</label>
-                    <textarea id="content" name="content" rows="10" required placeholder="당신의 특별했던 순간들을 자세히 들려주세요"></textarea>
+                    <textarea id="content" name="detail" rows="10" required placeholder="당신의 특별했던 순간들을 자세히 들려주세요"></textarea>
                 </div>
                 <div class="form-group file-group">
                     <div class="file-input">
-                        <label for="image">📸 여행 사진</label>
-                        <input type="file" id="image" name="image" accept="image/*">
+                        <label for="planImages">📸 여행 사진</label>
+                        <input type="file" id="planImages" name="planImages" multiple accept="image/*" required>
                     </div>
                     <div class="file-input">
-                        <label for="documentImage">📄 여행 증명사진</label>
-                        <input type="file" id="documentImage" name="documentImage" accept="image/*">
+                        <label for="certImages">📄 여행 증명사진</label>
+                        <input type="file" id="certImages" name="certImages" multiple accept="image/*" required>
                     </div>
                 </div>
                 <div class="form-group">
