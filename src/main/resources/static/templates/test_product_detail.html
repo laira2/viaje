@@ -78,10 +78,16 @@
                         </div>
                         <button type="submit">수정</button>
                     </form>
+
                     <form th:action="@{'/delete/' + ${comment.commentId}}" method="post">
                         <input type="hidden" name="_method" value="delete">
                         <button type="submit">삭제</button>
                     </form>
+                    <form th:action="@{/delete/{commentId}(commentId=${comment.commentId})}" method="post" class="delete-form">
+                        <input type="hidden" name="_method" value="delete">
+                        <button type="submit">삭제</button>
+                    </form>
+
                 </div>
             </div>
 
@@ -112,6 +118,7 @@
 <!--            <button type="submit">수정 완료</button>-->
 <!--        </form>-->
 
+        <!-- 여기에 댓글 추가 폼과 수정 폼을 추가할 수 있습니다 -->
 
     </article>
 

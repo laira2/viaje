@@ -35,9 +35,9 @@ public class TravelPlansController {
     @GetMapping("/createPlan")
     public String createPlanForm(HttpSession session){
 
-        return "/test_file_upload";
+        return "/write";
     }
-    @PostMapping("/plan/submit")
+    @PostMapping("/plan/save")
     public String postPlan(PlanCertificationDTO pcDTO,
                            @RequestParam(value = "tagsOptions", required = false)String[] tagsOptions,
                            HttpSession session, TravelPlansDTO tpDTO) throws IOException {
