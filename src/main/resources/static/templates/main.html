@@ -27,7 +27,7 @@
 <div id="menu-overlay">
   <div class="menu-container" id="menuContainer">
     <h1 class="team-name">Viaje</h1>
-    <div id="guestMenu" th:if="${session.isLoggedIn == null or !session.isLoggedIn}">
+    <div id="guestMenu" th:if="${session.isLoggedIn == null or session.isLoggedIn == false}">
       <div class="menu-item login">
         <a href="login" >로그인</a>
       </div>
@@ -35,7 +35,7 @@
         <a href="yac">회원 가입</a> <!-- 변경된 부분 -->
       </div>
     </div>
-    <div id="userMenu" th:if="${session.isLoggedIn}">
+    <div id="userMenu" th:if="${session.isLoggedIn == true}">
       <div class="menu-item mypage">
         <a href="mypage">마이페이지</a>
       </div>
@@ -51,9 +51,9 @@
     </div>
     <div class="bottom-container">
       <div class="menu-item small admin">
-        <a href="admin.html">관리자</a>
+        <a href="admin">관리자</a>
       </div>
-      <div class="menu-item small logout" th:if="${session.isLoggedIn}">
+      <div class="menu-item small logout" th:if="${session.isLoggedIn == true}">
         <a href="/logout">로그아웃</a>
       </div>
     </div>
