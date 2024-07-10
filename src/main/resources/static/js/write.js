@@ -57,13 +57,13 @@ document.addEventListener('DOMContentLoaded', function() {
     ];
 
     const tags = [
-        { code: 'Recommendation', name: 'Viaje 추천 Plan' },
-        { code: 'active', name: 'active plan' },
-        { code: 'taste', name: '맛집 계획' },
-        { code: 'relax', name: '휴식' },
-        { code: 'adventure', name: '쉼 休' },
-        { code: 'domestic', name: '국내 여행' },
-        { code: 'overseas', name: '해외 여행' }
+        { code: 'Recommendation', name: 'Viaje 추천 Plan' ,colname: '추천'},
+        { code: 'active', name: 'active plan' ,colname: '액티비티' },
+        { code: 'taste', name: '맛집 계획' ,colname: '맛집'},
+//        { code: 'relax', name: '휴식' ,colname: '휴식'},
+        { code: 'adventure', name: '쉼 休' ,colname: '휴식'},
+        { code: 'domestic', name: '국내 여행' ,colname: '국내'},
+        { code: 'overseas', name: '해외 여행' ,colname: '해외'}
     ];
 
     const countrySearch = document.getElementById('countrySearch');
@@ -73,7 +73,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const currencySymbol = document.getElementById('currencySymbol');
     const tagsSearch = document.getElementById('tagsSearch');
     const tagsDropdown = document.getElementById('tagsDropdown');
-    const selectedTags = document.getElementById('selectedTags');
+//    const selectedTags = document.getElementById('selectedTags');
+    const selectedTagsContainer = document.getElementById('selectedTagsContainer');
+    const selectedTagsInput = document.getElementById('selectedTags');
+    let selectedTagsList = [];
 
     const startDate = document.getElementById('startDate');
     const endDate = document.getElementById('endDate');
@@ -130,10 +133,38 @@ document.addEventListener('DOMContentLoaded', function() {
         currencySymbol.textContent = item.currency;
     }
 
+//    function selectTag(item) {
+//        selectedTags.value = item.code;
+//        tagsSearch.value = item.name;
+//    }
     function selectTag(item) {
-        selectedTags.value = item.code;
-        tagsSearch.value = item.name;
+        if (!selectedTagsList.some(tag => tag.colname === item.colname)) {
+            selectedTagsList.push({ colname: item.colname, name: item.name });
+            updateSelectedTags();
+        }
+        tagsSearch.value = '';
     }
+
+    function updateSelectedTags() {
+        selectedTagsContainer.innerHTML = '';
+        selectedTagsList.forEach(tag => {
+            const tagElement = document.createElement('span');
+            tagElement.className = 'selected-tag';
+            tagElement.textContent = tag.name;  // name 값을 표시
+            tagElement.onclick = (e) => {
+                e.preventDefault();
+                removeTag(tag.colname);
+            };
+            selectedTagsContainer.appendChild(tagElement);
+        });
+        selectedTagsInput.value = selectedTagsList.map(tag => tag.colname).join(',');
+    }
+
+    function removeTag(tagColname) {
+        selectedTagsList = selectedTagsList.filter(tag => tag.colname !== tagColname);
+        updateSelectedTags();
+    }
+
 
     setupDropdown(countrySearch, countryDropdown, countries, updateCurrencySymbol);
     setupDropdown(tagsSearch, tagsDropdown, tags, selectTag);
