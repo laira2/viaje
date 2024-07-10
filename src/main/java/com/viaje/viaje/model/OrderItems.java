@@ -15,15 +15,11 @@ public class OrderItems {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long OrderItemId;
 
-//    @ManyToOne
-//    @JoinColumn(name="cartId", nullable = false)
-//    private Cart cart;
-
     @ManyToOne
     @JoinColumn(name="orderId")
     private Orders orders;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "planId", nullable = false)
     private TravelPlans travelPlans;
 

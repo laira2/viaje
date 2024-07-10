@@ -4,6 +4,7 @@ import com.viaje.viaje.model.Cart;
 import com.viaje.viaje.model.CartItems;
 import com.viaje.viaje.model.OrderItems;
 import com.viaje.viaje.model.Orders;
+import com.viaje.viaje.repository.OrdersItemRepository;
 import com.viaje.viaje.repository.OrdersRepository;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Service;
@@ -16,28 +17,29 @@ public class OrdersService {
 
     private UserService userService;
     private OrdersRepository ordersRepository;
-    public OrdersService(CartService cartService, UserService userService, OrdersRepository ordersRepository) {
+    private OrdersItemRepository ordersItemRepository;
+    public OrdersService(CartService cartService, UserService userService, OrdersRepository ordersRepository, OrdersItemRepository ordersItemRepository) {
         this.cartService = cartService;
         this.userService = userService;
         this.ordersRepository = ordersRepository;
+        this.ordersItemRepository = ordersItemRepository;
     }
 
 
 
     public List<OrderItems> createOrderItems(HttpSession session,Model model) {
         Cart cart = cartService.getCart((String) session.getAttribute("user"));
-        Orders orders = newOrders((String) session.getAttribute("user"), cart);
+        Orders order = newOrders((String) session.getAttribute("user"), cart);
         List<CartItems> cartItemsList = cartService.findAllcartItmes(cart);
-        List<OrderItems> orderItemsList = null;
         for (CartItems item :cartItemsList){
             OrderItems additem = OrderItems.builder()
-                    .orders(orders)
+                    .orders(order)
                     .travelPlans(item.getTravelPlans())
                     .quantity(1)
                     .build();
-            orderItemsList.add(additem);
+            ordersItemRepository.save(additem);
         }
-        return orderItemsList;
+        return ordersItemRepository.findAllByOrders(order);
 
 
     }
