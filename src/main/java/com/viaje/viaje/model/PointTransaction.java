@@ -25,7 +25,7 @@ public class PointTransaction {
     private Integer chargeAmount;
 
     @Column(nullable = false)
-    private Integer dd;
+    private Integer chargePoint;
 
     @Column(nullable = false)
     private LocalDateTime createdAt;  // 생성 일시
