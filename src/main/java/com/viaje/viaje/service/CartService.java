@@ -52,7 +52,7 @@ public class CartService {
     }
 
     public List<CartItems> findAllcartItmes(Cart cart) {
-        return cartItemsRepository.findByCart(cart);
+        return cartItemsRepository.findAllByCart(cart);
 
     }
 

@@ -65,7 +65,7 @@
         <div class="cart-footer" th:if="${itemsList != null and not #lists.isEmpty(itemsList)}">
             <h3>총 금액: <span th:text="${total_price}"></span>원</h3>
             <br>
-            <form th:action="@{/order/checkout}" method="post">
+            <form th:action="@{/order}" method="post">
                 <button type="submit" class="submitBtn">결제하기</button>
             </form>
         </div>

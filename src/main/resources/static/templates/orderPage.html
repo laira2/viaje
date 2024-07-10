@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viaje - 주문하기</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <!--    <link rel="stylesheet" th:href="@{/css/cart.css}">-->
+    <link rel="stylesheet" href="/static/css/order.css">
+    <link rel="icon" href="/static/images/icon/cart.ico">
+    <title>장바구니(카트) Page</title>
+
+</head>
+<body>
+<div class="container">
+    <div class="order-container">
+        <div class="order-header">
+            <h1>Viaje 주문하기</h1>
+            <p>주문하실 계획을 확인해주세요.</p>
+        </div>
+        <div class="order-content">
+            <table>
+                <thead>
+                <tr>
+                    <th>번호</th>
+                    <th>제목</th>
+                    <th>수량</th>
+                    <th>가격</th>
+                </tr>
+                </thead>
+                <tbody id="order-content">
+                <tr th:if="${orderItemList == null or #lists.isEmpty(orderItemList)}">
+                    <td colspan="5">주문 내역이 없습니다.</td>
+                </tr>
+                <tr th:each="orderItem, iterStat : ${orderItemList}" th:if="${orderItem != null}">
+                    <td th:text="${iterStat.count}"></td>
+                    <td>
+                        <a th:href="@{/product_detail/{id}(id=${orderItem.travelPlans?.planId})}"
+                           th:text="${orderItem.travelPlans?.title}"></a>
+                    </td>
+                    <td th:text="${orderItem.quantity}"></td>
+                    <td th:text="${orderItem.travelPlans?.price}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="order-footer" th:if="${orderItemList != null and not #lists.isEmpty(orderItemList)}">
+            <h3>총 금액: <span th:text="${orderItemList[0].orders.total_amount}"></span>원</h3>
+            <br>
+            <form th:action="@{/order/create}" method="post">
+                <button type="submit" class="submitBtn">결제하기</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

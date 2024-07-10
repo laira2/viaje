@@ -41,7 +41,7 @@ public class UserController {
             session.setAttribute("user", userDTO.getEmail());
             logger.info("User registered and logged in: {}", userDTO.getEmail());
             logger.info("Session ID: {}", session.getId());
-            model.addAttribute("isLoggedIn", true);
+            session.setAttribute("isLoggedIn", true);
             // 가입 처리 후, 리다이렉트할 경로를 반환
             return "redirect:/"; // 혹은 다른 리다이렉트할 경로 설정
         } catch (Exception e) {

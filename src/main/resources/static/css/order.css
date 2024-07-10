@@ -1,0 +1,76 @@
+/* /static/css/order.css */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    width: 100%;
+    max-width: 800px;
+    padding: 40px 20px;
+}
+.order-container {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 15px 35px rgba(6,103,238, 0.4);
+    backdrop-filter: blur(10px);
+}
+.order-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+.order-header h1 {
+    color: #4a4a4a;
+    font-size: 36px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+.order-header p {
+    color: #767676;
+    font-size: 16px;
+}
+
+.order-content {
+    margin-bottom: 25px;
+}
+.order-footer{
+    text-align: right;
+}
+.submitBtn{
+    padding: 12px 24px;
+    background-color: #667eea;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+th {
+    background-color: #667eea;
+    color: white;
+}
+tr:hover {
+    background-color: #f5f5f5;
+}
