@@ -1,72 +1,10 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Viaje - 장바구니</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-<!--    <link rel="stylesheet" th:href="@{/css/cart.css}">-->
-    <link rel="stylesheet" href="/static/css/cart.css">
-    <link rel="icon" href="/static/images/icon/cart.ico">
     <title>장바구니(카트) Page</title>
-
 </head>
 <body>
-<div class="container">
-    <div class="cart-container">
-        <div class="cart-header">
-            <h1>Viaje 장바구니</h1>
-            <p>여행 경험을 공유해보세요</p>
-        </div>
-        <div class="cart-content">
-            <table>
-                <colgroup>
-                    <col span="1" >
-                    <col span="1" >
-                    <col span="3" >
-                    <col span="1" >
-                    <col span="1" >
-                    <col span="1" >
-                </colgroup>
-                <thead>
-                <tr>
-                    <th>번호</th>
-                    <th>플랜 ID</th>
-                    <th>제목</th>
-                    <th>수량</th>
-                    <th>가격</th>
-                    <th>삭제</th>
-                </tr>
-                </thead>
-                <tbody id="cart-content">
-                <tr th:if="${#lists.isEmpty(itemsList)}">
-                    <td colspan="7">장바구니가 비어 있습니다.</td>
-                </tr>
-                <tr th:each="item : ${itemsList}">
-                    <td th:text="${item.id}"></td>
-                    <td th:text="${item.travelPlans.planId}"></td>
-                    <td th:text="${item.travelPlans.title}"></td>
-                    <td th:text="${item.quantity}"></td>
-                    <td th:text="${item.travelPlans.price}"></td>
-                    <td th:if="${itemsList != null and not #lists.isEmpty(itemsList)}" >
-                        <form th:action="@{/cart/remove}" method="post">
-                            <input type="hidden" name="id" th:value="${item.id}">
-                            <input type="hidden" name="cart_user_email" th:value="${item.cart.users.email}">
-                            <button type="submit" class="deleteBtn">삭제</button>
-                        </form>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="cart-footer" th:if="${itemsList != null and not #lists.isEmpty(itemsList)}">
-            <h3>총 금액: <span th:text="${total_price}"></span>원</h3>
-            <form th:action="@{/order/checkout}" method="post">
-                <button type="submit" class="submitBtn">결제하기</button>
-            </form>
-        </div>
-    </div>
-</div>
+
 </body>
 </html>

@@ -37,13 +37,18 @@ public class CartController {
 
     @GetMapping("/cart/detail")
     public String allCartItem (HttpSession session, Model model){
-        Cart cart = cartService.getCart((String) session.getAttribute("user"));
-        List<CartItems> itemsList = cartService.findAllcartItmes(cart);
-
-        Integer total_price = cartService.getTotalPriceForCart(cart.getCartId());
+        Cart isCart = (Cart)session.getAttribute("cart");
+        List<CartItems> itemsList;
+        if (isCart !=null) {
+            itemsList = cartService.findAllcartItmes(isCart);
+        }else {
+            Cart cart = cartService.getCart((String) session.getAttribute("user"));
+            itemsList = cartService.findAllcartItmes(cart);
+        }
+        Integer total_price = cartService.getTotalPriceForCart(isCart.getCartId());
         model.addAttribute("itemsList", itemsList);
         model.addAttribute("total_price", total_price);
-        return "/cart";
+        return "/test_cart";
 
     }
 

@@ -57,13 +57,11 @@ document.addEventListener('DOMContentLoaded', function() {
     ];
 
     const tags = [
-        { code: 'Recommendation', name: 'Viaje 추천 Plan' },
-        { code: 'active', name: 'active plan' },
-        { code: 'taste', name: '맛집 계획' },
+        { code: 'nature', name: '자연' },
+        { code: 'city', name: '도시' },
+        { code: 'culture', name: '문화' },
         { code: 'relax', name: '휴식' },
-        { code: 'adventure', name: '쉼 休' },
-        { code: 'domestic', name: '국내 여행' },
-        { code: 'overseas', name: '해외 여행' }
+        { code: 'adventure', name: '모험' }
     ];
 
     const countrySearch = document.getElementById('countrySearch');
