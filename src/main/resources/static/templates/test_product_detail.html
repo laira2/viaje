@@ -90,21 +90,17 @@
                                 <label for="content">댓글 내용:</label>
                                 <textarea id="content" name="content" rows="4" cols="50" th:text="${comment.content}"></textarea>
                             </div>
-                            <button type="submit"></button>
+                            <button type="submit">수정 완료</button>
                         </form>
                     </div>
                     <form th:action="@{'/delete/' + ${comment.commentId}}" method="post">
                         <input type="hidden" name="_method" value="delete">
                         <button type="submit">삭제</button>
                     </form>
-                    <form th:action="@{/delete/{commentId}(commentId=${comment.commentId})}" method="post" class="delete-form">
-                        <input type="hidden" name="_method" value="delete">
-                        <button type="submit">삭제</button>
-                    </form>
                 </div>
             </div>
+        </div>
     </article>
-
     <div th:unless="${selectedPlan}">
         <p>선택된 여행 계획이 없습니다.</p>
     </div>
