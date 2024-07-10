@@ -8,8 +8,8 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class PointTransactionDTO {
-    private Long pointTransactionId;  // 트랜잭션 ID
-    private Long userId;  // 사용자 ID
+    private Long pointTransactionId;
+    private Long userId;
     private Integer chargeAmount;  // 충전 금액
     private Integer chargePoint;  // 충전 포인트
     private LocalDateTime createdAt;  // 생성 일시
