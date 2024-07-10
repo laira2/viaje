@@ -228,3 +228,30 @@ footer {
 .footer p {
     margin-top: 20px;
 }
+.selected-tag {
+    display: inline-block;
+    background-color: #3498db;
+    color: white;
+    padding: 8px 15px;
+    margin: 5px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.selected-tag:hover {
+    background-color: #2980b9;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.selected-tag::after {
+    content: " ×";
+    font-weight: bold;
+    margin-left: 5px;
+}
+
+#selectedTagsContainer {
+    margin-top: 10px;
+}
