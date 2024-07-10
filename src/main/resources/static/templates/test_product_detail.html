@@ -33,7 +33,7 @@
             <h3>첨부 이미지</h3>
             <div th:if="${not #lists.isEmpty(selectedPlan.imagePaths)}">
                 <div th:each="imagePath : ${selectedPlan.imagePaths}">
-                    <img th:src="@{${imagePath}}" th:alt="${imagePath}">
+                    <img th:src="@{'../uploads/plan/'+ ${imagePath}}" th:alt="'uploads/plan/'+ ${imagePath}">
                 </div>
 
             </div>
@@ -100,6 +100,35 @@
                 </div>
             </div>
         </div>
+     <div>
+<!--            <h3>디버그 데이터:</h3>-->
+<!--            <p th:text="'User: ' + ${user.nickname}"></p>-->
+<!--&lt;!&ndash;            <p th:text="'Comments: ' + ${comment.nickname}"></p>&ndash;&gt;-->
+<!--            <h4>디버그 원본 데이터</h4>-->
+<!--            <p th:text="'User: ' + ${user}"></p>-->
+<!--            <p th:text="'Comments: ' + ${comment}"></p>-->
+<!--        </div>-->
+
+<!--        &lt;!&ndash; 댓글 추가 폼 &ndash;&gt;-->
+<!--        <form id="commentForm" method="post" action="/comment/add">-->
+<!--            <input type="hidden" id="planId" name="planId" th:value="${selectedPlan.planId}">-->
+<!--            &lt;!&ndash; 현재 로그인한 사용자의 정보를 출력 &ndash;&gt;-->
+<!--            <input type="hidden" id="userId" name="userId" th:value="${user.userId}" readonly>-->
+<!--            <input type="hidden" id="nickname" name="nickname" th:value="${user.nickname}" readonly>-->
+<!--            <label for="comments">Content:</label><br>-->
+<!--            <textarea id="comments" name="comments" rows="4" cols="50" required></textarea><br><br>-->
+<!--            <button type="submit">Submit Comment</button>-->
+<!--        </form>-->
+
+<!--        &lt;!&ndash; 댓글 수정 폼 &ndash;&gt;-->
+<!--        <form id="editCommentForm" style="display:none;" method="post">-->
+<!--            <input type="hidden" id="editCommentId">-->
+<!--            <textarea id="editContent" rows="4"></textarea>-->
+<!--            <button type="submit">수정 완료</button>-->
+<!--        </form>-->
+
+        <!-- 여기에 댓글 추가 폼과 수정 폼을 추가할 수 있습니다 -->
+     </div>
     </article>
     <div th:unless="${selectedPlan}">
         <p>선택된 여행 계획이 없습니다.</p>
