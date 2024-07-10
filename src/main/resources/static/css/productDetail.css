@@ -1,0 +1,215 @@
+/* productDetail.css */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #4a4a4a;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+header {
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px 0;
+}
+
+nav {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: 600;
+    color: #4a4a4a;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+}
+
+.nav-links li {
+    margin-left: 20px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    font-size: 16px;
+    color: #4a4a4a;
+    transition: color 0.3s;
+}
+
+.nav-links a:hover {
+    color: #667eea;
+}
+
+main {
+    flex: 1;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+}
+
+h1, h2, h3 {
+    color: #4a4a4a;
+    margin-bottom: 20px;
+}
+
+.plan-details {
+    display: flex;
+    justify-content: space-between; /* 항목 간 동일한 간격 유지 */
+    margin-bottom: 20px;
+}
+
+.plan-status {
+    display: flex;
+    flex-direction: column; /* 세로로 정렬 */
+    gap: 10px; /* 항목 간 간격 */
+    margin-bottom: 20px;
+}
+
+.detail-item {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* 기본 간격 */
+    min-width: 200px;
+}
+
+.detail-item:first-child + .detail-item {
+    margin-left: -90px; /* 국가와 작성자 간격 좁힘 */
+}
+
+.detail-item:nth-child(3) {
+    margin-left: -50px; /* 작성일과 최종 수정일 간격 좁힘 */
+}
+
+.detail-item:nth-child(4) {
+    margin-left: -70px; /* 최종 수정일 항목 간격 조정 */
+}
+
+.detail-item i {
+    font-size: 24px;
+    color: #667eea;
+}
+
+.plan-content, .plan-images, .add-to-cart {
+    margin-bottom: 30px;
+}
+
+.plan-content div, .plan-content h3, .plan-images h3 {
+    font-size: 30px; /* 상세 내용과 첨부 이미지 글씨 크기 조정 */
+}
+
+.plan-details p, .plan-content div, .plan-images div, .add-to-cart form {
+    margin-bottom: 10px;
+}
+
+.plan-images {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.image-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.image-item {
+    flex: 1 1 calc(25% - 20px); /* 4열 그리드 */
+    max-width: calc(25% - 20px);
+}
+
+.image-item img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+.btn-add-to-cart, .btn-submit, .btn-delete {
+    padding: 10px 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.btn-add-to-cart:hover, .btn-submit:hover, .btn-delete:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.comment {
+    background-color: #f8f8f8;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.comment-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.comment-actions button, .delete-form button {
+    background: none;
+    border: none;
+    color: #667eea;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.edit-form {
+    margin-top: 10px;
+}
+
+.comment-date {
+    float: right;
+    color: #999;
+    font-size: 14px;
+}
+
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+footer {
+    text-align: center;
+    padding: 20px 0;
+    background-color: #ffffff;
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    position: relative;
+}
