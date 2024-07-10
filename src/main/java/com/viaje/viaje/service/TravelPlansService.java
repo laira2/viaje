@@ -61,14 +61,14 @@ public class TravelPlansService {
         for (MultipartFile planImage : tpDTO.getPlanImages()) {
             String planFileName = fileUploadUtil.saveFile(planImage, true);
             String planFilePath = fileUploadUtil.getPlanUploadDir() + "/" + planFileName;
-            planFilePaths.add(planFilePath);
+            planFilePaths.add(planFileName);
         }
 
         List<String> certFilePaths = new ArrayList<>();
         for (MultipartFile certImage : pcDTO.getCertImages()) {
             String certFileName = fileUploadUtil.saveFile(certImage, false);
             String certFilePath = fileUploadUtil.getCertUploadDir() + "/" + certFileName;
-            certFilePaths.add(certFilePath);
+            certFilePaths.add(certFileName);
         }
 
         Map<String,Number> durations = calculateDurationAndPrice(tpDTO);
