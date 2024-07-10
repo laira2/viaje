@@ -33,7 +33,7 @@
             <h3>첨부 이미지</h3>
             <div th:if="${not #lists.isEmpty(selectedPlan.imagePaths)}">
                 <div th:each="imagePath : ${selectedPlan.imagePaths}">
-                    <img th:src="@{${imagePath}}" th:alt="${imagePath}">
+                    <img th:src="@{'../uploads/plan/'+ ${imagePath}}" th:alt="'uploads/plan/'+ ${imagePath}">
                 </div>
 
             </div>
@@ -90,8 +90,9 @@
 
                 </div>
             </div>
+        </div>
 
-<!--        <div>-->
+     <div>
 <!--            <h3>디버그 데이터:</h3>-->
 <!--            <p th:text="'User: ' + ${user.nickname}"></p>-->
 <!--&lt;!&ndash;            <p th:text="'Comments: ' + ${comment.nickname}"></p>&ndash;&gt;-->
@@ -119,7 +120,7 @@
 <!--        </form>-->
 
         <!-- 여기에 댓글 추가 폼과 수정 폼을 추가할 수 있습니다 -->
-
+     </div>
     </article>
 
     <div th:unless="${selectedPlan}">
