@@ -36,7 +36,7 @@ public class LoginController {
         if (isAuthenticated) {
             session.setAttribute("user", userDTO.getEmail());
             session.setAttribute("userName", userDTO.getUserName());
-            model.addAttribute("isLoggedIn", true);
+            session.setAttribute("isLoggedIn", true);
             return "main";
         } else {
             return "/login";
