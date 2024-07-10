@@ -75,6 +75,21 @@ document.addEventListener('DOMContentLoaded', function() {
     const tagsDropdown = document.getElementById('tagsDropdown');
     const selectedTags = document.getElementById('selectedTags');
 
+    const startDate = document.getElementById('startDate');
+    const endDate = document.getElementById('endDate');
+
+    function validateDates() {
+         if (startDate.value && endDate.value) {
+            if (new Date(endDate.value) < new Date(startDate.value)) {
+                    alert('여행 종료일은 시작일 이후여야 합니다.');
+                    endDate.value = '';
+                }
+            }
+        }
+
+    startDate.addEventListener('change', validateDates);
+    endDate.addEventListener('change', validateDates);
+
     function setupDropdown(input, dropdown, items, onSelect) {
         input.addEventListener('focus', () => {
             renderDropdown(items, dropdown, onSelect);
