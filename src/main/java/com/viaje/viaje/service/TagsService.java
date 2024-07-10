@@ -18,19 +18,15 @@ public class TagsService {
     }
 
     public void insertPlanTag(HttpSession session, TravelPlans travelPlans){
-        String tagOption = "해외";
-        PlanTag plantag = new PlanTag();
-        plantag.setTags(tagsRepository.findByTagName(tagOption));
-        plantag.setTravelPlans(travelPlans);
-        planTagRepository.save(plantag);
-//        String [] tagOptions = (String[]) session.getAttribute("tagsOptions");
-//        if (tagOptions != null){
-//            for (String tagOption : tagOptions) {
-//                PlanTag plantag = new PlanTag();
-//                plantag.setTags(tagsRepository.findByTagName(tagOption));
-//                plantag.setTravelPlans(travelPlans);
-//                planTagRepository.save(plantag);
-//            }
+        String [] tagOptions = (String[]) session.getAttribute("tagsOptions");
+        if (tagOptions != null) {
+            for (String tagOption : tagOptions) {
+                PlanTag plantag = new PlanTag();
+                plantag.setTags(tagsRepository.findByTagName(tagOption));
+                plantag.setTravelPlans(travelPlans);
+                planTagRepository.save(plantag);
+            }
+        }
 
     }
 }
