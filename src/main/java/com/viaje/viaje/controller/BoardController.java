@@ -57,7 +57,7 @@ public class BoardController {
         model.addAttribute("selectedPlan", selectedPlan);
         model.addAttribute("user", user);
         model.addAttribute("comments",comments);
-        return "/test_product_detail";
+        return "/productDetail";
     }
 
     @GetMapping("/board/write")
