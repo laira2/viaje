@@ -43,10 +43,12 @@
                 <tr th:if="${#lists.isEmpty(itemsList)}">
                     <td colspan="7">장바구니가 비어 있습니다.</td>
                 </tr>
-                <tr th:each="item : ${itemsList}">
-                    <td th:text="${item.id}"></td>
+                <tr th:each="item,iterStat : ${itemsList}">
+                    <td th:text="${iterStat.count}"></td>
                     <td th:text="${item.travelPlans.planId}"></td>
-                    <td th:text="${item.travelPlans.title}"></td>
+                    <td>
+                        <a th:href="@{/product_detail/{id}(id=${item.travelPlans.planId})}" th:text="${item.travelPlans.title}"></a>
+                    </td>
                     <td th:text="${item.quantity}"></td>
                     <td th:text="${item.travelPlans.price}"></td>
                     <td th:if="${itemsList != null and not #lists.isEmpty(itemsList)}" >
@@ -62,6 +64,7 @@
         </div>
         <div class="cart-footer" th:if="${itemsList != null and not #lists.isEmpty(itemsList)}">
             <h3>총 금액: <span th:text="${total_price}"></span>원</h3>
+            <br>
             <form th:action="@{/order/checkout}" method="post">
                 <button type="submit" class="submitBtn">결제하기</button>
             </form>
