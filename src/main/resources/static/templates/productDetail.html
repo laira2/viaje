@@ -6,6 +6,7 @@
     <title>여행 계획 상세</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/static/css/productDetail.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
 <header>
@@ -14,7 +15,7 @@
         <ul class="nav-links">
             <li><a href="/">Home</a></li>
             <li><a href="/plans">Plans</a></li>
-            <li><a href="/contact">Contact</a></li>
+            <li><a href="/Modify">Modify</a></li>
         </ul>
     </nav>
 </header>
@@ -25,12 +26,34 @@
             <h2 th:text="${selectedPlan.title}">여행 계획 제목</h2>
 
             <section class="plan-details">
-                <p><strong>국가:</strong> <span th:text="${selectedPlan.nation}"></span></p>
-                <p><strong>작성자:</strong> <span th:text="${selectedPlan.user.userName}"></span></p>
-                <p><strong>작성일:</strong> <span th:text="${#temporals.format(selectedPlan.createdAt, 'yyyy-MM-dd HH:mm')}"></span></p>
-                <p><strong>최종 수정일:</strong> <span th:text="${#temporals.format(selectedPlan.updatedAt, 'yyyy-MM-dd HH:mm')}"></span></p>
-                <p><strong>판매 수:</strong> <span th:text="${selectedPlan.sold}"></span></p>
-                <p><strong>상태:</strong> <span th:text="${selectedPlan.status}"></span></p>
+                <div class="detail-item">
+                    <i class="fas fa-globe"></i>
+                    <p><strong>국가:</strong> <span th:text="${selectedPlan.nation}"></span></p>
+                </div>
+                <div class="detail-item">
+                    <i class="fas fa-user"></i>
+                    <p><strong>작성자:</strong> <span th:text="${selectedPlan.user.userName}"></span></p>
+                </div>
+                <div class="detail-item">
+                    <i class="fas fa-calendar-alt"></i>
+                    <p><strong>작성일:</strong> <span th:text="${#temporals.format(selectedPlan.createdAt, 'yyyy-MM-dd HH:mm')}"></span></p>
+                </div>
+                <div class="detail-item">
+                    <i class="fas fa-edit"></i>
+                    <p><strong>최종 수정일:</strong> <span th:text="${#temporals.format(selectedPlan.updatedAt, 'yyyy-MM-dd HH:mm')}"></span></p>
+                </div>
+            </section>
+            <section class="plan-status">
+                <div class="detail-item">
+                    <i class="fas fa-shopping-cart"></i>
+                    <p><strong>판매 수:</strong> <span th:text="${selectedPlan.sold}"></span></p>
+                </div>
+            </section>
+            <section class="plan-status">
+                <div class="detail-item">
+                    <i class="fas fa-info-circle"></i>
+                    <p><strong>상태:</strong> <span th:text="${selectedPlan.status}"></span></p>
+                </div>
             </section>
 
             <section class="plan-content">
@@ -40,8 +63,8 @@
 
             <section class="plan-images">
                 <h3>첨부 이미지</h3>
-                <div th:if="${not #lists.isEmpty(selectedPlan.imagePaths)}">
-                    <div th:each="imagePath : ${selectedPlan.imagePaths}">
+                <div class="image-gallery" th:if="${not #lists.isEmpty(selectedPlan.imagePaths)}">
+                    <div th:each="imagePath : ${selectedPlan.imagePaths}" class="image-item">
                         <img th:src="@{'../uploads/plan/'+ ${imagePath}}" th:alt="'uploads/plan/'+ ${imagePath}">
                     </div>
                 </div>
@@ -51,59 +74,49 @@
             <section class="add-to-cart">
                 <form th:action="@{/cart/add}" method="post">
                     <input type="hidden" name="planId" th:value="${selectedPlan.planId}">
-                    <button type="submit" class="btn-add-to-cart">카트에 추가</button>
+                    <button type="submit" class="btn-add-to-cart">
+                        <i class="fas fa-cart-plus"></i> 카트에 추가
+                    </button>
                 </form>
             </section>
 
             <section id="commentsSection">
+                <h3>댓글</h3>
                 <form id="commentForm" method="post" action="/comment/add">
                     <input type="hidden" id="planId" name="planId" th:value="${selectedPlan.planId}">
                     <input type="hidden" id="userId" name="userId" th:value="${user.userId}" readonly>
                     <input type="hidden" id="nickname" name="nickname" th:value="${user.nickname}" readonly>
-                    <label for="comments">Content:</label><br>
-                    <textarea id="comments" name="comments" rows="4" cols="50" required></textarea><br><br>
-                    <button type="submit" class="btn-submit">등록</button>
+                    <textarea id="comments" name="comments" rows="4" cols="50" placeholder="댓글을 입력하세요" required></textarea><br>
+                    <button type="submit" class="btn-submit">
+                        <i class="fas fa-paper-plane"></i> 댓글 작성
+                    </button>
                 </form>
 
-                <div th:each="comment : ${comments}">
-                    <p><strong th:text="${comment.user.nickname}"></strong>: <span th:text="${comment.content}"></span></p>
-                    <p th:text="${#temporals.format(comment.createdAt, 'yyyy-MM-dd HH:mm')}"></p>
-
-                    <script th:inline="javascript">
-                        function toggleEditForm(commentId) {
-                            var form = document.getElementById('edit-form-' + commentId);
-                            if (form.style.display === 'none') {
-                                form.style.display = 'block';
-                            } else {
-                                form.style.display = 'none';
-                            }
-                        }
-                    </script>
-
-                    <div th:if="${user != null and user.nickname == comment.user.nickname}">
-                        <p th:text="${comment.content}"></p>
-                        <button th:onclick="'toggleEditForm(' + ${comment.commentId} + ')'">수정</button>
-                        <div th:id="'edit-form-' + ${comment.commentId}" style="display: none;">
-                            <form th:action="@{'/modify/' + ${comment.commentId}}" method="post">
-                                <input type="hidden" name="_method" value="post">
-                                <div>
-                                    <label for="content">댓글 내용:</label>
-                                    <textarea id="content" name="content" rows="4" cols="50" th:text="${comment.content}"></textarea>
-                                </div>
-                                <button type="submit" class="btn-submit">수정 완료</button>
-                            </form>
-                        </div>
-                        <form th:action="@{'/delete/' + ${comment.commentId}}" method="post">
+                <div th:each="comment : ${comments}" class="comment">
+                    <p><strong th:text="${comment.user.nickname}"></strong>
+                        <span class="comment-date" th:text="${#temporals.format(comment.createdAt, 'yyyy. M. d. a h:mm:ss')}"></span></p>
+                    <p th:text="${comment.content}"></p>
+                    <div th:if="${user != null and user.nickname == comment.user.nickname}" class="comment-actions">
+                        <button th:onclick="'toggleEditForm(' + ${comment.commentId} + ')'"><i class="fas fa-edit"></i> 수정</button>
+                        <form th:action="@{'/delete/' + ${comment.commentId}}" method="post" class="delete-form">
                             <input type="hidden" name="_method" value="delete">
-                            <button type="submit" class="btn-delete">삭제</button>
+                            <button type="submit"><i class="fas fa-trash-alt"></i> 삭제</button>
+                        </form>
+                    </div>
+
+                    <div th:id="'edit-form-' + ${comment.commentId}" style="display: none;" class="edit-form">
+                        <form th:action="@{'/modify/' + ${comment.commentId}}" method="post">
+                            <input type="hidden" name="_method" value="post">
+                            <textarea name="content" rows="4" cols="50" th:text="${comment.content}"></textarea><br>
+                            <button type="submit" class="btn-submit"><i class="fas fa-save"></i> 수정 완료</button>
                         </form>
                     </div>
                 </div>
-    </div>
-    </article>
-    <div th:unless="${selectedPlan}">
-        <p>선택된 여행 계획이 없습니다.</p>
-    </div>
+            </section>
+        </article>
+        <div th:unless="${selectedPlan}">
+            <p>선택된 여행 계획이 없습니다.</p>
+        </div>
     </div>
 </main>
 
