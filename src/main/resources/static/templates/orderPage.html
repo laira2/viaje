@@ -49,6 +49,7 @@
             <h3>총 금액: <span th:text="${orderItemList[0].orders.total_amount}"></span>원</h3>
             <br>
             <form th:action="@{/order/create}" method="post">
+                <input type="hidden" name="orderId" th:value="${orderItemList[0].orders.orderId}">
                 <button type="submit" class="submitBtn">결제하기</button>
             </form>
         </div>

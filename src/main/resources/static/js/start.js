@@ -34,10 +34,21 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         document.body.addEventListener('click', function(event) {
+            if (event.target.closest('a')) {
+                // a 태그 클릭 시 아무 작업도 하지 않고 기본 동작 허용
+                return;
+            }
             if (slideUpContent.classList.contains('active')) {
                 console.log('Body clicked');
                 slideUpContent.classList.remove('active');
             }
+        });
+
+        // a 태그에 대한 이벤트 리스너 추가
+        document.querySelectorAll('a').forEach(function(link) {
+            link.addEventListener('click', function(event) {
+                event.stopPropagation(); // 이벤트 전파 중단
+            });
         });
 
         slideUpContent.addEventListener('click', function(event) {
