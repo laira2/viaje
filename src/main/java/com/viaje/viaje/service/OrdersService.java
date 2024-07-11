@@ -25,10 +25,11 @@ public class OrdersService {
     private UserRepository userRepository;
     private OrdersRepository ordersRepository;
     private OrdersItemRepository ordersItemRepository;
-    public OrdersService(CartService cartService, CartRepository cartRepository, UserService userService, OrdersRepository ordersRepository, OrdersItemRepository ordersItemRepository) {
+    public OrdersService(CartService cartService, CartRepository cartRepository, UserService userService, UserRepository userRepository, OrdersRepository ordersRepository, OrdersItemRepository ordersItemRepository) {
         this.cartService = cartService;
         this.cartRepository = cartRepository;
         this.userService = userService;
+        this.userRepository = userRepository;
         this.ordersRepository = ordersRepository;
         this.ordersItemRepository = ordersItemRepository;
     }
@@ -61,7 +62,7 @@ public class OrdersService {
 
         return ordersRepository.save(newOrders);
     }
-
+    @Transactional
     public void payorder(Long orderId, HttpSession session, Model model) {
         Users user = userService.findByEmail((String) session.getAttribute("user"));
         Orders order = ordersRepository.findById(orderId).orElseThrow();
@@ -70,7 +71,7 @@ public class OrdersService {
         if (Integer.valueOf(user.getPoint()) >= order.getTotal_amount()){
             user.setPoint(String.valueOf(Integer.valueOf(user.getPoint()) - order.getTotal_amount()));
             for(OrderItems orderItem : orderItemsList){
-                Long createPlanUserId = orderItem.getTravelPlans().getPlanId();
+                Long createPlanUserId = orderItem.getTravelPlans().getUser().getUserId();
                 Users seller = userRepository.findById(createPlanUserId).orElseThrow();
                 seller.setPoint(seller.getPoint()+orderItem.getTravelPlans().getPrice()*0.1);
                 order.setOrderStatus(COMPLETED);
