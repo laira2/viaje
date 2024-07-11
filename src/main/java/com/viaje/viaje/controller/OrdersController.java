@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -31,8 +32,8 @@ public class OrdersController {
     }
 
     @PostMapping("/order/create")
-    public String createOrders(HttpSession session, Model model){
-        ordersService.payorder(session);
+    public String createOrders(@RequestParam Long orderId, HttpSession session, Model model){
+        ordersService.payorder(orderId,session,model);
         return "OrderComplete";
     }
 }
