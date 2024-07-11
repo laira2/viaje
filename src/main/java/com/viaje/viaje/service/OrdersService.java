@@ -1,6 +1,7 @@
 package com.viaje.viaje.service;
 
 import com.viaje.viaje.model.*;
+import com.viaje.viaje.repository.CartRepository;
 import com.viaje.viaje.repository.OrdersItemRepository;
 import com.viaje.viaje.repository.OrdersRepository;
 import com.viaje.viaje.repository.UserRepository;
@@ -12,16 +13,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.viaje.viaje.model.Orders.OrderStatus.*;
+
 @Service
 public class OrdersService {
     private CartService cartService;
+    private CartRepository cartRepository;
 
     private UserService userService;
     private UserRepository userRepository;
     private OrdersRepository ordersRepository;
     private OrdersItemRepository ordersItemRepository;
-    public OrdersService(CartService cartService, UserService userService, OrdersRepository ordersRepository, OrdersItemRepository ordersItemRepository) {
+    public OrdersService(CartService cartService, CartRepository cartRepository, UserService userService, OrdersRepository ordersRepository, OrdersItemRepository ordersItemRepository) {
         this.cartService = cartService;
+        this.cartRepository = cartRepository;
         this.userService = userService;
         this.ordersRepository = ordersRepository;
         this.ordersItemRepository = ordersItemRepository;
@@ -66,8 +72,14 @@ public class OrdersService {
             for(OrderItems orderItem : orderItemsList){
                 Long createPlanUserId = orderItem.getTravelPlans().getPlanId();
                 Users seller = userRepository.findById(createPlanUserId).orElseThrow();
-//                seller.setPoint();
+                seller.setPoint(seller.getPoint()+orderItem.getTravelPlans().getPrice()*0.1);
+                order.setOrderStatus(COMPLETED);
+                cartRepository.deleteById(user.getUserId());
+                model.addAttribute("order", order);
             }
+        }else{
+            order.setOrderStatus(PROCESSING);
+
         }
 
     }
