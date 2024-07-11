@@ -1,69 +1,87 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>결제 페이지</title>
-    <!-- SDK 추가 -->
+    <meta charset="utf-8" />
     <script src="https://js.tosspayments.com/v2/standard"></script>
+    <title>결제 페이지</title>
 </head>
 <body>
-<div class="pointcharge" align="center">
-    <p style="font-weight: bold">Viaje 포인트 충전</p>
-    <label class="box-radio-input"><input type="radio" name="cp_item" value="5000"><span>5,000원</span></label><br>
-    <label class="box-radio-input"><input type="radio" name="cp_item" value="10000"><span>10,000원</span></label><br>
-    <label class="box-radio-input"><input type="radio" name="cp_item" value="20000"><span>20,000원</span></label><br>
-    <label class="box-radio-input"><input type="radio" name="cp_item" value="30000"><span>30,000원</span></label><br>
-    <label class="box-radio-input"><input type="radio" name="cp_item" value="50000"><span>50,000원</span></label><br>
-    <p  style="color: #ac2925; margin-top: 30px">Viaje 최소 충전금액은 5,000원이며 <br/>최대 충전금액은 50,000원 입니다.</p>
-    <!-- 결제하기 버튼 -->
-    <button class="button" style="margin-top: 30px" onclick="requestPayment()">결제하기</button>
-</div>
+<!-- 결제 UI -->
+<div id="payment-method"></div>
+<!-- 이용약관 UI -->
+<div id="agreement"></div>
+<!-- 결제하기 버튼 -->
+<button class="button" id="payment-button" style="margin-top: 30px">결제하기</button>
 
-<script>
-    // SDK 초기화
-    const clientKey = "test_ck_ALnQvDd2VJlKJDDmzExb8Mj7X41m";
-    const customerKey = "dDctH8nfTTTz-QXk5fy1M"; // 고객 uuid 사용 필요
-    const tossPayments = TossPayments(clientKey);
+<script th:inline="javascript">
+    main();
 
-    // 회원 결제 설정
-    const payment = tossPayments.payment({ customerKey });
+    async function main() {
+      const button = document.getElementById("payment-button");
+      const coupon = document.getElementById("coupon-box");
+      // ------  결제위젯 초기화 ------
+      const clientKey = "test_gck_docs_Ovk5rk1EwkEbP0W43n07xlzm";
+      const tossPayments = TossPayments(clientKey);
 
-    // orderId를 생성하는 예시 함수 (실제 서버에서 생성하는 방식으로 변경 필요)
-    function generateOrderId() {
-        return `order_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`; //임의로 생성되게 필요
-    }
+      const chargeAmount = /*[[${chargeAmount}]]*/ 0;
+      const orderId = /*[[${orderId}]]*/ '';
+      const userId =/*[[${userUUID}]]*/ '';
+      console.log("충전 금액"+chargeAmount);
 
-    // 결제 요청 함수
-    async function requestPayment() {
-        const selectedAmount = document.querySelector('input[name="cp_item"]:checked').value;
+      // 회원 결제
+      const customerKey = "userID";
+      const widgets = tossPayments.widgets({
+        customerKey,
+      });
 
-        // 서버에서 orderId를 생성하고, 이를 변수로 사용하도록 설정
-        const orderId = generateOrderId();
+      // 비회원 결제
+      // const widgets = tossPayments.widgets({ customerKey: TossPayments.ANONYMOUS });
 
-        // 결제 요청
-        await payment.requestPayment({
-            method: "CARD", // 카드 결제
-            amount: {
-                currency: "KRW",
-                value: parseInt(selectedAmount), // 선택된 충전 금액을 설정
-            },
-            orderId: orderId, // 생성된 orderId를 결제 요청에 포함
-            orderName: "Viaje 포인트 충전", // 상품명 또는 주문명
-            successUrl: window.location.origin + "/success", // 결제 성공 시 이동할 URL
-            failUrl: window.location.origin + "/fail", // 결제 실패 시 이동할 URL
-            customerEmail: "customer123@gmail.com", // 사용자 이메일
-            customerName: "김토스", // 사용자 이름
-            customerMobilePhone: "01012341234", // 사용자 휴대폰 번호
-            // 카드 결제에 필요한 정보
-            card: {
-                useEscrow: false,
-                flowMode: "DEFAULT", // 통합결제창 여는 옵션
-                useCardPoint: false,
-                useAppCardOnly: false,
-            },
+      // ------ 주문의 결제 금액 설정 ------
+      await widgets.setAmount({
+        currency: "KRW",
+        value: 50000,
+      });
+
+      // ------  결제 UI 렌더링 ------
+      await widgets.renderPaymentMethods({
+        selector: "#payment-method",
+        variantKey: "DEFAULT",
+      });
+
+      // ------  이용약관 UI 렌더링 ------
+      await widgets.renderAgreement({ selector: "#agreement", variantKey: "AGREEMENT" });
+
+      // ------  주문서의 결제 금액이 변경되었을 경우 결제 금액 업데이트 ------
+<!--      coupon.addEventListener("change", async function () {-->
+<!--        if (coupon.checked) {-->
+<!--          await widgets.setAmount({-->
+<!--            currency: "KRW",-->
+<!--            value: amount.value - 5000,-->
+<!--          });-->
+
+<!--          return;-->
+<!--        }-->
+
+<!--        await widgets.setAmount({-->
+<!--          currency: "KRW",-->
+<!--          value: amount,-->
+<!--        });-->
+<!--      });-->
+
+      // ------ '결제하기' 버튼 누르면 결제창 띄우기 ------
+      button.addEventListener("click", async function () {
+        await widgets.requestPayment({
+          orderId: "Mk_xfRMKUvyKCUqosc5gB",
+          orderName: "토스 티셔츠 외 2건",
+          successUrl: window.location.origin + "/toss_success.html",
+          failUrl: window.location.origin + "/toss_fail.html",
+          customerEmail: "customer123@gmail.com",
+          customerName: "김토스",
+          customerMobilePhone: "01012341234",
         });
+      });
     }
-
 </script>
 </body>
 </html>

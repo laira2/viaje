@@ -1,5 +1,6 @@
 package com.viaje.viaje.controller;
 
+import com.viaje.viaje.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Controller;
@@ -11,14 +12,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @Controller
 public class PointTransactionController {
 
     private final PointTransactionService pointTransactionService;
+    private final UserService userService;
 
-    @Autowired
-    public PointTransactionController(PointTransactionService pointTransactionService) {
+    public PointTransactionController(PointTransactionService pointTransactionService, UserService userService) {
         this.pointTransactionService = pointTransactionService;
+        this.userService = userService;
     }
 
     @PostMapping("/charge")
@@ -32,5 +36,25 @@ public class PointTransactionController {
     @GetMapping("/pointcharge")
     public String pointCharge(HttpSession session, Model model){
         return "/test_charge";
+    }
+    @PostMapping("/requestcharge")
+    public String requestCharge(HttpSession session, @RequestParam("chargeAmount") String chargeAmount, Model model){
+        String tossOrderId = generateUniqueOrderId();
+        int chargeamount = Integer.parseInt(chargeAmount);
+        UUID userUUID = UUID.fromString(userService.findByEmail((String) session.getAttribute("user")).getUuid());
+        model.addAttribute("userUUID", userUUID);
+        model.addAttribute("chargeAmount", chargeAmount);
+        model.addAttribute("orderId", tossOrderId);
+        return "/toss_index";
+    }
+    private String generateUniqueOrderId() {
+        // 현재 시간을 밀리초로 얻기
+        long timestamp = System.currentTimeMillis();
+        // UUID 생성
+        String uuid = UUID.randomUUID().toString().replace("-", "");
+        // 타임스탬프와 UUID를 조합하여 64자 이내로 생성
+        String orderId = String.format("ord_%d_%s", timestamp, uuid);
+        // 64자로 제한
+        return orderId.substring(0, Math.min(orderId.length(), 64));
     }
 }

@@ -31,6 +31,7 @@ dependencies {
 	implementation 'org.hibernate.orm:hibernate-core:6.2.0.Final'
 	implementation 'jakarta.servlet:jakarta.servlet-api:6.0.0'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'com.googlecode.json-simple:json-simple:1.1.1'
 
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.mysql:mysql-connector-j'
