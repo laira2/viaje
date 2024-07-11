@@ -35,13 +35,11 @@ body {
     font-family: var(--font-family);
     line-height: 1.2;
     background-color: var(--color-tertiary);
+    background: url('/static/images/start/background2.png') no-repeat center 70%/cover;
 }
 
 a {
     color: var(--color-primary);
-    &:focus {
-        color: var(--color-secondary);
-    }
 }
 
 .background {
@@ -50,7 +48,6 @@ a {
     left: 0;
     width: 100%;
     height: 100%;
-    background: url('/static/images/start/background2.png') no-repeat center 70%/cover;
     z-index: 0;
 }
 
@@ -77,7 +74,6 @@ a {
     margin-top: 100px;
 }
 
-
 h2 {
     font-weight: 700;
     font-size: calc(var(--font-size) * 1.5);
@@ -90,8 +86,8 @@ h2 {
     margin: 0 auto;
     transform: skewY(-5deg) translateY(10%) scale(0.94);
     transition:
-        box-shadow var(--duration) var(--ease),
-        transform var(--duration) var(--ease);
+            box-shadow var(--duration) var(--ease),
+            transform var(--duration) var(--ease);
 
     &:before,
     &:after {
@@ -102,8 +98,8 @@ h2 {
         width: 25%;
         height: 100%;
         transition:
-            background-color var(--duration) var(--ease),
-            transform var(--duration) var(--ease);
+                background-color var(--duration) var(--ease),
+                transform var(--duration) var(--ease);
     }
 
     &:before {
@@ -163,6 +159,8 @@ h2 {
 
 .input-group {
     position: relative;
+    display: flex;
+    flex-direction: column; /* 변경된 부분 */
 
     input {
         border-radius: var(--base-border-radius);
@@ -226,10 +224,7 @@ input {
     display: flex;
     align-items: center;
     justify-content: space-between;
-
-    > * + * {
-        margin-left: var(--space-s);
-    }
+    margin-top: var(--space-s); /* 변경된 부분 */
 }
 
 .btn {
@@ -237,7 +232,7 @@ input {
     overflow: hidden;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center; /* 변경된 부분 */
     outline: none;
     padding: var(--space-m) var(--space-l);
     cursor: pointer;
