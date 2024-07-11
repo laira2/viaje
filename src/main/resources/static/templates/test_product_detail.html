@@ -81,7 +81,6 @@
                 </script>
 
                 <div th:if="${user != null and user.nickname == comment.user.nickname}">
-                    <p th:text="${comment.content}"></p>
                     <button th:onclick="'toggleEditForm(' + ${comment.commentId} + ')'">수정</button>
                     <div th:id="'edit-form-' + ${comment.commentId}" style="display: none;">
                         <form th:action="@{'/modify/' + ${comment.commentId}}" method="post">

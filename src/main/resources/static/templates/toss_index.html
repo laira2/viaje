@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>결제 페이지</title>
+    <!-- SDK 추가 -->
+    <script src="https://js.tosspayments.com/v2/standard"></script>
+</head>
+<body>
+<div class="pointcharge" align="center">
+    <p style="font-weight: bold">Viaje 포인트 충전</p>
+    <label class="box-radio-input"><input type="radio" name="cp_item" value="5000"><span>5,000원</span></label><br>
+    <label class="box-radio-input"><input type="radio" name="cp_item" value="10000"><span>10,000원</span></label><br>
+    <label class="box-radio-input"><input type="radio" name="cp_item" value="20000"><span>20,000원</span></label><br>
+    <label class="box-radio-input"><input type="radio" name="cp_item" value="30000"><span>30,000원</span></label><br>
+    <label class="box-radio-input"><input type="radio" name="cp_item" value="50000"><span>50,000원</span></label><br>
+    <p  style="color: #ac2925; margin-top: 30px">Viaje 최소 충전금액은 5,000원이며 <br/>최대 충전금액은 50,000원 입니다.</p>
+    <!-- 결제하기 버튼 -->
+    <button class="button" style="margin-top: 30px" onclick="requestPayment()">결제하기</button>
+</div>
+
+<script>
+    // SDK 초기화
+    const clientKey = "test_ck_ALnQvDd2VJlKJDDmzExb8Mj7X41m";
+    const customerKey = "dDctH8nfTTTz-QXk5fy1M"; // 고객 uuid 사용 필요
+    const tossPayments = TossPayments(clientKey);
+
+    // 회원 결제 설정
+    const payment = tossPayments.payment({ customerKey });
+
+    // orderId를 생성하는 예시 함수 (실제 서버에서 생성하는 방식으로 변경 필요)
+    function generateOrderId() {
+        return `order_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`; //임의로 생성되게 필요
+    }
+
+    // 결제 요청 함수
+    async function requestPayment() {
+        const selectedAmount = document.querySelector('input[name="cp_item"]:checked').value;
+
+        // 서버에서 orderId를 생성하고, 이를 변수로 사용하도록 설정
+        const orderId = generateOrderId();
+
+        // 결제 요청
+        await payment.requestPayment({
+            method: "CARD", // 카드 결제
+            amount: {
+                currency: "KRW",
+                value: parseInt(selectedAmount), // 선택된 충전 금액을 설정
+            },
+            orderId: orderId, // 생성된 orderId를 결제 요청에 포함
+            orderName: "Viaje 포인트 충전", // 상품명 또는 주문명
+            successUrl: window.location.origin + "/success", // 결제 성공 시 이동할 URL
+            failUrl: window.location.origin + "/fail", // 결제 실패 시 이동할 URL
+            customerEmail: "customer123@gmail.com", // 사용자 이메일
+            customerName: "김토스", // 사용자 이름
+            customerMobilePhone: "01012341234", // 사용자 휴대폰 번호
+            // 카드 결제에 필요한 정보
+            card: {
+                useEscrow: false,
+                flowMode: "DEFAULT", // 통합결제창 여는 옵션
+                useCardPoint: false,
+                useAppCardOnly: false,
+            },
+        });
+    }
+
+</script>
+</body>
+</html>
