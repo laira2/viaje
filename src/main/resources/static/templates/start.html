@@ -5,52 +5,62 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>여행사 미션</title>
     <link rel="stylesheet" href="../css/styles.css">
-<!--    <link rel="stylesheet" href="/static/css/start.css" type="text/css" >-->
+    <link rel="stylesheet" href="/static/css/start.css" type="text/css" >
 </head>
 <body>
 <div class="grid-container">
+    <a href="/products/추천">
     <div class="grid-item">
-        <a th:href="@{/products/추천">
+
             <img src="/static/images/top.jpg" alt="Image 1" class="grid-image"> <!-- 경로 수정 -->
-        </a>
+
         <div class="grid-text">
             <h2>Viaje Recommendation Plan</h2>
         </div>
     </div>
+    </a>
     <div class="grid-item">
+        <a href="/products/액티비티">
         <img src="/static/images/surfing.jpg" alt="Image 2" class="grid-image"> <!-- 경로 수정 -->
         <div class="grid-text">
             <h2>active plan</h2>
         </div>
-    </div>
-    <div class="grid-item">
-        <a th:href="@{/products/맛집">
-            <img src="/static/images/food.jpg" alt="Image 3" class="grid-image"> <!-- 경로 수정 -->
         </a>
+    </div>
+
+    <div class="grid-item">
+        <a href="/products/맛집">
+            <img src="/static/images/food.jpg" alt="Image 3" class="grid-image"> <!-- 경로 수정 -->
         <div class="grid-text">
             <h2>맛집 계획</h2>
         </div>
+        </a>
+    </div>
 
-    </div>
     <div class="grid-item">
-        <a th:href="@{/products/국내">
+        <a href="/products/국내">
             <img src="/static/images/south-korea.jpg" alt="Image 4" class="grid-image">
-        </a><!-- 경로 수정 -->
-        <div class="grid-text">
-            <h2>국내 계획</h2>
-        </div>
+            <div class="grid-text">
+                <h2>국내 계획</h2>
+            </div>
+        </a><
     </div>
     <div class="grid-item">
+        <a href="/products/해외">
         <img src="/static/images/Europe.jpg" alt="Image 5" class="grid-image"> <!-- 경로 수정 -->
         <div class="grid-text">
             <h2>해외 계획</h2>
         </div>
+        </a>
     </div>
+
     <div class="grid-item">
+        <a href="/products/휴식">
         <img src="/static/images/hyu.jpg" alt="Image 6" class="grid-image"> <!-- 경로 수정 -->
         <div class="grid-text">
             <h2>쉼 休</h2>
         </div>
+        </a>
     </div>
 </div>
 </body>
