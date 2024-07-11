@@ -66,11 +66,4 @@ public class CartController {
         return "redirect:/cart/detail";
     }
 
-//    @PostMapping("/createOrder")
-//    public String createOrder(HttpSession session){
-//
-//
-//    }
-
-
 }
