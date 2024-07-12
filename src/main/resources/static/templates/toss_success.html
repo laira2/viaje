@@ -33,6 +33,7 @@
       });
 
       const json = await response.json();
+      consol.log(json)
 
       if (!response.ok) {
         // 결제 실패 비즈니스 로직을 구현하세요.

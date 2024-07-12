@@ -27,7 +27,7 @@ public class WidgetController {
     @Value("${payment.toss.secret-key}")
     private String tossSecretKey;
 
-    @RequestMapping(value = "/confirm")
+    @PostMapping(value = "/confirm")
     public ResponseEntity<JSONObject> confirmPayment(@RequestBody String jsonBody) throws Exception {
 
         JSONParser parser = new JSONParser();
@@ -83,6 +83,20 @@ public class WidgetController {
         logger.info("Response Body: {}", jsonObject.toString());
         return ResponseEntity.status(code).body(jsonObject);
     }
+    @GetMapping("/toss_success")
+    public String tossSuccess(@RequestParam("paymentKey") String paymentKey,
+                              @RequestParam("orderId") String orderId,
+                              @RequestParam("amount") String amount,
+                              Model model) {
 
+        // 받은 파라미터들을 모델에 추가
+        model.addAttribute("paymentKey", paymentKey);
+        model.addAttribute("orderId", orderId);
+        model.addAttribute("amount", amount);
 
+        // 추가적인 처리 로직을 여기에 구현할 수 있습니다.
+        // 예: 데이터베이스에 결제 정보 저장, 사용자 포인트 업데이트 등
+
+        return "toss_success";  // toss_success.html 템플릿을 렌더링
+    }
 }
