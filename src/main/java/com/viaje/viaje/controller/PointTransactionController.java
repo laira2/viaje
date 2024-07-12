@@ -51,6 +51,7 @@ public class PointTransactionController {
         model.addAttribute("orderId", tossOrderId);
         return "/toss_index";
     }
+
     private String generateUniqueOrderId() {
         // 현재 시간을 밀리초로 얻기
         long timestamp = System.currentTimeMillis();
