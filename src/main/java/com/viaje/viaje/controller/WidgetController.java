@@ -26,7 +26,7 @@ public class WidgetController {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @Value("${toss.secret-key}")
+    @Value("${payment.toss.secret-key}")
     private String tossSecretKey;
 
     @RequestMapping(value = "/confirm")

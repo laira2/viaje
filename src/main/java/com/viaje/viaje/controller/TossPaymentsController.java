@@ -1,7 +1,6 @@
 package com.viaje.viaje.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.viaje.viaje.config.TossPaymentsConfig;
 import com.viaje.viaje.service.TossPaymentsService;
 import com.viaje.viaje.dto.TossPaymentsDTO;
 import org.springframework.beans.factory.annotation.Autowired;

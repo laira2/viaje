@@ -3,7 +3,6 @@ package com.viaje.viaje.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.viaje.viaje.config.TossPaymentsConfig;
 import com.viaje.viaje.dto.TossPaymentsDTO;
 import com.viaje.viaje.model.TossPayments;
 import com.viaje.viaje.repository.TossPaymentsRepository;
@@ -19,20 +18,20 @@ import java.util.Map;
 
 @Service
 public class TossPaymentsService {
-    private TossPaymentsRepository tossPaymentsRepository;
-    private RestTemplate restTemplate;
-    private ObjectMapper objectMapper;
+    private final TossPaymentsRepository tossPaymentsRepository;
+    private final RestTemplate restTemplate;
+    private final ObjectMapper objectMapper;
 
-    @Value("${toss.secret-key}")
+    @Value("${payment.toss.secret-key}")
     private String tossSecretKey;
 
     @Autowired
-    public TossPaymentsService(TossPaymentsRepository tossPaymentsRepository, TossPaymentsConfig tossPaymentsConfig, String tossSecretKey) {
+    public TossPaymentsService(TossPaymentsRepository tossPaymentsRepository) {
         this.tossPaymentsRepository = tossPaymentsRepository;
-        this.tossSecretKey = tossSecretKey;
         this.restTemplate = new RestTemplate();
         this.objectMapper = new ObjectMapper();
     }
+
 
     public TossPaymentsDTO savePayments(TossPaymentsDTO paymentsDTO){
         TossPayments payments= TossPayments.fromDTO(paymentsDTO);
