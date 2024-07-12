@@ -1,5 +1,6 @@
 package com.viaje.viaje.controller;
 
+import com.viaje.viaje.model.Users;
 import com.viaje.viaje.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -41,8 +42,10 @@ public class PointTransactionController {
     @PostMapping("/requestcharge")
     public String requestCharge(HttpSession session, @RequestParam("chargeAmount") String chargeAmount, Model model){
         String tossOrderId = generateUniqueOrderId();
+        Users user = userService.findByEmail((String) session.getAttribute("user"));
         int chargeamount = Integer.parseInt(chargeAmount);
         UUID userUUID = UUID.fromString(userService.findByEmail((String) session.getAttribute("user")).getUuid());
+        session.setAttribute("user_model",user);
         model.addAttribute("userUUID", userUUID);
         model.addAttribute("chargeAmount", chargeamount);
         model.addAttribute("orderId", tossOrderId);

@@ -8,6 +8,7 @@ import com.viaje.viaje.dto.TossPaymentsDTO;
 import com.viaje.viaje.model.TossPayments;
 import com.viaje.viaje.repository.TossPaymentsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -19,14 +20,16 @@ import java.util.Map;
 @Service
 public class TossPaymentsService {
     private TossPaymentsRepository tossPaymentsRepository;
-    private TossPaymentsConfig tossPaymentsConfig;
     private RestTemplate restTemplate;
     private ObjectMapper objectMapper;
 
+    @Value("${toss.secret-key}")
+    private String tossSecretKey;
+
     @Autowired
-    public TossPaymentsService(TossPaymentsRepository tossPaymentsRepository, TossPaymentsConfig tossPaymentsConfig) {
+    public TossPaymentsService(TossPaymentsRepository tossPaymentsRepository, TossPaymentsConfig tossPaymentsConfig, String tossSecretKey) {
         this.tossPaymentsRepository = tossPaymentsRepository;
-        this.tossPaymentsConfig = tossPaymentsConfig;
+        this.tossSecretKey = tossSecretKey;
         this.restTemplate = new RestTemplate();
         this.objectMapper = new ObjectMapper();
     }
@@ -44,7 +47,7 @@ public class TossPaymentsService {
 
     public JsonNode confirmPayment(String paymentKey, String orderId, Long amount) throws Exception {
         HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", "Basic " + Base64.getEncoder().encodeToString((tossPaymentsConfig.getTestSecretKey() + ":").getBytes()));
+        headers.set("Authorization", "Basic " + Base64.getEncoder().encodeToString((tossSecretKey + ":").getBytes()));
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         Map<String, String> payloadMap = new HashMap<>();

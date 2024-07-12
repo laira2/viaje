@@ -13,8 +13,8 @@ public class TossPaymentsConfig {
     @Value("${payment.toss.test_client_api_key}")
     private String testClientApiKey;
 
-    @Value("${payment.toss.test_secret_api_key}")
-    private String testSecretKey;
+    @Value("${toss.secret-key}")
+    private String tossSecretKey;
 
     @Value("${payment.toss.success_url}")
     private String successUrl;
