@@ -37,13 +37,14 @@ public class PointTransactionController {
     public String pointCharge(HttpSession session, Model model){
         return "/test_charge";
     }
+
     @PostMapping("/requestcharge")
     public String requestCharge(HttpSession session, @RequestParam("chargeAmount") String chargeAmount, Model model){
         String tossOrderId = generateUniqueOrderId();
         int chargeamount = Integer.parseInt(chargeAmount);
         UUID userUUID = UUID.fromString(userService.findByEmail((String) session.getAttribute("user")).getUuid());
         model.addAttribute("userUUID", userUUID);
-        model.addAttribute("chargeAmount", chargeAmount);
+        model.addAttribute("chargeAmount", chargeamount);
         model.addAttribute("orderId", tossOrderId);
         return "/toss_index";
     }
