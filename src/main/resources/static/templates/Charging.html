@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viaje - 포인트 충전 내역</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/Charging.css">
+</head>
+<body>
+<header>
+    <div class="header-content">
+        <h1><i class="fas fa-plane-departure"></i> Viaje</h1>
+        <nav>
+            <a href="#" class="nav-link"><i class="fas fa-home"></i>홈</a>
+            <a href="#" class="nav-link"><i class="fas fa-map-marked-alt"></i>여행 플랜</a>
+            <a href="#" class="nav-link"><i class="fas fa-users"></i>커뮤니티</a>
+            <a href="#" class="nav-link active"><i class="fas fa-coins"></i>충전</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container">
+    <div class="dashboard">
+        <div class="card total-points">
+            <h2>총 보유 포인트</h2>
+            <p id="totalPoints">0</p>
+        </div>
+        <div class="card quick-charge">
+            <h2>빠른 충전</h2>
+            <div class="charge-options">
+                <button class="charge-btn" data-amount="10000">10,000P</button>
+                <button class="charge-btn" data-amount="30000">30,000P</button>
+                <button class="charge-btn" data-amount="50000">50,000P</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="history-section">
+        <h2>충전 내역</h2>
+        <div class="history-list" id="chargeHistory">
+            <!-- 충전 내역이 여기에 동적으로 추가됩니다 -->
+        </div>
+    </div>
+</main>
+
+<footer>
+    <p>&copy; 2024 Viaje. All rights reserved.</p>
+</footer>
+
+<script src="/static/js/Charging.js"></script>
+</body>
+</html>
