@@ -7,12 +7,11 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -25,7 +24,10 @@ public class WidgetController {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @RequestMapping(value = "/confirm")
+    @Value("${payment.toss.secret-key}")
+    private String tossSecretKey;
+
+    @PostMapping(value = "/confirm")
     public ResponseEntity<JSONObject> confirmPayment(@RequestBody String jsonBody) throws Exception {
 
         JSONParser parser = new JSONParser();
@@ -47,9 +49,11 @@ public class WidgetController {
         obj.put("amount", amount);
         obj.put("paymentKey", paymentKey);
 
+        logger.info("위젯 컨드롤러", obj.toString());
+
         // 토스페이먼츠 API는 시크릿 키를 사용자 ID로 사용하고, 비밀번호는 사용하지 않습니다.
         // 비밀번호가 없다는 것을 알리기 위해 시크릿 키 뒤에 콜론을 추가합니다.
-        String widgetSecretKey = "test_gsk_docs_OaPz8L5KdmQXkzRz3y47BMw6";
+        String widgetSecretKey = tossSecretKey;
         Base64.Encoder encoder = Base64.getEncoder();
         byte[] encodedBytes = encoder.encode((widgetSecretKey + ":").getBytes(StandardCharsets.UTF_8));
         String authorizations = "Basic " + new String(encodedBytes);
@@ -75,6 +79,24 @@ public class WidgetController {
         JSONObject jsonObject = (JSONObject) parser.parse(reader);
         responseStream.close();
 
+        logger.info("Response Code: {}", code);
+        logger.info("Response Body: {}", jsonObject.toString());
         return ResponseEntity.status(code).body(jsonObject);
+    }
+    @GetMapping("/toss_success")
+    public String tossSuccess(@RequestParam("paymentKey") String paymentKey,
+                              @RequestParam("orderId") String orderId,
+                              @RequestParam("amount") String amount,
+                              Model model) {
+
+        // 받은 파라미터들을 모델에 추가
+        model.addAttribute("paymentKey", paymentKey);
+        model.addAttribute("orderId", orderId);
+        model.addAttribute("amount", amount);
+
+        // 추가적인 처리 로직을 여기에 구현할 수 있습니다.
+        // 예: 데이터베이스에 결제 정보 저장, 사용자 포인트 업데이트 등
+
+        return "toss_success";  // toss_success.html 템플릿을 렌더링
     }
 }
