@@ -3,6 +3,7 @@ package com.viaje.viaje.service;
 import com.viaje.viaje.model.Users;
 import com.viaje.viaje.repository.UserRepository;
 import com.viaje.viaje.dto.UserDTO;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
@@ -68,5 +69,13 @@ public class UserService {
         public UserNotFoundException(String message) {
             super(message);
         }
+    }
+
+    @Transactional
+    public void updateUserPoints(Long userId, Integer additionalPoints) {
+        Users user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다: " + userId));
+        user.setPoint(user.getPoint() + additionalPoints);
+        userRepository.save(user);
     }
 }

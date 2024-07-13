@@ -1,6 +1,10 @@
 package com.viaje.viaje.controller;
 
 
+import com.viaje.viaje.dto.PointTransactionDTO;
+import com.viaje.viaje.model.Users;
+import com.viaje.viaje.service.PointTransactionService;
+import com.viaje.viaje.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -24,8 +28,16 @@ public class WidgetController {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    private final PointTransactionService pointTransactionService;
+    private final UserService userService;
+
     @Value("${payment.toss.secret-key}")
     private String tossSecretKey;
+
+    public WidgetController(PointTransactionService pointTransactionService, UserService userService) {
+        this.pointTransactionService = pointTransactionService;
+        this.userService = userService;
+    }
 
     @PostMapping(value = "/confirm")
     public ResponseEntity<JSONObject> confirmPayment(@RequestBody String jsonBody) throws Exception {
@@ -79,6 +91,7 @@ public class WidgetController {
         JSONObject jsonObject = (JSONObject) parser.parse(reader);
         responseStream.close();
 
+
         logger.info("Response Code: {}", code);
         logger.info("Response Body: {}", jsonObject.toString());
         return ResponseEntity.status(code).body(jsonObject);
@@ -87,15 +100,46 @@ public class WidgetController {
     public String tossSuccess(@RequestParam("paymentKey") String paymentKey,
                               @RequestParam("orderId") String orderId,
                               @RequestParam("amount") String amount,
-                              Model model) {
+                              Model model,
+                              HttpServletRequest request) {
 
         // 받은 파라미터들을 모델에 추가
         model.addAttribute("paymentKey", paymentKey);
         model.addAttribute("orderId", orderId);
         model.addAttribute("amount", amount);
 
-        // 추가적인 처리 로직을 여기에 구현할 수 있습니다.
-        // 예: 데이터베이스에 결제 정보 저장, 사용자 포인트 업데이트 등
+        // 세션에서 현재 로그인한 사용자 정보 가져오기
+        Users user = (Users) request.getSession().getAttribute("user_model");
+        if (user == null) {
+            // 사용자 정보가 없으면 에러 처리
+            return "error";
+        }
+
+        // 결제 금액을 Integer로 변환
+        Integer chargeAmount = Integer.parseInt(amount);
+
+        // 충전할 포인트 계산 (예: 1원 = 1포인트)
+        Integer chargePoint = chargeAmount;
+
+        System.out.print("충전된 포인트 : "+chargeAmount);
+        try {
+            // 포인트 충전 및 거래 기록 저장
+            PointTransactionDTO transactionDTO = pointTransactionService.chargePoints(user.getUserId(), chargeAmount, chargePoint);
+
+            // 사용자 포인트 업데이트
+            userService.updateUserPoints(user.getUserId(), chargePoint);
+
+            // 성공 메시지 추가
+            model.addAttribute("message", "포인트 충전이 완료되었습니다.");
+            model.addAttribute("chargedPoints", chargePoint);
+
+            System.out.print(user.getPoint());
+
+        } catch (Exception e) {
+            // 에러 처리
+            model.addAttribute("error", "포인트 충전 중 오류가 발생했습니다: " + e.getMessage());
+            return "error";
+        }
 
         return "toss_success";  // toss_success.html 템플릿을 렌더링
     }
