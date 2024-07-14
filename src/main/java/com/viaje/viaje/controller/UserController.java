@@ -69,4 +69,12 @@ public class UserController {
     public String login() {
         return "login"; // login.html 파일 반환
     }
+
+    @GetMapping("/mypage")
+    public String mypage() {
+        return "mypage";
+    }
+
 }
+
+
