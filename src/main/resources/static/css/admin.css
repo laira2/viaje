@@ -5,7 +5,6 @@
     box-sizing: border-box;
 }
 
-/* Body 스타일 설정 */
 body {
     font-family: 'Poppins', sans-serif;
     background: linear-gradient(135deg, #2c3e50 0%, #4ca1af 100%);
@@ -15,13 +14,11 @@ body {
     min-height: 100vh;
 }
 
-/* 헤더 스타일 설정 */
 header {
     background-color: #34495e;
     padding: 20px 0;
 }
 
-/* 네비게이션 바 스타일 설정 */
 nav {
     max-width: 1200px;
     margin: 0 auto;
@@ -31,14 +28,12 @@ nav {
     padding: 0 20px;
 }
 
-/* 로고 스타일 설정 */
 .logo {
     font-size: 24px;
     font-weight: 600;
     color: #ecf0f1;
 }
 
-/* 네비게이션 링크 스타일 설정 */
 .nav-links {
     list-style: none;
     display: flex;
@@ -59,18 +54,17 @@ nav {
     color: #1abc9c;
 }
 
-/* 메인 컨텐츠 스타일 설정 */
 main {
     flex: 1;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
+    padding-top: 40px;
 }
 
-/* 컨테이너 스타일 설정 */
 .container {
-    max-width: 800px;
-    margin: 40px auto;
+    max-width: 1000px;
+    margin: 0 auto;
     padding: 20px;
     background: rgba(44, 62, 80, 0.8);
     border-radius: 20px;
@@ -79,13 +73,11 @@ main {
     text-align: center;
 }
 
-/* h1 스타일 설정 */
-h1 {
+h1, h2 {
     color: #ecf0f1;
     margin-bottom: 20px;
 }
 
-/* 통계 섹션 스타일 설정 */
 .stats {
     display: flex;
     justify-content: space-around;
@@ -116,13 +108,14 @@ h1 {
     transform: translateY(-10px);
 }
 
-/* 액션 버튼 섹션 스타일 설정 */
-.actions {
+.actions, .management-buttons {
     display: flex;
     justify-content: space-around;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
 }
 
-.action-btn {
+.action-btn, .management-btn {
     padding: 15px 30px;
     background: #1abc9c;
     color: #ecf0f1;
@@ -132,22 +125,46 @@ h1 {
     font-weight: 600;
     cursor: pointer;
     transition: transform 0.3s, box-shadow 0.3s;
+    margin: 10px;
 }
 
-.action-btn i {
+.action-btn i, .management-btn i {
     margin-right: 10px;
 }
 
-.action-btn:hover {
+.action-btn:hover, .management-btn:hover {
     transform: translateY(-5px);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
-/* 푸터 스타일 설정 */
+.management {
+    margin-top: 30px;
+}
+
+.history-display {
+    background: rgba(236, 240, 241, 0.1);
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 20px;
+    text-align: left;
+}
+
 footer {
     text-align: center;
     padding: 20px 0;
     background-color: #34495e;
     color: #ecf0f1;
     width: 100%;
+}
+
+@media (max-width: 768px) {
+    .stats, .actions, .management-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .stat-item, .action-btn, .management-btn {
+        width: 80%;
+        margin-bottom: 20px;
+    }
 }

@@ -16,4 +16,6 @@ public class HomeController {
     public String showYacPage() {
         return "yac"; // yac.html로 이동
     }
+
+
 }
