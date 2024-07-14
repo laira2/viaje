@@ -42,13 +42,12 @@ public class CartService {
 
     public Cart getCart(String user_email) {
         Users user = userService.findByEmail(user_email);
-        Cart cart = cartRepository.findById(user.getUserId())
+        return  cartRepository.findById(user.getUserId())
                 .orElseGet(()->{
                     Cart newCart = new Cart();
                     newCart.setUsers(user);
                     return cartRepository.save(newCart);
                 });
-        return cart;
     }
 
     public List<CartItems> findAllcartItmes(Cart cart) {

@@ -1,10 +1,7 @@
 package com.viaje.viaje.service;
 
 import com.viaje.viaje.model.*;
-import com.viaje.viaje.repository.CartRepository;
-import com.viaje.viaje.repository.OrdersItemRepository;
-import com.viaje.viaje.repository.OrdersRepository;
-import com.viaje.viaje.repository.UserRepository;
+import com.viaje.viaje.repository.*;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -19,15 +16,15 @@ import static com.viaje.viaje.model.Orders.OrderStatus.*;
 @Service
 public class OrdersService {
     private CartService cartService;
-    private CartRepository cartRepository;
+    private CartItemsRepository cartItemsRepository;
 
     private UserService userService;
     private UserRepository userRepository;
     private OrdersRepository ordersRepository;
     private OrdersItemRepository ordersItemRepository;
-    public OrdersService(CartService cartService, CartRepository cartRepository, UserService userService, UserRepository userRepository, OrdersRepository ordersRepository, OrdersItemRepository ordersItemRepository) {
+    public OrdersService(CartService cartService, CartItemsRepository cartItemsRepository, UserService userService, UserRepository userRepository, OrdersRepository ordersRepository, OrdersItemRepository ordersItemRepository) {
         this.cartService = cartService;
-        this.cartRepository = cartRepository;
+        this.cartItemsRepository = cartItemsRepository;
         this.userService = userService;
         this.userRepository = userRepository;
         this.ordersRepository = ordersRepository;
@@ -75,7 +72,8 @@ public class OrdersService {
                 Users seller = userRepository.findById(createPlanUserId).orElseThrow();
                 seller.setPoint(seller.getPoint()+orderItem.getTravelPlans().getPrice()*0.1);
                 order.setOrderStatus(COMPLETED);
-                cartRepository.deleteById(user.getUserId());
+
+                cartItemsRepository.deleteAllByCart(cartService.getCart(user.getEmail()));
                 model.addAttribute("order", order);
             }
         }else{
