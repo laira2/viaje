@@ -15,4 +15,6 @@ public class AdminController {
     public String listPlans(HttpSession session, Model model) {
         return "/admin";
     }
+
+
 }
