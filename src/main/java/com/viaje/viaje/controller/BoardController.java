@@ -68,4 +68,7 @@ public class BoardController {
         return "write";
     }
 
+
+
+
 }

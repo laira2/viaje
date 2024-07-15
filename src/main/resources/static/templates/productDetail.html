@@ -74,6 +74,108 @@
 
             <div class="place-item" th:each="planDetail,iterStat: ${planDetails}">
                 <div class="place-number-container">
+
+                    <div class="place-number">1</div>
+                    <div class="place-time">10:00</div>
+                    <div class="place-icon">
+                        <i class="fas fa-shoe-prints"></i> 3"
+                    </div>
+                </div>
+                <div class="place-info-container">
+                    <div class="place-info">
+                        <div class="place-name">우메다 역</div>
+                        <div class="place-category">관광명소 · 우메다</div>
+                    </div>
+                </div>
+            </div>
+            <div class="place-item">
+                <div class="place-number-container">
+                    <div class="place-number">2</div>
+                    <div class="place-time">10:05</div>
+                    <div class="place-icon">
+                        <i class="fas fa-shoe-prints"></i> 6"
+                    </div>
+                </div>
+                <div class="place-info-container">
+                    <div class="place-info">
+                        <div class="place-name">디아모르 오사카</div>
+                        <div class="place-category">쇼핑 · 우메다</div>
+                    </div>
+                </div>
+            </div>
+            <div class="place-item">
+                <div class="place-number-container">
+                    <div class="place-number">3</div>
+                    <div class="place-time">11:00</div>
+                    <div class="place-icon">
+                        <i class="fas fa-shoe-prints"></i> 3"
+                    </div>
+                </div>
+                <div class="place-info-container">
+                    <div class="place-info">
+                        <div class="place-name">한큐 백화점 우메다 본점</div>
+                        <div class="place-category">쇼핑 · 우메다</div>
+                    </div>
+                </div>
+            </div>
+            <div class="place-item">
+                <div class="place-number-container">
+                    <div class="place-number">4</div>
+                    <div class="place-time">12:30</div>
+                    <div class="place-icon">
+                        <i class="fas fa-shoe-prints"></i> 1"
+                    </div>
+                </div>
+                <div class="place-info-container">
+                    <div class="place-info">
+                        <div class="place-name">화이티 우메다</div>
+                        <div class="place-category">쇼핑 · 우메다</div>
+                    </div>
+                </div>
+            </div>
+            <div class="place-item">
+                <div class="place-number-container">
+                    <div class="place-number">5</div>
+                    <div class="place-time">14:00</div>
+                    <div class="place-icon">
+                        <i class="fas fa-shoe-prints"></i> 3"
+                    </div>
+                </div>
+                <div class="place-info-container">
+                    <div class="place-info">
+                        <div class="place-name">헵파이브 관람차</div>
+                        <div class="place-category">테마/체험 · 우메다</div>
+                    </div>
+                </div>
+            </div>
+            <div class="place-item">
+                <div class="place-number-container">
+                    <div class="place-number">6</div>
+                    <div class="place-time">15:00</div>
+                    <div class="place-icon">
+                        <i class="fas fa-shoe-prints"></i> 15"
+                    </div>
+                </div>
+                <div class="place-info-container">
+                    <div class="place-info">
+                        <div class="place-name">돈키호테 우메다 본점</div>
+                        <div class="place-category">쇼핑 · 우메다</div>
+                    </div>
+                </div>
+            </div>
+            <div class="place-item">
+                <div class="place-number-container">
+                    <div class="place-number">7</div>
+                    <div class="place-time">17:30</div>
+                    <div class="place-icon">
+                        <i class="fas fa-shoe-prints"></i> 15"
+                    </div>
+                </div>
+                <div class="place-info-container">
+                    <div class="place-info">
+                        <div class="place-name">우메다 스카이 빌딩</div>
+                        <div class="place-category">관광명소 · 우메다</div>
+
                     <div class="place-number" th:text="${iterStat.count}">1</div>
                     <div class="place-time" th:text="${planDetail.planTime}">10:00</div>
                 </div>
@@ -81,6 +183,7 @@
                     <div class="place-info">
                         <div class="place-name"th:text="${planDetail.activity}">우메다 역</div>
                         <div class="place-category" th:text="${planDetail.description}">관광명소 · 우메다</div>
+
                     </div>
                 </div>
             </div>
