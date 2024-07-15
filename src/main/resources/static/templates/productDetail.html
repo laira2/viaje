@@ -72,14 +72,26 @@
                 <p th:if="${#lists.isEmpty(selectedPlan.imagePaths)}">첨부된 이미지가 없습니다.</p>
             </section>
 
+<<<<<<< HEAD
+            <section class="add-to-cart">
+                <form th:action="@{/cart/add}" method="post">
+                    <input type="hidden" name="planId" th:value="${selectedPlan.planId}">
+                    <button type="submit" class="btn-add-to-cart">
+                        <i class="fas fa-cart-plus"></i> 카트에 추가
+                    </button>
+                </form>
+            </section>
+
+
+            <div class="place-item">
+                <div class="place-number-container">
+=======
             <div class="place-item" th:each="planDetail,iterStat: ${planDetails}">
                 <div class="place-number-container">
 
+>>>>>>> 75590ccd95f1b035794d1ac7b6aa6e92cc5f8f73
                     <div class="place-number">1</div>
                     <div class="place-time">10:00</div>
-                    <div class="place-icon">
-                        <i class="fas fa-shoe-prints"></i> 3"
-                    </div>
                 </div>
                 <div class="place-info-container">
                     <div class="place-info">
@@ -92,9 +104,6 @@
                 <div class="place-number-container">
                     <div class="place-number">2</div>
                     <div class="place-time">10:05</div>
-                    <div class="place-icon">
-                        <i class="fas fa-shoe-prints"></i> 6"
-                    </div>
                 </div>
                 <div class="place-info-container">
                     <div class="place-info">
@@ -107,9 +116,6 @@
                 <div class="place-number-container">
                     <div class="place-number">3</div>
                     <div class="place-time">11:00</div>
-                    <div class="place-icon">
-                        <i class="fas fa-shoe-prints"></i> 3"
-                    </div>
                 </div>
                 <div class="place-info-container">
                     <div class="place-info">
@@ -122,9 +128,6 @@
                 <div class="place-number-container">
                     <div class="place-number">4</div>
                     <div class="place-time">12:30</div>
-                    <div class="place-icon">
-                        <i class="fas fa-shoe-prints"></i> 1"
-                    </div>
                 </div>
                 <div class="place-info-container">
                     <div class="place-info">
@@ -137,9 +140,6 @@
                 <div class="place-number-container">
                     <div class="place-number">5</div>
                     <div class="place-time">14:00</div>
-                    <div class="place-icon">
-                        <i class="fas fa-shoe-prints"></i> 3"
-                    </div>
                 </div>
                 <div class="place-info-container">
                     <div class="place-info">
@@ -152,9 +152,6 @@
                 <div class="place-number-container">
                     <div class="place-number">6</div>
                     <div class="place-time">15:00</div>
-                    <div class="place-icon">
-                        <i class="fas fa-shoe-prints"></i> 15"
-                    </div>
                 </div>
                 <div class="place-info-container">
                     <div class="place-info">
@@ -167,9 +164,6 @@
                 <div class="place-number-container">
                     <div class="place-number">7</div>
                     <div class="place-time">17:30</div>
-                    <div class="place-icon">
-                        <i class="fas fa-shoe-prints"></i> 15"
-                    </div>
                 </div>
                 <div class="place-info-container">
                     <div class="place-info">
@@ -189,16 +183,25 @@
             </div>
 
             <div class="action-buttons">
+<<<<<<< HEAD
+                <button class="btn-schedule">
+                    <i class="fas fa-calendar-plus"></i> 내 일정으로 담기
+                </button>
+=======
                 <form th:action="@{/cart/add}" method="post">
                     <input type="hidden" name="planId" th:value="${selectedPlan.planId}">
                     <button class="btn-schedule" type="submit">
                         <i class="fas fa-calendar-plus"></i> 내 일정으로 담기
                     </button>
                 </form>
+>>>>>>> 75590ccd95f1b035794d1ac7b6aa6e92cc5f8f73
             </div>
 
             <!-- Font Awesome CDN 추가 -->
             <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+
+
 
             <section id="commentsSection">
                 <h3>댓글</h3>
