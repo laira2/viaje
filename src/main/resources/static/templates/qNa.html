@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>문의 게시판</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/qNa.css">
+</head>
+<body>
+<header>
+    <div class="header-content">
+        <h1><i class="fas fa-comments"></i> 문의 게시판</h1>
+        <nav>
+            <a href="index.html" class="nav-link"><i class="fas fa-home"></i> 홈</a>
+            <a href="#" class="nav-link"><i class="fas fa-pencil-alt"></i> 글쓰기</a>
+            <a href="#" class="nav-link"><i class="fas fa-sign-out-alt"></i> 로그아웃</a>
+        </nav>
+    </div>
+</header>
+
+<main>
+    <div class="board-container">
+        <div class="post-list" id="postList">
+            <!-- 게시글이 JavaScript로 여기 삽입됩니다 -->
+        </div>
+        <div class="new-post">
+            <h2>새 글 작성</h2>
+            <form id="newPostForm">
+                <input type="text" id="postTitle" placeholder="제목" required>
+                <textarea id="postContent" rows="5" placeholder="내용" required></textarea>
+                <button type="submit" class="btn">작성</button>
+            </form>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <p>&copy; 2024 문의 게시판. All rights reserved.</p>
+</footer>
+
+<script src="/static/js/qNa.js"></script>
+</body>
+</html>
