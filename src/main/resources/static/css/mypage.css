@@ -248,12 +248,12 @@ footer {
 
 */
 
-.transaction-list {
+.contents-list {
     list-style-type: none;
     padding: 0;
 }
 
-.transaction-card {
+.contents-card {
     display: flex;
     align-items: center;
     background-color: #fff;
@@ -264,7 +264,7 @@ footer {
     transition: transform 0.2s ease-in-out;
 }
 
-.transaction-card:hover {
+.contents-card:hover {
     transform: translateY(-3px);
 }
 
