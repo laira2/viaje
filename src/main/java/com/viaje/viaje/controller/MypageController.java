@@ -6,6 +6,7 @@ import com.viaje.viaje.model.Users;
 import com.viaje.viaje.service.BoardService;
 import com.viaje.viaje.service.PointTransactionService;
 import com.viaje.viaje.service.UserService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,16 +27,15 @@ public class MypageController {
         this.pointTransactionService = pointTransactionService;
     }
 
-    @GetMapping("/mypage/{userId}")
-    public String getMypage(@PathVariable Long userId, Model model) {
+    @GetMapping("/mypage")
+    public void getMypage(HttpSession session, Model model) {
         // 유저 정보 가져오기
-        Users user = userService.findById(userId);
+        Users user = userService.findByEmail((String) session.getAttribute("user"));
         model.addAttribute("user", user);
 
         // 포인트 충전 내역 가져오기
-        List<PointTransaction> transactions = pointTransactionService.getPointTransactionsByUserId(userId);
+        List<PointTransaction> transactions = pointTransactionService.getPointTransactionsByUserId(user.getUserId());
         model.addAttribute("transactions", transactions);
 
-        return "mypage";
     }
 }

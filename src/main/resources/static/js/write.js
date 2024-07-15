@@ -66,6 +66,7 @@ document.addEventListener('DOMContentLoaded', function() {
         { code: 'overseas', name: '해외 여행' ,colname: '해외'}
     ];
 
+
     const countrySearch = document.getElementById('countrySearch');
     const countryDropdown = document.getElementById('countryDropdown');
     const selectedCountry = document.getElementById('selectedCountry');
@@ -73,7 +74,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const currencySymbol = document.getElementById('currencySymbol');
     const tagsSearch = document.getElementById('tagsSearch');
     const tagsDropdown = document.getElementById('tagsDropdown');
-//    const selectedTags = document.getElementById('selectedTags');
     const selectedTagsContainer = document.getElementById('selectedTagsContainer');
     const selectedTagsInput = document.getElementById('selectedTags');
     let selectedTagsList = [];
@@ -82,13 +82,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const endDate = document.getElementById('endDate');
 
     function validateDates() {
-         if (startDate.value && endDate.value) {
+        if (startDate.value && endDate.value) {
             if (new Date(endDate.value) < new Date(startDate.value)) {
-                    alert('여행 종료일은 시작일 이후여야 합니다.');
-                    endDate.value = '';
-                }
+                alert('여행 종료일은 시작일 이후여야 합니다.');
+                endDate.value = '';
             }
         }
+    }
 
     startDate.addEventListener('change', validateDates);
     endDate.addEventListener('change', validateDates);
@@ -133,10 +133,6 @@ document.addEventListener('DOMContentLoaded', function() {
         currencySymbol.textContent = item.currency;
     }
 
-//    function selectTag(item) {
-//        selectedTags.value = item.code;
-//        tagsSearch.value = item.name;
-//    }
     function selectTag(item) {
         if (!selectedTagsList.some(tag => tag.colname === item.colname)) {
             selectedTagsList.push({ colname: item.colname, name: item.name });
@@ -150,7 +146,7 @@ document.addEventListener('DOMContentLoaded', function() {
         selectedTagsList.forEach(tag => {
             const tagElement = document.createElement('span');
             tagElement.className = 'selected-tag';
-            tagElement.textContent = tag.name;  // name 값을 표시
+            tagElement.textContent = tag.name;
             tagElement.onclick = (e) => {
                 e.preventDefault();
                 removeTag(tag.colname);
@@ -165,7 +161,130 @@ document.addEventListener('DOMContentLoaded', function() {
         updateSelectedTags();
     }
 
-
     setupDropdown(countrySearch, countryDropdown, countries, updateCurrencySymbol);
     setupDropdown(tagsSearch, tagsDropdown, tags, selectTag);
+
+    // 새로운 이미지 업로드 관련 코드
+    const planImageInput = document.getElementById('planImageInput');
+    const certImageInput = document.getElementById('certImageInput');
+    const addPlanImageBtn = document.getElementById('addPlanImage');
+    const addCertImageBtn = document.getElementById('addCertImage');
+    const planImagePreview = document.getElementById('planImagePreview');
+    const certImagePreview = document.getElementById('certImagePreview');
+    const planImagesInput = document.getElementById('planImages');
+    const certImagesInput = document.getElementById('certImages');
+
+    let planImageFiles = [];
+    let certImageFiles = [];
+
+    function addImageToPreview(file, previewElement, imageFiles) {
+        if (file.type.startsWith('image/')) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                img.style.width = '100px';
+                img.style.height = '100px';
+                img.style.objectFit = 'cover';
+                img.style.margin = '5px';
+
+                const removeBtn = document.createElement('button');
+                removeBtn.textContent = '삭제';
+                removeBtn.onclick = function() {
+                    previewElement.removeChild(img);
+                    previewElement.removeChild(removeBtn);
+                    const index = imageFiles.indexOf(file);
+                    if (index > -1) {
+                        imageFiles.splice(index, 1);
+                    }
+                    updateHiddenInput(imageFiles, previewElement.id === 'planImagePreview' ? planImagesInput : certImagesInput);
+                };
+
+                previewElement.appendChild(img);
+                previewElement.appendChild(removeBtn);
+                imageFiles.push(file);
+                updateHiddenInput(imageFiles, previewElement.id === 'planImagePreview' ? planImagesInput : certImagesInput);
+            };
+            reader.readAsDataURL(file);
+        } else {
+            alert('이미지 파일만 업로드 가능합니다.');
+        }
+    }
+
+    function updateHiddenInput(files, hiddenInput) {
+        const dataTransfer = new DataTransfer();
+        files.forEach(file => {
+            dataTransfer.items.add(file);
+        });
+        hiddenInput.files = dataTransfer.files;
+    }
+
+    addPlanImageBtn.addEventListener('click', function() {
+        planImageInput.click();
+    });
+
+    addCertImageBtn.addEventListener('click', function() {
+        certImageInput.click();
+    });
+
+    planImageInput.addEventListener('change', function(e) {
+        addImageToPreview(e.target.files[0], planImagePreview, planImageFiles);
+    });
+
+    certImageInput.addEventListener('change', function(e) {
+        addImageToPreview(e.target.files[0], certImagePreview, certImageFiles);
+    });
+
+    // planDetail 관련 코드
+    let planDetailCount = document.querySelectorAll('.plan-detail').length;
+
+    function addPlanDetail() {
+        const container = document.getElementById('planDetailsContainer');
+        const template = document.getElementById('planDetailTemplate');
+        const newPlanDetail = template.content.cloneNode(true).querySelector('.plan-detail');
+
+        newPlanDetail.innerHTML = newPlanDetail.innerHTML.replace(/INDEX/g, planDetailCount);
+
+        const newDeleteBtn = newPlanDetail.querySelector('.removePlanDetailBtn');
+        newDeleteBtn.addEventListener('click', function() {
+            removePlanDetail(this);
+        });
+
+        container.appendChild(newPlanDetail);
+        planDetailCount++;
+    }
+
+    function removePlanDetail(button) {
+        const planDetail = button.closest('.plan-detail');
+        planDetail.parentNode.removeChild(planDetail);
+        updateIndexes();
+    }
+
+    function updateIndexes() {
+        const container = document.getElementById('planDetailsContainer');
+        const planDetails = container.getElementsByClassName('plan-detail');
+        for (let i = 0; i < planDetails.length; i++) {
+            const inputs = planDetails[i].getElementsByTagName('input');
+            const textareas = planDetails[i].getElementsByTagName('textarea');
+            for (let input of inputs) {
+                input.name = input.name.replace(/\[\d+\]/, '[' + i + ']');
+            }
+            for (let textarea of textareas) {
+                textarea.name = textarea.name.replace(/\[\d+\]/, '[' + i + ']');
+            }
+        }
+    }
+
+    // planDetail 관련 이벤트 리스너 추가
+    document.getElementById('addPlanDetailBtn').addEventListener('click', addPlanDetail);
+    document.querySelectorAll('.removePlanDetailBtn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            removePlanDetail(this);
+        });
+    });
+
+    // 폼 제출 이벤트 리스너
+    document.querySelector('form').addEventListener('submit', function(e) {
+        // 필요한 유효성 검사 로직 추가
+    });
 });

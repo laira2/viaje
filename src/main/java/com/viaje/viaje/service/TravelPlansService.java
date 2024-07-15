@@ -1,34 +1,30 @@
 package com.viaje.viaje.service;
 
 import com.viaje.viaje.dto.PlanCertificationDTO;
+import com.viaje.viaje.dto.PlanDetailDTO;
 import com.viaje.viaje.dto.TravelPlansDTO;
 import com.viaje.viaje.model.PlanCertification;
+import com.viaje.viaje.model.PlanDetail;
 import com.viaje.viaje.model.TravelPlans;
 import com.viaje.viaje.model.Users;
 import com.viaje.viaje.repository.PlanCertificationRepository;
+import com.viaje.viaje.repository.PlanDetialRepository;
 import com.viaje.viaje.repository.TravelPlansRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.*;
 import java.util.ArrayList;
 
-import java.nio.file.AccessDeniedException;
 import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class TravelPlansService {
@@ -41,29 +37,31 @@ public class TravelPlansService {
     private final UserService userService;
     private final TagsService tagsService;
     private final PlanCertificationRepository planCertificationRepository;
-    public TravelPlansService(FileUploadUtil fileUploadUtil, TravelPlansRepository travelPlansRepository, BoardService boardService, UserService userService, TagsService tagsService, PlanCertificationRepository planCertificationRepository) {
+    private final PlanDetialRepository planDetialRepository;
+    public TravelPlansService(FileUploadUtil fileUploadUtil, TravelPlansRepository travelPlansRepository, BoardService boardService, UserService userService, TagsService tagsService, PlanCertificationRepository planCertificationRepository, PlanDetialRepository planDetialRepository) {
         this.travelPlansRepository = travelPlansRepository;
         this.boardService = boardService;
         this.userService = userService;
         this.tagsService = tagsService;
         this.planCertificationRepository = planCertificationRepository;
         this.fileUploadUtil=fileUploadUtil;
+        this.planDetialRepository = planDetialRepository;
     }
     @Transactional
-    public TravelPlans createPlan(HttpSession session, TravelPlansDTO tpDTO, PlanCertificationDTO pcDTO) throws IOException {
+    public TravelPlans createPlan(HttpSession session, TravelPlansDTO tpDTO, PlanCertificationDTO pcDTO,List<PlanDetailDTO> planDetails) throws IOException {
         String user_email = (String) session.getAttribute("user");
         Users user = userService.findByEmail(user_email);
         if (user == null) {
             throw new IllegalArgumentException("User is required to create a travel plan.");
         }
-
+//        plan이미지저장
         List<String> planFilePaths = new ArrayList<>();
         for (MultipartFile planImage : tpDTO.getPlanImages()) {
             String planFileName = fileUploadUtil.saveFile(planImage, true);
             String planFilePath = fileUploadUtil.getPlanUploadDir() + "/" + planFileName;
             planFilePaths.add(planFileName);
         }
-
+//        인증 이미지 저장
         List<String> certFilePaths = new ArrayList<>();
         for (MultipartFile certImage : pcDTO.getCertImages()) {
             String certFileName = fileUploadUtil.saveFile(certImage, false);
@@ -72,7 +70,7 @@ public class TravelPlansService {
         }
 
         Map<String,Number> durations = calculateDurationAndPrice(tpDTO);
-
+//        travelPlan저장
         TravelPlans travelPlans = TravelPlans.builder()
                 .nights((Long) durations.get("nights"))
                 .days((Long) durations.get("days"))
@@ -88,13 +86,23 @@ public class TravelPlansService {
                 .build();
 
         TravelPlans savedPlan = travelPlansRepository.save(travelPlans);
-
+//        plan인증 저장
         PlanCertification planCertification = PlanCertification.builder()
                 .travelPlans(savedPlan)
                 .certImagePaths(certFilePaths)
                 .build();
         planCertificationRepository.save(planCertification);
-
+// 여러 개의 계획 내용 저장
+        for (PlanDetailDTO pdDTO : planDetails) {
+            PlanDetail planDetail = PlanDetail.builder()
+                    .travelPlan(savedPlan)
+                    .planDate(pdDTO.getPlanDate())
+                    .planTime(pdDTO.getPlanTime())
+                    .activity(pdDTO.getActivity())
+                    .description(pdDTO.getDescription())
+                    .build();
+            planDetialRepository.save(planDetail);
+        }
         tagsService.insertPlanTag(session, travelPlans);
         boardService.postPlan(user, travelPlans);
         return travelPlans;

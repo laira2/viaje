@@ -255,3 +255,67 @@ footer {
 #selectedTagsContainer {
     margin-top: 10px;
 }
+
+.plan-detail {
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 5px;
+}
+
+.date-time-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.input-wrapper {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+
+.date-time-container .input-wrapper {
+    flex: 0 1 auto; /* 변경: 자동으로 크기 조절 */
+}
+
+.input-wrapper label {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.input-wrapper input,
+.input-wrapper textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.input-wrapper input[type="date"],
+.input-wrapper input[type="time"] {
+    appearance: none;
+    -webkit-appearance: none;
+    background-color: #fff;
+    width: auto; /* 변경: 내용에 맞게 자동 조절 */
+    min-width: 120px; /* 추가: 최소 너비 설정 */
+}
+
+.input-wrapper textarea {
+    height: 100px;
+    resize: vertical;
+}
+.image-preview {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.image-preview img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 4px;
+}
