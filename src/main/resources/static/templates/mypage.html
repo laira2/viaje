@@ -13,8 +13,8 @@
     <div class="header-content">
         <h1><i class="fas fa-plane-departure"></i> Viaje</h1>
         <nav>
-            <a href="/static/templates/main.html" class="nav-link"><i class="fas fa-home"></i> 홈</a>
-            <a href="#" class="nav-link"><i class="fas fa-map-marked-alt"></i> 여행 플랜</a>
+            <a th:href="@{/}" class="nav-link"><i class="fas fa-home"></i> 홈</a>
+            <a th:href="@{/products}" class="nav-link"><i class="fas fa-map-marked-alt"></i> 여행 플랜</a>
             <a href="#" class="nav-link"><i class="fas fa-users"></i> 커뮤니티</a>
         </nav>
     </div>
@@ -26,8 +26,8 @@
             <img id="avatarPreview" src="https://via.placeholder.com/150" alt="User Avatar">
         </div>
         <div class="user-details">
-            <h2>안녕하세요, <span id="userName">${user.userName}</span>님!</h2>
-            <p class="mileage"><i class="fas fa-coins"></i> 마일리지: <span id="userMileage">${transaction.chargePoint}</span>점</p>
+            <h2>안녕하세요, <span id="userName" th:text="${user.userName}"></span>님!</h2>
+            <p class="mileage"><i class="fas fa-coins"></i> 마일리지: <span id="userMileage" th:text="${user.point}"></span>점</p>
             <div class="button-group">
                 <label for="avatarUpload" class="btn btn-change-photo"><i class="fas fa-camera"></i> 사진 변경</label>
                 <input type="file" id="avatarUpload" style="display: none;">
@@ -44,7 +44,7 @@
                 <p>포인트: <span th:text="${transaction.chargePoint}"></span></p>
                 <p>상태: <span th:text="${transaction.transactionStatus}"></span></p>
                 <p>유형: <span th:text="${transaction.transactionType}"></span></p>
-                <p>날짜: <span th:text="${#dates.format(transaction.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></span></p>
+                <p>날짜: <span th:text="${#temporals.format(transaction.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></span></p>
             </li>
         </div>
     </section>
