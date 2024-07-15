@@ -36,17 +36,15 @@
         </div>
     </div>
 
+    <!-- 포인트 충전 내역 섹션 -->
     <section class="travel-section">
         <h2 class="section-title">
-            <i class="fas fa-coins" style="color: gold;"></i><i class="fas fa-coins" style="color: gold;"></i> 포인트 충전 내역
+            <i class="fas fa-coins" style="color: gold;"></i> 포인트 충전 내역
             <button class="toggle-btn"><i class="fas fa-chevron-down"></i></button>
         </h2>
         <div id="pointChargeHistory" class="section-content">
-            <ul class="contents-list">
+            <ul class="contents-list" th:if="${not #lists.isEmpty(transactions)}">
                 <li th:each="transaction : ${transactions}" class="contents-card">
-                    <div th:if="${transactions ==null}">
-                        <span>충전 내역이 없습니다.</span>
-                    </div>
                     <div class="transaction-icon">
                         <i class="fas fa-coins" th:style="${transaction.transactionType == 'CREDIT' ? 'color: #4CAF50;' : 'color: #F44336;'}"></i>
                     </div>
@@ -65,59 +63,92 @@
                     </div>
                 </li>
             </ul>
+            <div class="no-data" th:if="${#lists.isEmpty(transactions)}">
+                <i class="fas fa-exclamation-circle"></i>
+                <span>충전 내역이 없습니다.</span>
+            </div>
         </div>
     </section>
 
-    <section class="travel-section">
-        <h2 class="section-title">
-            <i class="fas fa-store"></i> 내가 판매한 계획
-            <button class="toggle-btn"><i class="fas fa-chevron-down"></i></button>
-        </h2>
-        <div id="purchasedPlans" class="section-content">
-            <ul class="contents-list">
-                <li th:each="board : ${boardList}" class="contents-card">
-                    <div th:if="${boardList ==null}">
-                        <span>판매 내역이 없습니다.</span>
-                    </div>
-                    <div class="transaction-details">
-
-                        <p th:text="${board.boardId}"></p>
-                        <p th:text="${board.travelPlans.planId}"></p>
-                        <p th:text="${board.user.userId}"></p>
-                        <p>
-                            <a th:href="@{/product_detail/{id}(id=${board.travelPlans.planId})}" th:text="${board.travelPlans.title}"></a>
-                        </p>
-                        <p th:text="${board.createdAt}"></p>
-                        <p th:text="${board.updatedAt}"></p>
-                        <p th:text="${board.viewCount}"></p>
-                        <p th:text="${board.likeCount}"></p>
-                        <p th:text="${board.boardStatus}"></p>
-                    </div>
-                </li>
-            </ul>
-
-        </div>
-    </section>
-
+    <!-- 구매 내역 섹션 -->
     <section class="travel-section">
         <h2 class="section-title">
             <i class="fas fa-shopping-cart"></i> 내가 구입한 계획
             <button class="toggle-btn"><i class="fas fa-chevron-down"></i></button>
         </h2>
-        <div id="soldPlans" class="section-content">
-            <!-- 구입한 계획 내용 -->
+        <div id="purchasedPlans" class="section-content">
+            <ul class="contents-list" th:if="${not #lists.isEmpty(oderBoardList)}">
+                <li th:each="orderboard : ${oderBoardList}" class="contents-card">
+                    <div class="plan-icon">
+                        <i class="fas fa-map-marked-alt"></i>
+                    </div>
+                    <div class="plan-details">
+                        <h3 class="plan-title">
+                            <a th:href="@{/product_detail/{id}(id=${orderboard.travelPlans.planId})}" th:text="${orderboard.travelPlans.title}"></a>
+                        </h3>
+                        <p class="plan-info">
+                            <span><i class="fas fa-eye"></i> <th:block th:text="${orderboard.viewCount}"></th:block></span>
+                            <span><i class="fas fa-heart"></i> <th:block th:text="${orderboard.likeCount}"></th:block></span>
+                            <span class="plan-status" th:text="${orderboard.boardStatus}"></span>
+                        </p>
+                        <p class="plan-date">
+                            <i class="far fa-calendar-alt"></i>
+                            <span th:text="${#temporals.format(orderboard.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></span>
+                        </p>
+                    </div>
+                </li>
+            </ul>
+            <div class="no-data" th:if="${#lists.isEmpty(oderBoardList)}">
+                <i class="fas fa-exclamation-circle"></i>
+                <span>구매 내역이 없습니다.</span>
+            </div>
         </div>
     </section>
 
+    <!-- 판매 내역 섹션 -->
     <section class="travel-section">
         <h2 class="section-title">
-            <i class="fas fa-pen"></i> 내가 작성한 글
+            <i class="fas fa-store"></i> 내가 판매한 계획
             <button class="toggle-btn"><i class="fas fa-chevron-down"></i></button>
         </h2>
-        <div id="myPosts" class="section-content">
-            <!-- 작성한 글 내용 -->
+        <div id="soldPlans" class="section-content">
+            <ul class="contents-list" th:if="${not #lists.isEmpty(boardList)}">
+                <li th:each="board : ${boardList}" class="contents-card">
+                    <div class="plan-icon">
+                        <i class="fas fa-map-marked-alt"></i>
+                    </div>
+                    <div class="plan-details">
+                        <h3 class="plan-title">
+                            <a th:href="@{/product_detail/{id}(id=${board.travelPlans.planId})}" th:text="${board.travelPlans.title}"></a>
+                        </h3>
+                        <p class="plan-info">
+                            <span><i class="fas fa-eye"></i> <th:block th:text="${board.viewCount}"></th:block></span>
+                            <span><i class="fas fa-heart"></i> <th:block th:text="${board.likeCount}"></th:block></span>
+                            <span class="plan-status" th:text="${board.boardStatus}"></span>
+                        </p>
+                        <p class="plan-date">
+                            <i class="far fa-calendar-alt"></i>
+                            <span th:text="${#temporals.format(board.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></span>
+                        </p>
+                    </div>
+                </li>
+            </ul>
+            <div class="no-data" th:if="${#lists.isEmpty(boardList)}">
+                <i class="fas fa-exclamation-circle"></i>
+                <span>판매 내역이 없습니다.</span>
+            </div>
         </div>
     </section>
+
+<!--    <section class="travel-section">-->
+<!--        <h2 class="section-title">-->
+<!--            <i class="fas fa-pen"></i> 내가 작성한 글-->
+<!--            <button class="toggle-btn"><i class="fas fa-chevron-down"></i></button>-->
+<!--        </h2>-->
+<!--        <div id="myPosts" class="section-content">-->
+<!--            &lt;!&ndash; 작성한 글 내용 &ndash;&gt;-->
+<!--        </div>-->
+<!--    </section>-->
 </div>
 
 <footer>
