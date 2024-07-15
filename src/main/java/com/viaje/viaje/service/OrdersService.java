@@ -22,13 +22,16 @@ public class OrdersService {
     private UserRepository userRepository;
     private OrdersRepository ordersRepository;
     private OrdersItemRepository ordersItemRepository;
-    public OrdersService(CartService cartService, CartItemsRepository cartItemsRepository, UserService userService, UserRepository userRepository, OrdersRepository ordersRepository, OrdersItemRepository ordersItemRepository) {
+    private BoardRepository boardRepository;
+    private TravelPlansRepository travelPlansRepository;
+    public OrdersService(CartService cartService, CartItemsRepository cartItemsRepository, UserService userService, UserRepository userRepository, OrdersRepository ordersRepository, OrdersItemRepository ordersItemRepository, BoardRepository boardRepository) {
         this.cartService = cartService;
         this.cartItemsRepository = cartItemsRepository;
         this.userService = userService;
         this.userRepository = userRepository;
         this.ordersRepository = ordersRepository;
         this.ordersItemRepository = ordersItemRepository;
+        this.boardRepository = boardRepository;
     }
 
 
@@ -58,6 +61,18 @@ public class OrdersService {
                 .build();
 
         return ordersRepository.save(newOrders);
+    }
+
+    public List<Board> orderItemBoard(Users user) {
+        List<Orders> ordersList = ordersRepository.findAllByUser(user);
+        List<Board> orderItemsBoard =new ArrayList<>();
+        for (Orders order : ordersList){
+            List<OrderItems> orderItem = ordersItemRepository.findAllByOrders(order);
+            for (OrderItems addItems : orderItem){
+                orderItemsBoard.add(boardRepository.findByTravelPlans(addItems.getTravelPlans()));
+            }
+        }
+        return orderItemsBoard;
     }
     @Transactional
     public void payorder(Long orderId, HttpSession session, Model model) {

@@ -42,8 +42,11 @@
             <button class="toggle-btn"><i class="fas fa-chevron-down"></i></button>
         </h2>
         <div id="pointChargeHistory" class="section-content">
-            <ul class="transaction-list">
-                <li th:each="transaction : ${transactions}" class="transaction-card">
+            <ul class="contents-list">
+                <li th:each="transaction : ${transactions}" class="contents-card">
+                    <div th:if="${transactions ==null}">
+                        <span>충전 내역이 없습니다.</span>
+                    </div>
                     <div class="transaction-icon">
                         <i class="fas fa-coins" th:style="${transaction.transactionType == 'CREDIT' ? 'color: #4CAF50;' : 'color: #F44336;'}"></i>
                     </div>
@@ -71,6 +74,27 @@
             <button class="toggle-btn"><i class="fas fa-chevron-down"></i></button>
         </h2>
         <div id="purchasedPlans" class="section-content">
+            <ul class="contents-list">
+                <li th:each="board : ${boardList}" class="contents-card">
+                    <div th:if="${boardList ==null}">
+                        <span>판매 내역이 없습니다.</span>
+                    </div>
+                    <div class="transaction-details">
+
+                        <p th:text="${board.boardId}"></p>
+                        <p th:text="${board.travelPlans.planId}"></p>
+                        <p th:text="${board.user.userId}"></p>
+                        <p>
+                            <a th:href="@{/product_detail/{id}(id=${board.travelPlans.planId})}" th:text="${board.travelPlans.title}"></a>
+                        </p>
+                        <p th:text="${board.createdAt}"></p>
+                        <p th:text="${board.updatedAt}"></p>
+                        <p th:text="${board.viewCount}"></p>
+                        <p th:text="${board.likeCount}"></p>
+                        <p th:text="${board.boardStatus}"></p>
+                    </div>
+                </li>
+            </ul>
 
         </div>
     </section>
