@@ -45,6 +45,7 @@ public class BoardController {
     public String themePlans(@PathVariable("type") String type, HttpSession session,Model model ){
         List<Board> boardList = boardService.findProductByType(type);
         model.addAttribute("boardList",boardList);
+        model.addAttribute("type", type);
         return "/board";
     }
 

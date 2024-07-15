@@ -15,7 +15,8 @@
   </div>
   <div class="board-container">
     <div class="board-header">
-      <h1>Viaje 게시판</h1>
+      <h1 th:if="${type==null}">Viaje 게시판</h1>
+      <h1 th:if="${type!=null}" th:text="'Viaje #' + ${type}"></h1>
       <p>여행 경험을 공유해보세요</p>
     </div>
     <div class="board-content">
