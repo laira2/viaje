@@ -42,7 +42,26 @@
             <button class="toggle-btn"><i class="fas fa-chevron-down"></i></button>
         </h2>
         <div id="pointChargeHistory" class="section-content">
-            <!-- 포인트 충전 내역 내용 -->
+            <ul class="transaction-list">
+                <li th:each="transaction : ${transactions}" class="transaction-card">
+                    <div class="transaction-icon">
+                        <i class="fas fa-coins" th:style="${transaction.transactionType == 'CREDIT' ? 'color: #4CAF50;' : 'color: #F44336;'}"></i>
+                    </div>
+                    <div class="transaction-details">
+                        <p class="transaction-point">
+                            <span th:text="${transaction.chargePoint}"></span> 포인트
+                            <span class="transaction-type" th:text="${transaction.transactionType}"></span>
+                        </p>
+                        <p class="transaction-status">
+                            상태: <span th:text="${transaction.transactionStatus}" th:class="${transaction.transactionStatus == 'COMPLETED' ? 'status-completed' : 'status-pending'}"></span>
+                        </p>
+                        <p class="transaction-date">
+                            <i class="far fa-calendar-alt"></i>
+                            <span th:text="${#temporals.format(transaction.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></span>
+                        </p>
+                    </div>
+                </li>
+            </ul>
         </div>
     </section>
 
@@ -52,7 +71,7 @@
             <button class="toggle-btn"><i class="fas fa-chevron-down"></i></button>
         </h2>
         <div id="purchasedPlans" class="section-content">
-            <!-- 판매한 계획 내용 -->
+
         </div>
     </section>
 
