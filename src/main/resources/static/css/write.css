@@ -319,3 +319,133 @@ footer {
     object-fit: cover;
     border-radius: 4px;
 }
+
+/*          국내, 해외 여행 토글
+.travel-type-toggle {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px 0;
+    width: 100%;
+}
+
+.toggle-checkbox {
+    display: none;
+}
+
+.toggle-label {
+    display: block;
+    overflow: hidden;
+    cursor: pointer;
+    border: 2px solid #cccccc;
+    border-radius: 20px;
+    width: 120px;
+    height: 40px;
+    position: relative;
+    margin: 0 20px;
+    padding: 0;
+}
+
+.toggle-inner {
+    display: block;
+    width: 200%;
+    margin-left: -100%;
+    transition: margin 0.3s ease-in 0s;
+    height: 100%;
+}
+
+.toggle-inner:before, .toggle-inner:after {
+    display: block;
+    float: left;
+    width: 50%;
+    height: 100%;
+    padding: 0;
+    line-height: 40px;
+    font-size: 14px;
+    color: white;
+    font-weight: bold;
+    box-sizing: border-box;
+}
+
+.toggle-inner:before {
+    content: "국내";
+    padding-left: 10px;
+    background-color: #4CAF50;
+    color: #FFFFFF;
+}
+
+.toggle-inner:after {
+    content: "해외";
+    padding-right: 10px;
+    background-color: #2196F3;
+    color: #FFFFFF;
+    text-align: right;
+}
+
+.toggle-switch {
+    display: block;
+    width: 24px;
+    height: 24px;
+    margin: 6px;
+    background: #FFFFFF;
+    position: absolute;
+    top: 2px;
+    bottom: 2px;
+    right: 72px;
+    border: 2px solid #cccccc;
+    border-radius: 20px;
+    transition: all 0.3s ease-in 0s;
+}
+
+.toggle-checkbox:checked + .toggle-label .toggle-inner {
+    margin-left: 0;
+}
+
+.toggle-checkbox:checked + .toggle-label .toggle-switch {
+    right: 0px;
+}
+
+.toggle-text {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.toggle-text.domestic {
+    margin-right: 10px;
+}
+
+.toggle-text.overseas {
+    margin-left: 10px;
+}
+
+*/
+
+/* 버튼 */
+.travel-type-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin: 20px 0;
+}
+
+.travel-type-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: 2px solid #007bff;
+    background-color: transparent;
+    color: #007bff;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.travel-type-btn:hover {
+    background-color: rgba(0, 123, 255, 0.1);
+}
+
+.travel-type-btn.selected {
+    background-color: #007bff;
+    color: white;
+}
+

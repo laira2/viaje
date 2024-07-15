@@ -60,10 +60,7 @@ document.addEventListener('DOMContentLoaded', function() {
         { code: 'Recommendation', name: 'Viaje 추천 Plan' ,colname: '추천'},
         { code: 'active', name: 'active plan' ,colname: '액티비티' },
         { code: 'taste', name: '맛집 계획' ,colname: '맛집'},
-//        { code: 'relax', name: '휴식' ,colname: '휴식'},
-        { code: 'adventure', name: '쉼 休' ,colname: '휴식'},
-        { code: 'domestic', name: '국내 여행' ,colname: '국내'},
-        { code: 'overseas', name: '해외 여행' ,colname: '해외'}
+        { code: 'adventure', name: '쉼 休' ,colname: '휴식'}
     ];
 
 
@@ -76,6 +73,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const tagsDropdown = document.getElementById('tagsDropdown');
     const selectedTagsContainer = document.getElementById('selectedTagsContainer');
     const selectedTagsInput = document.getElementById('selectedTags');
+    const travelTypeInputs = document.querySelectorAll('input[name="travelType"]');
     let selectedTagsList = [];
 
     const startDate = document.getElementById('startDate');
@@ -140,9 +138,46 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         tagsSearch.value = '';
     }
+//    const travelTypeToggle = document.getElementById('travelTypeToggle');
+//    const selectedTravelType = document.getElementById('selectedTravelType');
+//
+//    travelTypeToggle.addEventListener('change', function() {
+//        if (this.checked) {
+//            selectedTravelType.value = 'overseas';
+//        } else {
+//            selectedTravelType.value = 'domestic';
+//        }
+//        updateSelectedTags();
+//    });
+    const domesticButton = document.getElementById('domesticButton');
+    const overseasButton = document.getElementById('overseasButton');
+    const selectedTravelType = document.getElementById('selectedTravelType');
+
+    function selectTravelType(type) {
+        selectedTravelType.value = type;
+        if (type === 'domestic') {
+            domesticButton.classList.add('selected');
+            overseasButton.classList.remove('selected');
+        } else {
+            overseasButton.classList.add('selected');
+            domesticButton.classList.remove('selected');
+        }
+        updateSelectedTags();
+    }
+
+    domesticButton.addEventListener('click', () => selectTravelType('domestic'));
+    overseasButton.addEventListener('click', () => selectTravelType('overseas'));
+
 
     function updateSelectedTags() {
         selectedTagsContainer.innerHTML = '';
+        const travelType = selectedTravelType.value;
+        if (travelType) {
+            const tagElement = document.createElement('span');
+            tagElement.className = 'selected-tag';
+            tagElement.textContent = travelType === 'domestic' ? '국내 여행' : '해외 여행';
+            selectedTagsContainer.appendChild(tagElement);
+        }
         selectedTagsList.forEach(tag => {
             const tagElement = document.createElement('span');
             tagElement.className = 'selected-tag';
@@ -153,8 +188,17 @@ document.addEventListener('DOMContentLoaded', function() {
             };
             selectedTagsContainer.appendChild(tagElement);
         });
-        selectedTagsInput.value = selectedTagsList.map(tag => tag.colname).join(',');
+        updateHiddenInput();
     }
+
+    function updateHiddenInput() {
+        const travelType = selectedTravelType.value; // 수정된 부분
+        const allTags = travelType ? [travelType] : [];
+        allTags.push(...selectedTagsList.map(tag => tag.colname));
+        selectedTagsInput.value = allTags.join(',');
+    }
+
+
 
     function removeTag(tagColname) {
         selectedTagsList = selectedTagsList.filter(tag => tag.colname !== tagColname);
@@ -218,6 +262,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         hiddenInput.files = dataTransfer.files;
     }
+
 
     addPlanImageBtn.addEventListener('click', function() {
         planImageInput.click();
@@ -294,7 +339,11 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // 폼 제출 이벤트 리스너
-    document.querySelector('form').addEventListener('submit', function(e) {
+   document.querySelector('form').addEventListener('submit', function(e) {
+       if (!selectedTravelType.value) { // 수정된 부분
+           e.preventDefault();
+           alert('여행 유형을 선택해주세요.');
+       }
         // 필요한 유효성 검사 로직 추가
     });
 });
