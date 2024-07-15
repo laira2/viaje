@@ -37,36 +37,42 @@
     </div>
 
     <section class="travel-section">
-        <h2><i class="fas fa-coins" style="color: gold;"></i><i class="fas fa-coins" style="color: gold;"></i> 포인트 충전 내역</h2>
-        <div id="pointChargeHistory" class="travel-plans">
-            <!-- 포인트 충전 내역이 JavaScript로 여기에 삽입됩니다 -->
-            <li th:each="transaction : ${transactions}">
-                <p>포인트: <span th:text="${transaction.chargePoint}"></span></p>
-                <p>상태: <span th:text="${transaction.transactionStatus}"></span></p>
-                <p>유형: <span th:text="${transaction.transactionType}"></span></p>
-                <p>날짜: <span th:text="${#temporals.format(transaction.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></span></p>
-            </li>
+        <h2 class="section-title">
+            <i class="fas fa-coins" style="color: gold;"></i><i class="fas fa-coins" style="color: gold;"></i> 포인트 충전 내역
+            <button class="toggle-btn"><i class="fas fa-chevron-down"></i></button>
+        </h2>
+        <div id="pointChargeHistory" class="section-content">
+            <!-- 포인트 충전 내역 내용 -->
         </div>
     </section>
 
     <section class="travel-section">
-        <h2><i class="fas fa-store"></i> 내가 판매한 계획</h2>
-        <div id="purchasedPlans" class="travel-plans">
-            <!-- 구매한 플랜이 JavaScript로 여기에 삽입됩니다 -->
+        <h2 class="section-title">
+            <i class="fas fa-store"></i> 내가 판매한 계획
+            <button class="toggle-btn"><i class="fas fa-chevron-down"></i></button>
+        </h2>
+        <div id="purchasedPlans" class="section-content">
+            <!-- 판매한 계획 내용 -->
         </div>
     </section>
 
     <section class="travel-section">
-        <h2><i class="fas fa-shopping-cart"></i> 내가 구입한 계획</h2>
-        <div id="soldPlans" class="travel-plans">
-            <!-- 판매한 플랜이 JavaScript로 여기에 삽입됩니다 -->
+        <h2 class="section-title">
+            <i class="fas fa-shopping-cart"></i> 내가 구입한 계획
+            <button class="toggle-btn"><i class="fas fa-chevron-down"></i></button>
+        </h2>
+        <div id="soldPlans" class="section-content">
+            <!-- 구입한 계획 내용 -->
         </div>
     </section>
 
     <section class="travel-section">
-        <h2><i class="fas fa-pen"></i> 내가 작성한 글</h2>
-        <div id="myPosts" class="travel-plans">
-            <!-- 작성한 글이 JavaScript로 여기에 삽입됩니다 -->
+        <h2 class="section-title">
+            <i class="fas fa-pen"></i> 내가 작성한 글
+            <button class="toggle-btn"><i class="fas fa-chevron-down"></i></button>
+        </h2>
+        <div id="myPosts" class="section-content">
+            <!-- 작성한 글 내용 -->
         </div>
     </section>
 </div>
