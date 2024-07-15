@@ -1,0 +1,63 @@
+body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .pointcharge {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            width: 300px;
+            text-align: center;
+        }
+        .pointcharge p {
+            margin: 20px 0;
+            font-weight: bold;
+            color: #333;
+        }
+        .box-radio-input {
+            display: block;
+            margin: 15px 0;
+            position: relative;
+        }
+        .box-radio-input input[type="radio"] {
+            display: none;
+        }
+        .box-radio-input span {
+            display: block;
+            padding: 10px;
+            background-color: #f4f4f4;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .box-radio-input input[type="radio"]:checked + span {
+            background-color: #007bff;
+            color: #fff;
+            border-color: #007bff;
+        }
+        .pointcharge .button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 16px;
+        }
+        .pointcharge .button:hover {
+            background-color: #0056b3;
+        }
+        .pointcharge p[style*="color: #ac2925"] {
+            color: #ac2925;
+            margin-top: 30px;
+            font-size: 14px;
+        }
