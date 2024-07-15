@@ -40,7 +40,7 @@ public class Users {
     private LocalDateTime updatedAt;  // 업데이트 일시
 
     @Column(nullable = false)
-    private String point;  // 포인트
+    private Integer point;  // 포인트
 
     @Column(nullable = false, columnDefinition = "TINYINT(1) DEFAULT 0")
     private boolean isAdmin;  // 관리자 여부
@@ -52,7 +52,7 @@ public class Users {
         this.updatedAt = LocalDateTime.now();  // 현재 시간을 업데이트 일시로 설정
         // 포인트 초기값 설정
         if (this.point == null) {
-            this.point = "0";  // 기본 포인트를 0으로 설정
+            this.point = 0;  // 기본 포인트를 0으로 설정
         }
         // isAdmin 초기값 설정
         this.isAdmin = false;

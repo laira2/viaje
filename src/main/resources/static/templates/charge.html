@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- SDK 추가 -->
+    <script src="https://js.tosspayments.com/v2/standard"></script>
+    <title>결제 페이지</title>
+    <link rel="stylesheet" href="/static/css/charge.css">
+</head>
+<body>
+<div class="pointcharge">
+    <form action="/requestcharge" method="post" onsubmit="return validateForm()">
+        <p>Viaje 포인트 충전</p>
+        <label class="box-radio-input">
+            <input type="radio" name="chargeAmount" value="5000">
+            <span>5,000원</span>
+        </label>
+        <label class="box-radio-input">
+            <input type="radio" name="chargeAmount" value="10000">
+            <span>10,000원</span>
+        </label>
+        <label class="box-radio-input">
+            <input type="radio" name="chargeAmount" value="20000">
+            <span>20,000원</span>
+        </label>
+        <label class="box-radio-input">
+            <input type="radio" name="chargeAmount" value="30000">
+            <span>30,000원</span>
+        </label>
+        <label class="box-radio-input">
+            <input type="radio" name="chargeAmount" value="50000">
+            <span>50,000원</span>
+        </label>
+        <p>Viaje 최소 충전금액은 5,000원이며 <br/>최대 충전금액은 50,000원 입니다.</p>
+        <button class="button" type="submit">결제하기</button>
+    </form>
+</div>
+
+<script>
+    function validateForm() {
+        var selected = document.querySelector('input[name="chargeAmount"]:checked');
+        if (!selected) {
+            alert('충전할 금액을 선택해주세요.');
+            return false;
+        }
+        return true;
+    }
+</script>
+</body>
+</html>

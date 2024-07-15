@@ -15,15 +15,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
 @Controller
 public class BoardController {
-    private final BoardService boardService;
-    private final TravelPlansService travelPlansService;
-    private final UserService userService;
-    private final CommentsController commentsController;
+    public final BoardService boardService;
+
+    public final TravelPlansService travelPlansService;
+    public final UserService userService;
+    public final CommentsController commentsController;
 
     public BoardController(BoardService boardService, TravelPlansService travelPlansService, UserService userService, CommentsController commentsController) {
         this.boardService = boardService;
@@ -36,26 +38,26 @@ public class BoardController {
     public String listPlans(HttpSession session, Model model) {
         List<Board> boardList = boardService.findAllBoardProduct();
         model.addAttribute("boardList", boardList);
-        return "board";
+        return "/board";
     }
 
     @GetMapping("/products/{type}")
-    public String themePlans(@PathVariable("type") String type, HttpSession session, Model model) {
+    public String themePlans(@PathVariable("type") String type, HttpSession session,Model model ){
         List<Board> boardList = boardService.findProductByType(type);
-        model.addAttribute("boardList", boardList);
-        return "board";
+        model.addAttribute("boardList",boardList);
+        return "/board";
     }
 
     @GetMapping("/product_detail/{id}")
-    public String productDetail(@PathVariable("id") Long id, HttpSession session, Model model) {
+    public String productDetail(@PathVariable("id")Long id, HttpSession session, Model model){
         Users user = userService.findByEmail((String) session.getAttribute("user"));
         TravelPlans selectedPlan = travelPlansService.findByPlanId(id);
         List<Comments> comments = commentsController.getComments(id);
-        session.setAttribute("selectedPlan", selectedPlan);
+        session.setAttribute("selectedPlan",selectedPlan);
         model.addAttribute("selectedPlan", selectedPlan);
         model.addAttribute("user", user);
-        model.addAttribute("comments", comments);
-        return "productDetail";
+        model.addAttribute("comments",comments);
+        return "/productDetail";
     }
 
     @GetMapping("/board/write")
@@ -64,9 +66,4 @@ public class BoardController {
         return "write";
     }
 
-    @GetMapping("/qna")
-    public String showQnA(Model model) {
-        // 필요한 경우 모델에 데이터를 추가합니다.
-        return "qNa";
-    }
 }

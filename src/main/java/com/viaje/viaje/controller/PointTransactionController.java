@@ -36,7 +36,7 @@ public class PointTransactionController {
 
     @GetMapping("/pointcharge")
     public String pointCharge(HttpSession session, Model model){
-        return "/test_charge";
+        return "/charge";
     }
 
     @PostMapping("/requestcharge")

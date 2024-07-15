@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class PointTransactionService {
@@ -24,6 +25,12 @@ public class PointTransactionService {
     public PointTransactionService(PointTransactionRepository transactionRepository, UserRepository userRepository) {
         this.pointTransactionRepository = transactionRepository;
         this.userRepository = userRepository;
+    }
+
+    // 마이페이지 조회를 위해 추가
+    @Transactional
+    public List<PointTransaction> getPointTransactionsByUserId(Long userId) {
+        return pointTransactionRepository.findAllByUser_userId(userId);
     }
 
     @Transactional

@@ -66,11 +66,11 @@ public class OrdersService {
         List<OrderItems> orderItemsList = ordersItemRepository.findAllByOrders(order);
 
         if (Integer.valueOf(user.getPoint()) >= order.getTotal_amount()){
-            user.setPoint(String.valueOf(Integer.valueOf(user.getPoint()) - order.getTotal_amount()));
+            user.setPoint(Integer.valueOf(user.getPoint()) - order.getTotal_amount());
             for(OrderItems orderItem : orderItemsList){
                 Long createPlanUserId = orderItem.getTravelPlans().getUser().getUserId();
                 Users seller = userRepository.findById(createPlanUserId).orElseThrow();
-                seller.setPoint(seller.getPoint()+orderItem.getTravelPlans().getPrice()*0.1);
+                seller.setPoint((int) (seller.getPoint()+orderItem.getTravelPlans().getPrice()*0.1));
                 order.setOrderStatus(COMPLETED);
 
                 cartItemsRepository.deleteAllByCart(cartService.getCart(user.getEmail()));
