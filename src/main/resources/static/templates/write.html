@@ -67,6 +67,31 @@
                     <label for="content">✏️ 여행 이야기</label>
                     <textarea id="content" name="detail" rows="10" required placeholder="당신의 특별했던 순간들을 자세히 들려주세요"></textarea>
                 </div>
+
+                <div class="form-group">
+                    <label>📅 여행 일정</label>
+                    <div id="planDetailsContainer">
+                        <div th:each="plan, planStat : ${planDetails}" class="plan-detail">
+                            <input type="date" th:name="|planDate|" required>
+                            <input type="time" th:name="|planTime|" required>
+                            <input type="text" th:name="|activity|" placeholder="활동" required>
+                            <textarea th:name="|description|" placeholder="설명" required></textarea>
+                        </div>
+                    </div>
+                    <button type="button" id="addPlanDetailBtn">일정 추가</button>
+                </div>
+
+                <!-- 숨겨진 템플릿 -->
+                <template id="planDetailTemplate">
+                    <div class="plan-detail">
+                        <input type="date" name="planDetails[INDEX].planDate" required>
+                        <input type="time" name="planDetails[INDEX].planTime" required>
+                        <input type="text" name="planDetails[INDEX].activity" placeholder="활동" required>
+                        <textarea name="planDetails[INDEX].description" placeholder="설명" required></textarea>
+                        <button type="button" class="removePlanDetailBtn">삭제</button>
+                    </div>
+                </template>
+
                 <div class="form-group file-group">
                     <div class="file-input">
                         <label for="planImages">📸 여행 사진</label>
@@ -77,13 +102,6 @@
                         <input type="file" id="certImages" name="certImages" multiple accept="image/*" required>
                     </div>
                 </div>
-<!--                <div class="form-group">-->
-<!--                    <label for="travelPlan">🗺️ 연결된 여행 계획</label>-->
-<!--                    <select id="travelPlan" name="travelPlanId">-->
-<!--                        <option value="">관련 여행 계획을 선택하세요</option>-->
-<!--                        &lt;!&ndash; 여행 계획 목록 동적 추가 &ndash;&gt;-->
-<!--                    </select>-->
-<!--                </div>-->
                 <div class="form-group button-group">
                     <button type="submit" class="submit-btn">여행 스토리 공유하기 <i class="fas fa-paper-plane"></i></button>
                 </div>

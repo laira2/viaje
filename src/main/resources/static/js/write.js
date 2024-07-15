@@ -165,7 +165,54 @@ document.addEventListener('DOMContentLoaded', function() {
         updateSelectedTags();
     }
 
+    let planDetailCount = 0;
 
+    function initializePlanDetails() {
+        planDetailCount = document.querySelectorAll('.plan-detail').length;
+        document.getElementById('addPlanDetailBtn').addEventListener('click', addPlanDetail);
+        document.querySelectorAll('.removePlanDetailBtn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                removePlanDetail(this);
+            });
+        });
+    }
+
+    function addPlanDetail() {
+        const container = document.getElementById('planDetailsContainer');
+        const newPlanDetail = document.createElement('div');
+        newPlanDetail.className = 'plan-detail';
+        newPlanDetail.innerHTML = `
+            <input type="date" name="planDate" required>
+            <input type="time" name="planTime" required>
+            <input type="text" name="activity" placeholder="활동" required>
+            <textarea name="description" placeholder="설명" required></textarea>
+            <button type="button" onclick="removePlanDetail(this)">삭제</button>
+        `;
+        container.appendChild(newPlanDetail);
+    }
+
+    function removePlanDetail(button) {
+        const planDetail = button.closest('.plan-detail');
+        planDetail.parentNode.removeChild(planDetail);
+        updateIndexes();
+    }
+
+    function updateIndexes() {
+        const container = document.getElementById('planDetailsContainer');
+        const planDetails = container.getElementsByClassName('plan-detail');
+        for (let i = 0; i < planDetails.length; i++) {
+            const inputs = planDetails[i].getElementsByTagName('input');
+            const textareas = planDetails[i].getElementsByTagName('textarea');
+            for (let input of inputs) {
+                input.name = input.name.replace(/\[\d+\]/, '[' + i + ']');
+            }
+            for (let textarea of textareas) {
+                textarea.name = textarea.name.replace(/\[\d+\]/, '[' + i + ']');
+            }
+        }
+    }
+
+    initializePlanDetails();
     setupDropdown(countrySearch, countryDropdown, countries, updateCurrencySymbol);
     setupDropdown(tagsSearch, tagsDropdown, tags, selectTag);
 });
