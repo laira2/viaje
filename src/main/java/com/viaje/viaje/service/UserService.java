@@ -56,6 +56,12 @@ public class UserService {
         return false;
     }
 
+    // 마이페이지 조회를 위해 추가
+    public Users findById(Long userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다: " + userId));
+    }
+
     public Users findByEmail(String userEmail) {
         Optional<Users> optionalUser = userRepository.findByEmail(userEmail);
         if (optionalUser.isPresent()) {
