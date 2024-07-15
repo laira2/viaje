@@ -30,7 +30,7 @@ public class UserService {
                 .email(userDTO.getEmail())
                 .createdAt(userDTO.getCreatedAt() != null ? userDTO.getCreatedAt() : LocalDateTime.now())
                 .updatedAt(userDTO.getUpdatedAt() != null ? userDTO.getUpdatedAt() : LocalDateTime.now())
-                .point(userDTO.getPoint() != null ? userDTO.getPoint() : "0")
+                .point(userDTO.getPoint() != null ? Integer.valueOf(userDTO.getPoint()) : 0)
                 .build();
         userRepository.save(user);
         return user;
