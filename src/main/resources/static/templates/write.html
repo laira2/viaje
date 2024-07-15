@@ -72,10 +72,24 @@
                     <label>📅 여행 일정</label>
                     <div id="planDetailsContainer">
                         <div th:each="plan, planStat : ${planDetails}" class="plan-detail">
-                            <input type="date" th:name="|planDate|" required>
-                            <input type="time" th:name="|planTime|" required>
-                            <input type="text" th:name="|activity|" placeholder="활동" required>
-                            <textarea th:name="|description|" placeholder="설명" required></textarea>
+                            <div class="date-time-container">
+                                <div class="input-wrapper">
+                                    <label for="planDate">날짜</label>
+                                    <input type="date" id="planDate" th:name="|planDate|" required>
+                                </div>
+                                <div class="input-wrapper">
+                                    <label for="planTime">시간</label>
+                                    <input type="time" id="planTime" th:name="|planTime|" required>
+                                </div>
+                            </div>
+                            <div class="input-wrapper">
+                                <label for="activity">활동</label>
+                                <input type="text" id="activity" th:name="|activity|" placeholder="활동" required>
+                            </div>
+                            <div class="input-wrapper">
+                                <label for="description">설명</label>
+                                <textarea id="description" th:name="|description|" placeholder="설명" required></textarea>
+                            </div>
                         </div>
                     </div>
                     <button type="button" id="addPlanDetailBtn">일정 추가</button>
@@ -94,14 +108,23 @@
 
                 <div class="form-group file-group">
                     <div class="file-input">
-                        <label for="planImages">📸 여행 사진</label>
-                        <input type="file" id="planImages" name="planImages" multiple accept="image/*" required>
+                        <label for="planImageInput">📸 여행 사진</label>
+                        <input type="file" id="planImageInput" accept="image/*">
+                        <button type="button" id="addPlanImage">사진 추가</button>
+                        <div id="planImagePreview" class="image-preview"></div>
+                        <!-- 실제 서버로 전송될 input -->
+                        <input type="file" id="planImages" name="planImages" multiple accept="image/*" style="display: none;">
                     </div>
                     <div class="file-input">
-                        <label for="certImages">📄 여행 증명사진</label>
-                        <input type="file" id="certImages" name="certImages" multiple accept="image/*" required>
+                        <label for="certImageInput">📄 여행 증명사진</label>
+                        <input type="file" id="certImageInput" accept="image/*">
+                        <button type="button" id="addCertImage">증명사진 추가</button>
+                        <div id="certImagePreview" class="image-preview"></div>
+                        <!-- 실제 서버로 전송될 input -->
+                        <input type="file" id="certImages" name="certImages" multiple accept="image/*" style="display: none;">
                     </div>
                 </div>
+
                 <div class="form-group button-group">
                     <button type="submit" class="submit-btn">여행 스토리 공유하기 <i class="fas fa-paper-plane"></i></button>
                 </div>
