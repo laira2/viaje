@@ -8,7 +8,7 @@ import com.viaje.viaje.model.PlanDetail;
 import com.viaje.viaje.model.TravelPlans;
 import com.viaje.viaje.model.Users;
 import com.viaje.viaje.repository.PlanCertificationRepository;
-import com.viaje.viaje.repository.PlanDetialRepository;
+import com.viaje.viaje.repository.PlanDetailRepository;
 import com.viaje.viaje.repository.TravelPlansRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpSession;
@@ -37,8 +37,8 @@ public class TravelPlansService {
     private final UserService userService;
     private final TagsService tagsService;
     private final PlanCertificationRepository planCertificationRepository;
-    private final PlanDetialRepository planDetialRepository;
-    public TravelPlansService(FileUploadUtil fileUploadUtil, TravelPlansRepository travelPlansRepository, BoardService boardService, UserService userService, TagsService tagsService, PlanCertificationRepository planCertificationRepository, PlanDetialRepository planDetialRepository) {
+    private final PlanDetailRepository planDetialRepository;
+    public TravelPlansService(FileUploadUtil fileUploadUtil, TravelPlansRepository travelPlansRepository, BoardService boardService, UserService userService, TagsService tagsService, PlanCertificationRepository planCertificationRepository, PlanDetailRepository planDetialRepository) {
         this.travelPlansRepository = travelPlansRepository;
         this.boardService = boardService;
         this.userService = userService;

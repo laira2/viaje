@@ -243,7 +243,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const template = document.getElementById('planDetailTemplate');
         const newPlanDetail = template.content.cloneNode(true).querySelector('.plan-detail');
 
-        newPlanDetail.innerHTML = newPlanDetail.innerHTML.replace(/INDEX/g, planDetailCount);
+        newPlanDetail.innerHTML = newPlanDetail.innerHTML.replace(/\[INDEX\]/g, planDetailCount);
 
         const newDeleteBtn = newPlanDetail.querySelector('.removePlanDetailBtn');
         newDeleteBtn.addEventListener('click', function() {
@@ -264,12 +264,22 @@ document.addEventListener('DOMContentLoaded', function() {
         const container = document.getElementById('planDetailsContainer');
         const planDetails = container.getElementsByClassName('plan-detail');
         for (let i = 0; i < planDetails.length; i++) {
+            // 추가된 부분: label 요소도 업데이트
+            const labels = planDetails[i].getElementsByTagName('label');
             const inputs = planDetails[i].getElementsByTagName('input');
             const textareas = planDetails[i].getElementsByTagName('textarea');
+
+            // 변경된 부분: label의 for 속성 업데이트
+            for (let label of labels) {
+                label.setAttribute('for', label.getAttribute('for').replace(/\[\d+\]/, '[' + i + ']'));
+            }
+            // 변경된 부분: input과 textarea의 id와 name 속성 업데이트
             for (let input of inputs) {
+                input.id = input.id.replace(/\[\d+\]/, '[' + i + ']');
                 input.name = input.name.replace(/\[\d+\]/, '[' + i + ']');
             }
             for (let textarea of textareas) {
+                textarea.id = textarea.id.replace(/\[\d+\]/, '[' + i + ']');
                 textarea.name = textarea.name.replace(/\[\d+\]/, '[' + i + ']');
             }
         }

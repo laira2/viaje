@@ -1,12 +1,7 @@
 package com.viaje.viaje.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.viaje.viaje.dto.CommentsDTO;
-import com.viaje.viaje.model.Board;
-import com.viaje.viaje.model.Comments;
-import com.viaje.viaje.model.TravelPlans;
-import com.viaje.viaje.model.Users;
+import com.viaje.viaje.model.*;
+import com.viaje.viaje.repository.PlanDetailRepository;
 import com.viaje.viaje.service.BoardService;
 import com.viaje.viaje.service.TravelPlansService;
 import com.viaje.viaje.service.UserService;
@@ -15,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -26,12 +20,18 @@ public class BoardController {
     public final TravelPlansService travelPlansService;
     public final UserService userService;
     public final CommentsController commentsController;
+    private final PlanDetailRepository planDetailRepository;
 
-    public BoardController(BoardService boardService, TravelPlansService travelPlansService, UserService userService, CommentsController commentsController) {
+    public BoardController(BoardService boardService,
+                           TravelPlansService travelPlansService,
+                           UserService userService,
+                           CommentsController commentsController,
+                           PlanDetailRepository planDetailRepository) {
         this.boardService = boardService;
         this.travelPlansService = travelPlansService;
         this.userService = userService;
         this.commentsController = commentsController;
+        this.planDetailRepository = planDetailRepository;
     }
 
     @GetMapping("/products")
@@ -53,10 +53,12 @@ public class BoardController {
         Users user = userService.findByEmail((String) session.getAttribute("user"));
         TravelPlans selectedPlan = travelPlansService.findByPlanId(id);
         List<Comments> comments = commentsController.getComments(id);
+        List<PlanDetail> planDetails = planDetailRepository.findAllByTravelPlanOrderByPlanDateAscPlanTimeAsc(selectedPlan);
         session.setAttribute("selectedPlan",selectedPlan);
         model.addAttribute("selectedPlan", selectedPlan);
         model.addAttribute("user", user);
         model.addAttribute("comments",comments);
+        model.addAttribute("planDetails", planDetails);
         return "/productDetail";
     }
 
