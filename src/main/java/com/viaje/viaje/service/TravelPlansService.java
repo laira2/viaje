@@ -108,6 +108,68 @@ public class TravelPlansService {
         return travelPlans;
     }
 
+    @Transactional
+    public TravelPlans updateplan(HttpSession session, TravelPlansDTO tpDTO, PlanCertificationDTO pcDTO,List<PlanDetailDTO> planDetails, TravelPlans plan) throws IOException {
+        String user_email = (String) session.getAttribute("user");
+        Users user = userService.findByEmail(user_email);
+        List<PlanDetail> updatePD = planDetialRepository.findAllByTravelPlans(plan);
+        if (user == null) {
+            throw new IllegalArgumentException("User is required to update a travel plan.");
+        }
+//        plan이미지저장
+        List<String> planFilePaths = new ArrayList<>();
+        for (MultipartFile planImage : tpDTO.getPlanImages()) {
+            String planFileName = fileUploadUtil.saveFile(planImage, true);
+            String planFilePath = fileUploadUtil.getPlanUploadDir() + "/" + planFileName;
+            planFilePaths.add(planFileName);
+        }
+//        인증 이미지 저장
+        List<String> certFilePaths = new ArrayList<>();
+        for (MultipartFile certImage : pcDTO.getCertImages()) {
+            String certFileName = fileUploadUtil.saveFile(certImage, false);
+            String certFilePath = fileUploadUtil.getCertUploadDir() + "/" + certFileName;
+            certFilePaths.add(certFileName);
+        }
+
+        Map<String,Number> durations = calculateDurationAndPrice(tpDTO);
+//        travelPlan저장
+        plan = TravelPlans.builder()
+                .nights((Long) durations.get("nights"))
+                .days((Long) durations.get("days"))
+                .price((Integer) durations.get("price"))
+                .startDate(tpDTO.getStartDate())
+                .endDate(tpDTO.getEndDate())
+                .nation(tpDTO.getNation())
+                .title(tpDTO.getTitle())
+                .detail(tpDTO.getDetail())
+                .imagePaths(planFilePaths)
+                .totalBudget(tpDTO.getTotalBudget())
+                .user(user)
+                .build();
+
+        TravelPlans updatedPlan = travelPlansRepository.save(plan);
+//        plan인증 저장
+        PlanCertification planCertification = PlanCertification.builder()
+                .travelPlans(updatedPlan)
+                .certImagePaths(certFilePaths)
+                .build();
+        planCertificationRepository.save(planCertification);
+// 여러 개의 계획 내용 저장
+        for (PlanDetailDTO pdDTO : planDetails) {
+            for (PlanDetail createUpdate : updatePD) {
+                createUpdate = PlanDetail.builder()
+                        .travelPlan(updatedPlan)
+                        .planDate(pdDTO.getPlanDate())
+                        .planTime(pdDTO.getPlanTime())
+                        .activity(pdDTO.getActivity())
+                        .description(pdDTO.getDescription())
+                        .build();
+                planDetialRepository.save(createUpdate);
+            }
+        }
+        return updatedPlan;
+    }
+
     public TravelPlans findByPlanId(Long planId){
         TravelPlans plan = travelPlansRepository.findById(planId)
                 .orElseThrow(() -> new EntityNotFoundException("TravelPlan not found"));

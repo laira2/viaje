@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface PlanDetailRepository extends JpaRepository<PlanDetail, Long> {
+   List<PlanDetail> findAllByTravelPlans(TravelPlans plan);
+
     List<PlanDetail> findAllByTravelPlanOrderByPlanDateAscPlanTimeAsc(TravelPlans travelPlan);
 
 }

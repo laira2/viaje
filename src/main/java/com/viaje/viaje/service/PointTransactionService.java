@@ -44,7 +44,7 @@ public class PointTransactionService {
                 .user(user)
                 .chargeAmount(chargeAmount)
                 .chargePoint(chargePoint)
-                .transactionStatus(TransactionStatus.PENDING)
+                .transactionStatus(TransactionStatus.COMPLETED)
                 .transactionType(TransactionType.CREDIT)
                 .build();
 

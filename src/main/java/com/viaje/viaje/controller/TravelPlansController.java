@@ -6,6 +6,7 @@ import com.viaje.viaje.dto.TravelPlansDTO;
 import com.viaje.viaje.dto.UserDTO;
 import com.viaje.viaje.model.TravelPlans;
 import com.viaje.viaje.model.Users;
+import com.viaje.viaje.repository.TravelPlansRepository;
 import com.viaje.viaje.repository.UserRepository;
 import com.viaje.viaje.service.FileUploadUtil;
 import com.viaje.viaje.service.TravelPlansService;
@@ -71,5 +72,32 @@ public class TravelPlansController {
         TravelPlans created_plan = travelPlansService.createPlan(session, tpDTO, pcDTO, planDetails);
         return "redirect:/product_detail/" + created_plan.getPlanId();
     }
+
+    @PostMapping("/plan/update")
+    public String updatePlan(PlanCertificationDTO pcDTO,
+                             @RequestParam(value = "tagsOptions", required = false) String[] tagsOptions,
+                             HttpSession session,
+                             TravelPlansDTO tpDTO,
+                             @RequestParam(value = "planDate", required = false) List<LocalDate> planDates,
+                             @RequestParam(value = "planTime", required = false) List<LocalTime> planTimes,
+                             @RequestParam(value = "activity", required = false) List<String> activities,
+                             @RequestParam(value = "description", required = false) List<String> descriptions,
+                             @RequestParam(value = "plan", required = true)TravelPlans plan) throws IOException {
+        System.out.println("Received tagsOptions: " + Arrays.toString(tagsOptions));
+        List<PlanDetailDTO> planDetails = new ArrayList<>();
+        for (int i = 0; i < planDates.size(); i++) {
+            PlanDetailDTO dto = new PlanDetailDTO();
+            dto.setPlanDate(planDates.get(i));
+            dto.setPlanTime(planTimes.get(i));
+            dto.setActivity(activities.get(i));
+            dto.setDescription(descriptions.get(i));
+            planDetails.add(dto);
+        }
+
+        session.setAttribute("tagsOptions", tagsOptions);
+        TravelPlans updated_plan = travelPlansService.updateplan(session, tpDTO, pcDTO, planDetails,plan);
+        return "redirect:/product_detail/" + updated_plan.getPlanId();
+    }
+
 
 }
