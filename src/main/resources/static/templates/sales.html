@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" mlns:th="http://www.thymeleaf.org" xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:mlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,37 +14,36 @@
     <h1>판매 내역</h1>
 </header>
 <main>
-    <section class="sales-summary">
+    <section class="sales-summary" >
         <div class="summary-item">
             <h2>총 판매액</h2>
-            <p>₩1,234,567</p>
+            <p th:text="'₩' + ${totalSalesAmount}"></p>
         </div>
         <div class="summary-item">
             <h2>총 주문 수</h2>
-            <p>89</p>
+            <p th:text="${totalOrdersCount}"></p>
         </div>
-        <div class="summary-item">
-            <h2>평균 주문액</h2>
-            <p>₩13,870</p>
-        </div>
+<!--        <div class="summary-item">-->
+<!--            <h2>평균 주문액</h2>-->
+<!--            <p th:text="'₩' + ${averageOrderAmount}"></p>-->
+<!--        </div>-->
     </section>
-    <section class="sales-list">
+    <section class="sales-list" th:each="sales : ${salesList}">
         <div class="sales-item">
             <div class="product-info">
-                <h3>상품명 A</h3>
-                <p class="category">카테고리: 여행</p>
+                <h3>상품명: <span th:text="${sales.travelPlans.title}"></span></h3>
             </div>
-            <p class="quantity">수량: 5</p>
-            <p class="price">₩250,000</p>
+            <p class="quantity">수량: <span th:text="${sales.quantity}"></span></p>
+            <p class="price"><span th:text="${sales.orders.total_amount}"></span></p>
         </div>
-        <div class="sales-item">
-            <div class="product-info">
-                <h3>상품명 B</h3>
-                <p class="category">카테고리: 숙박</p>
-            </div>
-            <p class="quantity">수량: 3</p>
-            <p class="price">₩150,000</p>
-        </div>
+<!--        <div class="sales-item">-->
+<!--            <div class="product-info">-->
+<!--                <h3>상품명 B</h3>-->
+<!--                <p class="category">카테고리: 숙박</p>-->
+<!--            </div>-->
+<!--            <p class="quantity">수량: 3</p>-->
+<!--            <p class="price">₩150,000</p>-->
+<!--        </div>-->
         <!-- 더 많은 판매 항목 추가 -->
     </section>
 </main>
