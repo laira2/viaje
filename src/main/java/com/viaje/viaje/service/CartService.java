@@ -42,8 +42,8 @@ public class CartService {
 
     public Cart getCart(String user_email) {
         Users user = userService.findByEmail(user_email);
-        return  cartRepository.findById(user.getUserId())
-                .orElseGet(()->{
+        return cartRepository.findByUsers(user)
+                .orElseGet(() -> {
                     Cart newCart = new Cart();
                     newCart.setUsers(user);
                     return cartRepository.save(newCart);
