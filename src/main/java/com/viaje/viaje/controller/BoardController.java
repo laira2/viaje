@@ -66,6 +66,7 @@ public class BoardController {
         TravelPlans selectedPlan = travelPlansService.findByPlanId(id);
         List<Comments> comments = commentsController.getComments(id);
         List<PlanDetail> planDetails = planDetailRepository.findAllByTravelPlanOrderByPlanDateAscPlanTimeAsc(selectedPlan);
+        boardService.increaseViewCount(selectedPlan);
         session.setAttribute("selectedPlan",selectedPlan);
         model.addAttribute("selectedPlan", selectedPlan);
         model.addAttribute("user", user);

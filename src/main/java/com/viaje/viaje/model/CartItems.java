@@ -40,7 +40,7 @@ public class CartItems {
         addedAt = LocalDateTime.now();
         updatedAt = LocalDateTime.now();
         if (quantity == null) {
-            quantity = 0;
+            quantity = 1;
         }
     }
 
