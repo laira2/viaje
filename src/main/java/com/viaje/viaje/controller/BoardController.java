@@ -106,7 +106,7 @@ public class BoardController {
     }
 
     @PostMapping("/postAnswer")
-    public String postanswer(HttpSession session, AnswersDTO answersDTO,){
+    public String postanswer(HttpSession session, AnswersDTO answersDTO){
         Users user = userService.findByEmail((String) session.getAttribute("user"));
         qnAService.addAnswer(answersDTO.getQuestions().getQuestionsId(),answersDTO.getContents(),user);
         return "/qNaBoard";
