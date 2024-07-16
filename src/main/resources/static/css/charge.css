@@ -1,63 +1,147 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-        .pointcharge {
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-            padding: 30px;
-            width: 300px;
-            text-align: center;
-        }
-        .pointcharge p {
-            margin: 20px 0;
-            font-weight: bold;
-            color: #333;
-        }
-        .box-radio-input {
-            display: block;
-            margin: 15px 0;
-            position: relative;
-        }
-        .box-radio-input input[type="radio"] {
-            display: none;
-        }
-        .box-radio-input span {
-            display: block;
-            padding: 10px;
-            background-color: #f4f4f4;
-            border-radius: 5px;
-            border: 1px solid #ddd;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        .box-radio-input input[type="radio"]:checked + span {
-            background-color: #007bff;
-            color: #fff;
-            border-color: #007bff;
-        }
-        .pointcharge .button {
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            font-size: 16px;
-        }
-        .pointcharge .button:hover {
-            background-color: #0056b3;
-        }
-        .pointcharge p[style*="color: #ac2925"] {
-            color: #ac2925;
-            margin-top: 30px;
-            font-size: 14px;
-        }
+    font-family: 'Poppins', sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+    margin: 0;
+    position: relative;
+}
+
+.logo-container {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    animation: fadeIn 1s ease-in-out;
+}
+
+.logo {
+    font-size: 1.5em; /* 로고 크기를 크게 */
+    font-weight: 600;
+    color: #007bff;
+    text-decoration: none;
+}
+
+.user-container {
+    position: absolute;
+    top: 120px; /* 로고보다 두 칸에서 세 칸 정도 아래에 위치 */
+    right: 20px;
+    animation: slideInRight 1s ease-in-out;
+}
+
+.user-link {
+    font-size: 1.2em;
+    color: #007bff;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.user-link:hover {
+    color: #0056b3;
+}
+
+.pointcharge {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    width: 300px;
+    text-align: center;
+    animation: zoomIn 1s ease-in-out;
+}
+
+.pointcharge p {
+    margin: 20px 0;
+    font-weight: bold;
+    color: #333;
+}
+
+.box-radio-input {
+    display: block;
+    margin: 15px 0;
+    position: relative;
+}
+
+.box-radio-input input[type="radio"] {
+    display: none;
+}
+
+.box-radio-input span {
+    display: block;
+    padding: 10px;
+    background-color: #f4f4f4;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s, transform 0.3s;
+}
+
+.box-radio-input span:hover {
+    background-color: #007bff;
+    color: #fff;
+    border-color: #007bff;
+    transform: scale(1.05); /* 살짝 커지게 만듦 */
+}
+
+.box-radio-input input[type="radio"]:checked + span {
+    background-color: #007bff;
+    color: #fff;
+    border-color: #007bff;
+}
+
+.pointcharge .button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-size: 16px;
+    margin-top: 20px;
+}
+
+.pointcharge .button:hover {
+    background-color: #0056b3;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes zoomIn {
+    from {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}

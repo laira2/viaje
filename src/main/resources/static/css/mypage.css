@@ -1,73 +1,48 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
-body {
-    font-family: 'Poppins', 'Noto Sans KR', sans-serif;
-    background-color: #f8f9fa;
+* {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', 'Noto Sans KR', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f8f9fa;
     color: #333;
-    line-height: 1.6;
 }
 
 .container {
+    width: 100%;
     max-width: 1200px;
-    margin: 0 auto;
     padding: 40px 20px;
+    position: relative;
 }
 
-header {
-    background-color: #ffffff;
-    color: #333;
-    padding: 15px 0;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    position: sticky;
-    top: 0;
-    z-index: 1000;
+.header-logo {
+    text-align: left;
+    padding-bottom: 20px;
 }
 
-.header-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-}
-
-h1 {
-    margin: 0;
+.header-logo h1 {
     font-size: 2em;
     font-weight: 600;
-    color: #3498db;
-}
-
-nav {
-    display: flex;
-    gap: 20px;
-}
-
-.nav-link {
-    color: #333;
-    text-decoration: none;
-    font-weight: 400;
-    transition: color 0.3s;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
-
-.nav-link:hover {
-    color: #3498db;
+    color: #ffffff;
 }
 
 .user-info {
     display: flex;
     align-items: center;
-    background-color: white;
-    border-radius: 15px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
     padding: 30px;
     margin-bottom: 40px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
 }
 
 .user-avatar {
@@ -80,20 +55,25 @@ nav {
     height: 150px;
     border-radius: 50%;
     object-fit: cover;
-    border: 3px solid #3498db;
+    border: 3px solid rgba(52, 152, 219, 0.3);
     transition: all 0.3s ease;
 }
 
 .user-details h2 {
     margin: 0 0 10px 0;
     font-size: 1.8em;
-    color: #2c3e50;
+    color: white;
 }
 
 .mileage {
     font-size: 1.2em;
-    color: #7f8c8d;
+    color: white;
     margin-bottom: 20px;
+}
+
+.mileage a {
+    color: white;
+    text-decoration: none;
 }
 
 .button-group {
@@ -104,12 +84,12 @@ nav {
 .btn {
     display: inline-flex;
     align-items: center;
-    background-color: #3498db;
+    background-color: rgba(52, 152, 219, 0.2);
     color: white;
     padding: 10px 20px;
     text-decoration: none;
-    border-radius: 5px;
-    transition: all 0.3s ease;
+    border-radius: 25px;
+    transition: transform 0.3s, box-shadow 0.3s;
     font-weight: 400;
     border: none;
     cursor: pointer;
@@ -117,17 +97,17 @@ nav {
 }
 
 .btn:hover {
-    background-color: #2980b9;
+    background-color: rgba(41, 128, 185, 0.2);
     transform: translateY(-2px);
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
 .btn-edit-profile {
-    background-color: #2ecc71;
+    background-color: rgba(46, 204, 113, 0.2);
 }
 
 .btn-edit-profile:hover {
-    background-color: #27ae60;
+    background-color: rgba(39, 174, 96, 0.2);
 }
 
 .travel-section {
@@ -137,50 +117,123 @@ nav {
 .travel-section h2 {
     font-size: 1.5em;
     margin-bottom: 20px;
-    color: #2c3e50;
-}
-
-.travel-plans {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 30px;
-}
-
-.plan {
-    background-color: white;
-    border-radius: 12px;
-    overflow: hidden;
-    transition: transform 0.3s, box-shadow 0.3s;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-}
-
-.plan:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-}
-
-.plan img {
-    width: 100%;
-    height: 180px;
-    object-fit: cover;
-}
-
-.plan-content {
-    padding: 20px;
-}
-
-.plan h3 {
-    margin: 0 0 10px 0;
-    font-size: 1.2em;
-    color: #2c3e50;
-}
-
-footer {
-    background-color: #2c3e50;
     color: white;
-    text-align: center;
-    padding: 20px 0;
+}
+
+.section-title {
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+.toggle-btn {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    cursor: pointer;
+    margin-left: auto;
+    color: white;
+}
+
+.section-content {
+    display: none;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-top: none;
+    border-radius: 0 0 20px 20px;
+    background-color: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+}
+
+.section-content.active {
+    display: block;
+}
+
+.contents-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.contents-card {
+    display: flex;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    margin-bottom: 15px;
+    padding: 20px;
+    transition: transform 0.2s ease-in-out;
+    backdrop-filter: blur(10px);
+}
+
+.contents-card:hover {
+    transform: translateY(-3px);
+}
+
+.transaction-icon, .plan-icon {
+    font-size: 2em;
+    margin-right: 20px;
+}
+
+.transaction-details, .plan-details {
+    flex-grow: 1;
+}
+
+.transaction-point, .plan-title {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: white;
+}
+
+.transaction-type, .plan-status {
+    font-size: 0.8em;
+    padding: 3px 8px;
+    border-radius: 12px;
+    background-color: #E0E0E0;
+    margin-left: 10px;
+}
+
+.transaction-status, .plan-info {
+    margin-bottom: 5px;
+    color: white;
+}
+
+.status-completed {
+    color: #4CAF50;
+}
+
+.status-pending {
+    color: #FFC107;
+}
+
+.transaction-date, .plan-date {
     font-size: 0.9em;
+    color: white;
+}
+
+.transaction-date i, .plan-date i {
+    margin-right: 5px;
+}
+
+.plan-info span {
+    margin-right: 15px;
+}
+
+.no-data {
+    text-align: center;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    color: white;
+    backdrop-filter: blur(10px);
+}
+
+.no-data i {
+    font-size: 2em;
+    margin-bottom: 10px;
 }
 
 @media (max-width: 768px) {
@@ -201,154 +254,4 @@ footer {
     .travel-plans {
         grid-template-columns: 1fr;
     }
-}
-.section-title {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    cursor: pointer;
-    padding: 10px;
-    background-color: #ffffff;
-    border-radius: 5px;
-}
-
-.section-title-content {
-    display: flex;
-    align-items: center;
-}
-
-.section-title i {
-    margin-right: 10px;
-}
-
-.toggle-btn {
-    background: none;
-    border: none;
-    font-size: 1.2em;
-    cursor: pointer;
-    margin-left: auto; /* 버튼을 오른쪽으로 밀어냄 */
-}
-
-.section-content {
-    display: none;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-top: none;
-    border-radius: 0 0 5px 5px;
-}
-
-.section-content.active {
-    display: block;
-}
-
-
-/*
-
-카드 형식 출력
-
-*/
-.section-title {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #f8f9fa;
-    padding: 15px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-}
-
-.toggle-btn {
-    background: none;
-    border: none;
-    font-size: 1.2em;
-    cursor: pointer;
-}
-
-.section-content {
-    display: none;
-}
-
-.section-content.active {
-    display: block;
-}
-
-.contents-list {
-    list-style-type: none;
-    padding: 0;
-}
-
-.contents-card {
-    display: flex;
-    align-items: center;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    margin-bottom: 15px;
-    padding: 20px;
-    transition: transform 0.2s ease-in-out;
-}
-
-.contents-card:hover {
-    transform: translateY(-3px);
-}
-
-.transaction-icon, .plan-icon {
-    font-size: 2em;
-    margin-right: 20px;
-}
-
-.transaction-details, .plan-details {
-    flex-grow: 1;
-}
-
-.transaction-point, .plan-title {
-    font-size: 1.2em;
-    font-weight: bold;
-    margin-bottom: 5px;
-}
-
-.transaction-type, .plan-status {
-    font-size: 0.8em;
-    padding: 3px 8px;
-    border-radius: 12px;
-    background-color: #E0E0E0;
-    margin-left: 10px;
-}
-
-.transaction-status, .plan-info {
-    margin-bottom: 5px;
-}
-
-.status-completed {
-    color: #4CAF50;
-}
-
-.status-pending {
-    color: #FFC107;
-}
-
-.transaction-date, .plan-date {
-    font-size: 0.9em;
-    color: #757575;
-}
-
-.transaction-date i, .plan-date i {
-    margin-right: 5px;
-}
-
-.plan-info span {
-    margin-right: 15px;
-}
-
-.no-data {
-    text-align: center;
-    padding: 20px;
-    background-color: #f8f9fa;
-    border-radius: 8px;
-    color: #6c757d;
-}
-
-.no-data i {
-    font-size: 2em;
-    margin-bottom: 10px;
 }

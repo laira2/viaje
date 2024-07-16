@@ -29,23 +29,24 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // 추천 여행지 가져오기
     fetchRecommendedPlans();
+
+    // 토글 버튼 기능
     const toggleButtons = document.querySelectorAll('.toggle-btn');
+    toggleButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const section = this.closest('.travel-section');
+            const content = section.querySelector('.section-content');
+            content.classList.toggle('active');
 
-        toggleButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                const section = this.closest('.travel-section');
-                const content = section.querySelector('.section-content');
-                content.classList.toggle('active');
-
-                // 아이콘 변경
-                const icon = this.querySelector('i');
-                if (content.classList.contains('active')) {
-                    icon.classList.replace('fa-chevron-down', 'fa-chevron-up');
-                } else {
-                    icon.classList.replace('fa-chevron-up', 'fa-chevron-down');
-                }
-            });
+            // 아이콘 변경
+            const icon = this.querySelector('i');
+            if (content.classList.contains('active')) {
+                icon.classList.replace('fa-chevron-down', 'fa-chevron-up');
+            } else {
+                icon.classList.replace('fa-chevron-up', 'fa-chevron-down');
+            }
         });
+    });
 });
 
 function uploadProfileImage(file) {
