@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,8 +24,8 @@
 <main class="container">
     <div class="dashboard">
         <div class="card total-points">
-            <h2>총 보유 포인트</h2>
-            <p id="totalPoints">0</p>
+            <h2>유저 총 보유 포인트</h2>
+            <p id="totalPoints"></p>
         </div>
         <div class="card quick-charge">
             <h2>빠른 충전</h2>
@@ -39,8 +39,10 @@
 
     <div class="history-section">
         <h2>충전 내역</h2>
-        <div class="history-list" id="chargeHistory">
-            <!-- 충전 내역이 여기에 동적으로 추가됩니다 -->
+        <div class="history-list" th:each="point : ${pointList}" >
+            <span class="user" th:text="${point.user.userName}">유저이름</span>
+            <span class="point" th:text="${point.chargePoint + 'P'}">충전 포인트</span>
+            <span class="date" th:text="${#temporals.format(point.createdAt, 'yyyy-MM-dd HH:mm')}">충전일</span><br/>
         </div>
     </div>
 </main>
@@ -48,7 +50,36 @@
 <footer>
     <p>&copy; 2024 Viaje. All rights reserved.</p>
 </footer>
+<script>
+    // 포인트 합계를 계산하는 함수
+    function calculateTotalPoints() {
+        const pointElements = document.querySelectorAll('.history-list .point');
+        let totalPoints = 0;
 
-<script src="/static/js/Charging.js"></script>
+        pointElements.forEach(pointElement => {
+            const pointText = pointElement.textContent.trim();
+            const pointValue = parseInt(pointText.replace('P', ''), 10);
+            if (!isNaN(pointValue)) {
+                totalPoints += pointValue;
+            }
+        });
+
+        return totalPoints;
+    }
+
+    // 페이지 로드 시 총 포인트를 계산하고 HTML에 반영하는 함수
+    function updateTotalPoints() {
+        const totalPointsElement = document.getElementById('totalPoints');
+        const totalPoints = calculateTotalPoints();
+        totalPointsElement.textContent = totalPoints + 'P';
+    }
+
+    // 페이지 로드 시 호출하여 초기 총 포인트 업데이트
+    window.onload = function() {
+        updateTotalPoints();
+    };
+</script>
+
+<!--<script src="/static/js/Charging.js"></script>-->
 </body>
 </html>

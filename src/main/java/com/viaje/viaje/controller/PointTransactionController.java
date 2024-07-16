@@ -1,6 +1,8 @@
 package com.viaje.viaje.controller;
 
+import com.viaje.viaje.model.PointTransaction;
 import com.viaje.viaje.model.Users;
+import com.viaje.viaje.repository.PointTransactionRepository;
 import com.viaje.viaje.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,15 +15,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @Controller
 public class PointTransactionController {
-
+    private final PointTransactionRepository pointTransactionRepository;
     private final PointTransactionService pointTransactionService;
     private final UserService userService;
 
-    public PointTransactionController(PointTransactionService pointTransactionService, UserService userService) {
+    public PointTransactionController(PointTransactionRepository pointTransactionRepository, PointTransactionService pointTransactionService, UserService userService) {
+        this.pointTransactionRepository = pointTransactionRepository;
         this.pointTransactionService = pointTransactionService;
         this.userService = userService;
     }
@@ -61,5 +65,12 @@ public class PointTransactionController {
         String orderId = String.format("ord_%d_%s", timestamp, uuid);
         // 64자로 제한
         return orderId.substring(0, Math.min(orderId.length(), 64));
+    }
+
+    @GetMapping("/adminCharging")
+    public String adminCharge(Model model) {
+        List<PointTransaction> pointList = pointTransactionRepository.findAll();
+        model.addAttribute("pointList", pointList);
+        return "charging";
     }
 }

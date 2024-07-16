@@ -27,7 +27,7 @@ public class PointTransactionService {
         this.userRepository = userRepository;
     }
 
-    // 마이페이지 조회를 위해 추가
+    //마이페이지 조회를 위해 추가
     @Transactional
     public List<PointTransaction> getPointTransactionsByUserId(Long userId) {
         return pointTransactionRepository.findAllByUser_userId(userId);
