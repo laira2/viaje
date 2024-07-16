@@ -52,6 +52,16 @@
                         <span id="currencySymbol" class="currency-symbol"></span>
                     </div>
                 </div>
+
+                <div class="form-group">
+                    <label>🌍 여행 유형</label>
+                    <div class="travel-type-buttons">
+                        <button type="button" id="domesticBtn" class="travel-type-btn">국내</button>
+                        <button type="button" id="overseasBtn" class="travel-type-btn active">해외</button>
+                    </div>
+                    <input type="hidden" id="travelType" name="travelType" value="overseas">
+                </div>
+
                 <div class="form-group">
                     <label for="tagsSearch">🏷️ 태그 옵션</label>
                     <div class="custom-select">
@@ -98,10 +108,24 @@
                 <!-- 숨겨진 템플릿 -->
                 <template id="planDetailTemplate">
                     <div class="plan-detail">
-                        <input type="date" name="planDetails[INDEX].planDate" required>
-                        <input type="time" name="planDetails[INDEX].planTime" required>
-                        <input type="text" name="planDetails[INDEX].activity" placeholder="활동" required>
-                        <textarea name="planDetails[INDEX].description" placeholder="설명" required></textarea>
+                        <div class="date-time-container">
+                            <div class="input-wrapper">
+                                <label for="planDate[INDEX]">날짜</label>
+                                <input type="date" id="planDate[INDEX]" name="planDate" required>
+                            </div>
+                            <div class="input-wrapper">
+                                <label for="planTime[INDEX]">시간</label>
+                                <input type="time" id="planTime[INDEX]" name="planTime" required>
+                            </div>
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="activity[INDEX]">활동</label>
+                            <input type="text" id="activity[INDEX]" name="activity" placeholder="활동" required>
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="description[INDEX]">설명</label>
+                            <textarea id="description[INDEX]" name="description" placeholder="설명" required></textarea>
+                        </div>
                         <button type="button" class="removePlanDetailBtn">삭제</button>
                     </div>
                 </template>

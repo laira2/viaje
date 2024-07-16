@@ -41,11 +41,15 @@
                 </div>
                 <div class="btn-group">
                     <button type="submit" class="btn btn--primary">Sign In</button>
-                    <a href="#" class="btn--text">Forgot password?</a>
+                    <div>
+                        <a href="#" class="btn--text">Forgot password?</a>
+                        <a th:href="@{/join}" class="btn--text" id="registerLink">회원 가입</a>
+                    </div>
+
                 </div>
             </div>
         </form>
-        <a href="register" class="register-link" id="registerLink">회원 가입</a>
+
     </div>
 </div>
 </body>
