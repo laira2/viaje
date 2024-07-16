@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <!-- SDK 추가 -->
@@ -9,10 +9,10 @@
 </head>
 <body style="background: url('/static/images/chargeImage1.png') no-repeat center center fixed; background-size: cover;">
 <div class="logo-container">
-    <h1><a href="main.html" class="logo">Viaje</a></h1>
+    <h1><a th:href="@{/}" class="logo">Viaje</a></h1>
 </div>
 <div class="user-container">
-    <a href="mypage.html" class="user-link">000님</a>
+    <a th:href="@{/mypage}" class="user-link" th:text="${session.userName}">000님</a>
 </div>
 <div class="pointcharge">
     <form action="/requestcharge" method="post" onsubmit="return validateForm()">
