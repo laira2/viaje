@@ -308,3 +308,21 @@ footer {
     transform: translateY(-3px);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
+
+.radio-group {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+.radio-group label {
+    margin-right: 10px;
+}
+
+.saveBtn {
+    background-color: rgba(220,53,69,0.7);
+    border: none;
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: 11px;
+}

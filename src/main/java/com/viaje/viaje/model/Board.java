@@ -42,11 +42,12 @@ public class Board {
     @Column(nullable = false)
     private Integer likeCount = 0;
 
-
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private BoardStatus boardStatus = BoardStatus.PENDING;
 
     public enum BoardStatus {
-        PENDING, APPROVE, REJECTED, DELETED
+        PENDING, APPROVED, REJECTED, DELETED
     }
 
     @PrePersist

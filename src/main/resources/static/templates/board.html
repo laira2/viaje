@@ -40,7 +40,8 @@
           <td th:text="${board.travelPlans.planId}"></td>
           <td th:text="${board.user.userId}"></td>
           <td>
-            <a th:href="@{/product_detail/{id}(id=${board.travelPlans.planId})}" th:text="${board.travelPlans.title}"></a>
+            <a th:if="${session.isAdmin == true}" th:href="@{/product_detail/admin/{id}(id=${board.travelPlans.planId})}" th:text="${board.travelPlans.title}"></a>
+            <a th:if="${session.isAdmin != true}" th:href="@{/product_detail/{id}(id=${board.travelPlans.planId})}" th:text="${board.travelPlans.title}"></a>
           </td>
           <td th:text="${board.createdAt}"></td>
           <td th:text="${board.updatedAt}"></td>

@@ -53,7 +53,20 @@
             <section class="plan-status">
                 <div class="detail-item">
                     <i class="fas fa-info-circle"></i>
-                    <p><strong>상태:</strong> <span th:text="${selectedPlan.status}"></span></p>
+                    <p><strong>상태:</strong></p>
+                    <span th:unless="${isAdmin}" th:text="${selectedPlan.status}"></span>
+                    <form th:action="@{/plan/updateStatus}" method="post" th:if="${session.isAdmin==true}"><br/><br/>
+                        <input type="hidden" name="planId" th:value="${selectedPlan.planId}">
+
+                        <div class ="radio-group">
+                            <label><input type="radio" name="status" th:value="PENDING" th:checked="${selectedPlan.status == 'PENDING'}">대기</label>
+                            <label><input type="radio" name="status" th:value="APPROVED" th:checked="${selectedPlan.status == 'APPROVED'}">승인</label>
+                            <label><input type="radio" name="status" th:value="REJECTED" th:checked="${selectedPlan.status == 'REJECTED'}">반려</label>
+                            <label><input type="radio" name="status" th:value="DELETED" th:checked="${selectedPlan.status == 'DELETED'}">삭제</label>
+                        </div>
+
+                        <button type="submit" class="saveBtn">저장</button>
+                    </form>
                 </div>
             </section>
 

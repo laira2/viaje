@@ -175,7 +175,16 @@ public class TravelPlansService {
         return null; // 또는 예외 처리
     }
 
+    public List<TravelPlans> findPendingTravelPlans() {
+        return travelPlansRepository.findByStatus(TravelPlans.PlanStatus.PENDING);
+    }
 
+    public void approvePlan(Long id) {
+        TravelPlans plan = travelPlansRepository.findById(id).orElse(null);
+        if (plan != null && plan.getStatus() == TravelPlans.PlanStatus.PENDING) {
+            plan.setStatus(TravelPlans.PlanStatus.APPROVED);
+            travelPlansRepository.save(plan);
+        }
 
-
+    }
 }

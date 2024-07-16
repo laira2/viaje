@@ -36,7 +36,7 @@ public class BoardController {
 
     @GetMapping("/products")
     public String listPlans(HttpSession session, Model model) {
-        List<Board> boardList = boardService.findAllBoardProduct();
+        List<Board> boardList = boardService.findApproved();
         model.addAttribute("boardList", boardList);
         return "/board";
     }
