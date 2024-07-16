@@ -42,8 +42,14 @@ public class BoardController {
 
     @GetMapping("/products")
     public String listPlans(HttpSession session, Model model) {
-        List<Board> boardList = boardService.findApproved();
-        model.addAttribute("boardList", boardList);
+        if (session.getAttribute("isAdmin").equals(true)){
+            List<Board> adminBoardList = boardService.findAllBoardProduct();
+            model.addAttribute("boardList", adminBoardList);
+
+        }else {
+            List<Board> boardList = boardService.findApproved();
+            model.addAttribute("boardList", boardList);
+        }
         return "/board";
     }
 
