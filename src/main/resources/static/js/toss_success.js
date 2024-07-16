@@ -1,41 +1,53 @@
-import './style.css';
 const urlParams = new URLSearchParams(window.location.search);
-const paymentKey = urlParams.get("paymentKey");
-const orderId = urlParams.get("orderId");
 const amount = urlParams.get("amount");
 
-const paymentKeyElement = document.getElementById("paymentKey");
-const orderIdElement = document.getElementById("orderId");
-const amountElement = document.getElementById("amount");
+function triggerSuccessAnimation() {
+  const explosionSound = document.getElementById("explosion-sound");
+  explosionSound.play();
 
-paymentKeyElement.textContent = paymentKey;
-orderIdElement.textContent = orderId;
-amountElement.textContent = `${amount}원`;
+  createEmojiBurst();
 
-const confirmLoadingSection = document.querySelector('.confirm-loading');
-const confirmSuccessSection = document.querySelector('.confirm-success');
-
-async function confirmPayment() {
-  // TODO: API를 호출해서 서버에게 paymentKey, orderId, amount를 넘겨주세요.
-  // 서버에선 해당 데이터를 가지고 승인 API를 호출하면 결제가 완료됩니다.
-  // https://docs.tosspayments.com/reference#%EA%B2%B0%EC%A0%9C-%EC%8A%B9%EC%9D%B8
-  const response = await fetch('/sandbox-dev/api/v1/payments/confirm', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      paymentKey,
-      orderId,
-      amount
-    }),
+  // 충전 금액 클릭 이벤트
+  document.getElementById('amount').addEventListener('click', () => {
+    window.location.href = '/static/templates/mypage.html';  // 마이페이지로 이동
   });
-
-  if (response.ok) {
-    confirmLoadingSection.style.display = 'none';
-    confirmSuccessSection.style.display = 'flex';
-  }
 }
 
-const confirmPaymentButton = document.getElementById('confirmPaymentButton');
-confirmPaymentButton.addEventListener('click', confirmPayment);
+function createEmojiBurst() {
+  const emojiContainer = document.getElementById("emoji-container");
+  const emojis = ['😄', '😊', '🎉', '🎊', '💖', '🌟'];
+
+  function createEmoji() {
+    const emoji = document.createElement("div");
+    emoji.classList.add("emoji");
+    emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+
+    const posX = Math.random() * window.innerWidth;
+    const posY = Math.random() * window.innerHeight;
+
+    emoji.style.left = `${posX}px`;
+    emoji.style.top = `${posY}px`;
+
+    emojiContainer.appendChild(emoji);
+
+    setTimeout(() => {
+      emojiContainer.removeChild(emoji);
+    }, 2000);
+  }
+
+  // 초기 이모지 생성
+  for (let i = 0; i < 30; i++) {
+    createEmoji();
+  }
+
+  // 주기적으로 새로운 이모지 생성
+  setInterval(createEmoji, 200);
+}
+
+// 페이지 로드 시 애니메이션 시작
+window.onload = () => {
+  triggerSuccessAnimation();
+
+  const amountElement = document.getElementById("amount");
+  amountElement.textContent = "충전 금액: " + amount + "원";
+};
