@@ -12,12 +12,7 @@
 <body>
 <header>
     <nav>
-        <div class="logo">Viaje</div>
-        <ul class="nav-links">
-            <li><a href="/">Home</a></li>
-            <li><a href="/plans">Plans</a></li>
-            <li><a href="/Modify">Modify</a></li>
-        </ul>
+        <div class="logo"><a href="/">Viaje</a></div> <!-- 로고에 링크 추가 -->
     </nav>
 </header>
 
@@ -44,30 +39,22 @@
                     <p><strong>최종 수정일:</strong> <span th:text="${#temporals.format(selectedPlan.updatedAt, 'yyyy-MM-dd HH:mm')}"></span></p>
                 </div>
             </section>
-            <section class="plan-status">
-                <div class="detail-item">
-                    <i class="fas fa-shopping-cart"></i>
-                    <p><strong>판매 수:</strong> <span th:text="${selectedPlan.sold}"></span></p>
-                </div>
-            </section>
+
             <section class="plan-status">
                 <div class="detail-item">
                     <i class="fas fa-info-circle"></i>
                     <p><strong>상태:</strong></p>
-                    <span th:unless="${isAdmin}" th:text="${selectedPlan.status}"></span>
-                    <form th:action="@{/plan/updateStatus}" method="post" th:if="${session.isAdmin==true}"><br/><br/>
-                        <input type="hidden" name="planId" th:value="${selectedPlan.planId}">
-
-                        <div class ="radio-group">
-                            <label><input type="radio" name="status" th:value="PENDING" th:checked="${selectedPlan.status == 'PENDING'}">대기</label>
-                            <label><input type="radio" name="status" th:value="APPROVED" th:checked="${selectedPlan.status == 'APPROVED'}">승인</label>
-                            <label><input type="radio" name="status" th:value="REJECTED" th:checked="${selectedPlan.status == 'REJECTED'}">반려</label>
-                            <label><input type="radio" name="status" th:value="DELETED" th:checked="${selectedPlan.status == 'DELETED'}">삭제</label>
-                        </div>
-
-                        <button type="submit" class="saveBtn">저장</button>
-                    </form>
                 </div>
+                <form th:action="@{/plan/updateStatus}" method="post">
+                    <input type="hidden" name="planId" th:value="${selectedPlan.planId}">
+                    <div class="radio-group">
+                        <label><input type="radio" name="status" th:value="PENDING" th:checked="${selectedPlan.status == 'PENDING'}">대기</label>
+                        <label><input type="radio" name="status" th:value="APPROVED" th:checked="${selectedPlan.status == 'APPROVED'}">승인</label>
+                        <label><input type="radio" name="status" th:value="REJECTED" th:checked="${selectedPlan.status == 'REJECTED'}">반려</label>
+                        <label><input type="radio" name="status" th:value="DELETED" th:checked="${selectedPlan.status == 'DELETED'}">삭제</label>
+                    </div>
+                    <button type="submit" class="saveBtn">저장</button>
+                </form>
             </section>
 
             <section class="plan-content">
@@ -85,7 +72,6 @@
                 <p th:if="${#lists.isEmpty(selectedPlan.imagePaths)}">첨부된 이미지가 없습니다.</p>
             </section>
 
-
             <div class="place-item" th:each="planDetail,iterStat: ${planDetails}">
                 <div class="place-number-container">
                     <div class="place-number" th:text="${planDetail.planDate}">1</div>
@@ -94,7 +80,7 @@
                 <div class="place-info-container">
                     <div class="place-info">
                         <div class="place-name" th:text="${planDetail.activity}">우메다 역</div>
-                            <div class="place-category" th:text="${planDetail.description}">관광명소 · 우메다</div>
+                        <div class="place-category" th:text="${planDetail.description}">관광명소 · 우메다</div>
                     </div>
                 </div>
             </div>
@@ -108,12 +94,6 @@
                 </form>
             </div>
 
-            <!-- Font Awesome CDN 추가 -->
-            <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-
-
-
-
             <section id="commentsSection">
                 <h3>댓글</h3>
                 <form id="commentForm" method="post" action="/comment/add">
@@ -125,18 +105,6 @@
                         <i class="fas fa-paper-plane"></i> 댓글 작성
                     </button>
                 </form>
-
-                <!-- 수정 버튼 선택 시 폼 여는 스크립트-->
-                <script th:inline="javascript">
-                    function toggleEditForm(commentId) {
-                        var form = document.getElementById('edit-form-' + commentId);
-                        if (form.style.display === 'none') {
-                            form.style.display = 'block';
-                        } else {
-                            form.style.display = 'none';
-                        }
-                    }
-                </script>
 
                 <div th:each="comment : ${comments}" class="comment">
                     <p><strong th:text="${comment.user.nickname}"></strong>
@@ -165,9 +133,5 @@
         </div>
     </div>
 </main>
-
-<footer>
-    <p>&copy; 2024 여행 계획 서비스. All rights reserved.</p>
-</footer>
 </body>
 </html>
