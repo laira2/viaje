@@ -110,6 +110,18 @@
                     </button>
                 </form>
 
+                <!-- 수정 버튼 선택 시 폼 여는 스크립트-->
+                <script th:inline="javascript">
+                    function toggleEditForm(commentId) {
+                        var form = document.getElementById('edit-form-' + commentId);
+                        if (form.style.display === 'none') {
+                            form.style.display = 'block';
+                        } else {
+                            form.style.display = 'none';
+                        }
+                    }
+                </script>
+
                 <div th:each="comment : ${comments}" class="comment">
                     <p><strong th:text="${comment.user.nickname}"></strong>
                         <span class="comment-date" th:text="${#temporals.format(comment.createdAt, 'yyyy. M. d. a h:mm:ss')}"></span></p>
