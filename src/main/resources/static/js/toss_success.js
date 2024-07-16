@@ -7,10 +7,7 @@ function triggerSuccessAnimation() {
 
   createEmojiBurst();
 
-  // 충전 금액 클릭 이벤트
-  document.getElementById('amount').addEventListener('click', () => {
-    window.location.href = '/static/templates/mypage.html';  // 마이페이지로 이동
-  });
+
 }
 
 function createEmojiBurst() {
