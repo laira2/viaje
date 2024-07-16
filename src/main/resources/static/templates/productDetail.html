@@ -44,8 +44,9 @@
                 <div class="detail-item">
                     <i class="fas fa-info-circle"></i>
                     <p><strong>상태:</strong></p>
+                    <span th:unless="${isAdmin}" th:text="${selectedPlan.status}"></span>
                 </div>
-                <form th:action="@{/plan/updateStatus}" method="post">
+                <form th:action="@{/plan/updateStatus}" method="post" th:if="${session.isAdmin==true}">
                     <input type="hidden" name="planId" th:value="${selectedPlan.planId}">
                     <div class="radio-group">
                         <label><input type="radio" name="status" th:value="PENDING" th:checked="${selectedPlan.status == 'PENDING'}">대기</label>

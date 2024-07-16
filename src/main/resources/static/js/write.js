@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function() {
     ];
 
     const tags = [
-            { code: 'Recommendation', name: 'Viaje 추천 Plan', colname: '추천'},
+//            { code: 'Recommendation', name: 'Viaje 추천 Plan', colname: '추천'},
             { code: 'active', name: 'active plan', colname: '액티비티' },
             { code: 'taste', name: '맛집 계획', colname: '맛집'},
             { code: 'adventure', name: '쉼 休', colname: '휴식'},
