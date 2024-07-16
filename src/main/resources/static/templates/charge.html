@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <!-- SDK 추가 -->
@@ -7,7 +7,13 @@
     <title>결제 페이지</title>
     <link rel="stylesheet" href="/static/css/charge.css">
 </head>
-<body>
+<body style="background: url('/static/images/chargeImage1.png') no-repeat center center fixed; background-size: cover;">
+<div class="logo-container">
+    <h1><a href="main.html" class="logo">Viaje</a></h1>
+</div>
+<div class="user-container">
+    <a href="mypage.html" class="user-link">000님</a>
+</div>
 <div class="pointcharge">
     <form action="/requestcharge" method="post" onsubmit="return validateForm()">
         <p>Viaje 포인트 충전</p>
