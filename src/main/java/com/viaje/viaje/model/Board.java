@@ -47,7 +47,7 @@ public class Board {
     private BoardStatus boardStatus = BoardStatus.PENDING;
 
     public enum BoardStatus {
-        PENDING, APPROVE, REJECTED, DELETED
+        PENDING, APPROVED, REJECTED, DELETED
     }
 
     @PrePersist

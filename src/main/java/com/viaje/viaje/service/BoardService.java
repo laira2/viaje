@@ -6,6 +6,7 @@ import com.viaje.viaje.repository.BoardRepository;
 import com.viaje.viaje.repository.PlanTagRepository;
 import com.viaje.viaje.repository.TagsRepository;
 import com.viaje.viaje.repository.TravelPlansRepository;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -61,5 +62,15 @@ public class BoardService {
         boardRepository.save(createPlanBoard);
     }
 
+    public List<Board> findApproved() {
+        return boardRepository.findAllByBoardStatus(Board.BoardStatus.APPROVED);
+    }
 
+    public void approvePlan(Long id) {
+        Board board = boardRepository.findById(id).orElse(null);
+        if (board != null && board.getBoardStatus() == Board.BoardStatus.PENDING) {
+            board.setBoardStatus(Board.BoardStatus.APPROVED);
+            boardRepository.save(board);
+        }
+    }
 }
