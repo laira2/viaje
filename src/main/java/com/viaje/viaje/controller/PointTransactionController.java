@@ -80,4 +80,5 @@ public class PointTransactionController {
         model.addAttribute("paymentList", paymentList);
         return "payment";
     }
+
 }
