@@ -53,6 +53,7 @@ public class BoardService {
 
     public void postPlan(Users user, TravelPlans travelPlans) {
         Board createPlanBoard = Board.builder()
+                .boardStatus(Board.BoardStatus.PENDING)
                 .travelPlans(travelPlans)
                 .user(user)
                 .title(travelPlans.getTitle())
