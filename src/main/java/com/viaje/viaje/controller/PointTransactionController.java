@@ -74,4 +74,11 @@ public class PointTransactionController {
         model.addAttribute("pointList", pointList);
         return "charging";
     }
+
+    @GetMapping("/adminPayment")
+    public String adminPayment(Model model) {
+        List<PointTransaction> paymentList = pointTransactionRepository.findAll();
+        model.addAttribute("paymentList", paymentList);
+        return "payment";
+    }
 }
