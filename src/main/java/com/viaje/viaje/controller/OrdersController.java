@@ -59,4 +59,31 @@ public class OrdersController {
         model.addAttribute("ordersItemList", ordersItemList);
         return "orderHistory";
     }
+
+    @GetMapping("/adminSales")
+    public String adminSalesList(Model model) {
+        List<OrderItems> salesList = ordersItemRepository.findAll();
+
+
+        // 총 판매액 계산
+        int totalSalesAmount = salesList.stream()
+                .mapToInt(sale -> sale.getOrders().getTotal_amount() * sale.getQuantity())
+                .sum();
+
+
+        // 총 주문 수 계산
+        int totalOrdersCount = (int) salesList.stream()
+                .map(OrderItems::getOrders)
+                .distinct()
+                .count();
+
+        // 모델에 데이터 추가
+        model.addAttribute("salesList", salesList);
+        model.addAttribute("totalSalesAmount", totalSalesAmount);
+        model.addAttribute("totalOrdersCount", totalOrdersCount);
+
+        return "sales";
+    }
+
+
 }
