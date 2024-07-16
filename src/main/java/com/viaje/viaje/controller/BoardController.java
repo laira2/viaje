@@ -1,5 +1,6 @@
 package com.viaje.viaje.controller;
 
+import com.viaje.viaje.dto.AnswersDTO;
 import com.viaje.viaje.dto.QuestionsDTO;
 import com.viaje.viaje.model.*;
 import com.viaje.viaje.repository.OrdersItemRepository;
@@ -102,6 +103,13 @@ public class BoardController {
         Users user = userService.findByEmail((String) session.getAttribute("user"));
         qnAService.postQuestion(questionsDTO,user);
         return "/qNa";
+    }
+
+    @PostMapping("/postAnswer")
+    public String postanswer(HttpSession session, AnswersDTO answersDTO,){
+        Users user = userService.findByEmail((String) session.getAttribute("user"));
+        qnAService.addAnswer(answersDTO.getQuestions().getQuestionsId(),answersDTO.getContents(),user);
+        return "/qNaBoard";
     }
 
 
