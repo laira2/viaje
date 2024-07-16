@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>문의 게시판 목록</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/qNa_list.css">
+</head>
+<body>
+<header>
+    <div class="header-content">
+        <h1>문의 게시판 목록</h1>
+        <nav>
+            <a href="main.html" class="nav-link">HOME</a>
+            <a href="/logout" class="nav-link">LOGOUT</a>
+        </nav>
+    </div>
+</header>
+
+<main class="content">
+    <div class="image-container">
+        <img src="/static/images/mun2_1.jpg" alt="배경 이미지" class="background-image">
+        <div class="overlay-content">
+            <div class="board-container" id="boardContainer">
+                <h2>문의 게시판 목록</h2>
+                <!-- 게시글 항목들 -->
+            </div>
+            <button class="btn-write" onclick="location.href='qNa.html'">글쓰기</button>
+        </div>
+    </div>
+</main>
+
+<script src="/static/js/qNa_list.js"></script>
+</body>
+</html>

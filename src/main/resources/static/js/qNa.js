@@ -1,11 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const postList = document.getElementById('postList');
     const newPostForm = document.getElementById('newPostForm');
     const postTitle = document.getElementById('postTitle');
     const postContent = document.getElementById('postContent');
 
-    const posts = [];
-
+    // 폼 제출 이벤트 핸들러
     newPostForm.addEventListener('submit', (event) => {
         event.preventDefault();
 
@@ -19,20 +17,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 date: new Date().toLocaleString()
             };
 
+            // 로컬 스토리지에 게시글 저장
+            const posts = JSON.parse(localStorage.getItem('posts')) || [];
             posts.push(newPost);
-            renderPosts();
-            postTitle.value = '';
-            postContent.value = '';
+            localStorage.setItem('posts', JSON.stringify(posts));
+
+            // 글 작성 후 목록 페이지로 이동
+            window.location.href = 'qNa_list.html';
         }
     });
-
-    function renderPosts() {
-        postList.innerHTML = posts.map((post) => `
-            <div class="post-item">
-                <h3>${post.title}</h3>
-                <p>${post.content}</p>
-                <small>${post.date}</small>
-            </div>
-        `).join('');
-    }
 });

@@ -72,4 +72,7 @@ public class BoardController {
         return "qNa";
     }
 
+
+
+
 }
