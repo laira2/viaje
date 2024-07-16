@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8" />
     <title>결제 성공</title>
@@ -7,9 +7,9 @@
 </head>
 <body>
 <div class="success-container">
-    <h2 class="success-title">결제 성공</h2>
+    <a th:href="@{/}"><h2 class="success-title">결제 성공</h2></a>
     <div class="success-content">
-        <p id="amount" class="clickable">충전 금액: 0원</p>
+        <a th:href="@{/mypage}"><p id="amount" class="clickable">충전 금액: 0원</p></a>
     </div>
     <div id="emoji-container"></div>
 </div>
