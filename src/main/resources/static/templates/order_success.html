@@ -1,10 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="UTF-8" />
+    <title>결제 성공</title>
+    <link rel="stylesheet" href="/static/css/toss_success.css">
 </head>
 <body>
+<div class="success-container">
+    <a th:href="@{/}"><h2 class="success-title" >결제 성공</h2></a>
+    <div class="success-content">
+        <a th:href="@{/mypage}"><p id="amount" class="clickable">결제 금액: 0원</p></a>
+    </div>
+    <div id="emoji-container"></div>
+</div>
 
+<audio id="explosion-sound" src="/static/sounds/explosin.mp3"></audio>
+
+<script src="/static/js/toss_success.js"></script>
 </body>
 </html>
