@@ -2,6 +2,8 @@ package com.viaje.viaje.controller;
 
 import com.viaje.viaje.model.OrderItems;
 import com.viaje.viaje.model.Orders;
+import com.viaje.viaje.model.PointTransaction;
+import com.viaje.viaje.repository.OrdersItemRepository;
 import com.viaje.viaje.repository.OrdersRepository;
 import com.viaje.viaje.service.OrdersService;
 import jakarta.servlet.http.HttpSession;
@@ -22,9 +24,11 @@ public class OrdersController {
 
     private final OrdersService ordersService;
     private final OrdersRepository ordersRepository;
-    public OrdersController(OrdersService ordersService, OrdersRepository ordersRepository) {
+    private final OrdersItemRepository ordersItemRepository;
+    public OrdersController(OrdersService ordersService, OrdersRepository ordersRepository, OrdersItemRepository ordersItemRepository) {
         this.ordersService = ordersService;
         this.ordersRepository = ordersRepository;
+        this.ordersItemRepository = ordersItemRepository;
     }
 
     @PostMapping("/order")
@@ -47,5 +51,12 @@ public class OrdersController {
             return "cart";
         }
 
+    }
+
+    @GetMapping("/adminOrderHistory")
+    public String adminOrderHistory(Model model) {
+        List<OrderItems> ordersItemList = ordersItemRepository.findAll();
+        model.addAttribute("ordersItemList", ordersItemList);
+        return "orderHistory";
     }
 }
