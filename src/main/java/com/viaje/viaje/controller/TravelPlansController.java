@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -55,7 +56,7 @@ public class TravelPlansController {
                            @RequestParam(value = "planTime", required = false) List<LocalTime> planTimes,
                            @RequestParam(value = "activity", required = false) List<String> activities,
                            @RequestParam(value = "description", required = false) List<String> descriptions) throws IOException {
-
+        System.out.println("Received tagsOptions: " + Arrays.toString(tagsOptions));
         List<PlanDetailDTO> planDetails = new ArrayList<>();
         for (int i = 0; i < planDates.size(); i++) {
             PlanDetailDTO dto = new PlanDetailDTO();

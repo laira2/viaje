@@ -53,16 +53,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label>🏷️ 여행 유형 (필수)</label>
-                    <div class="travel-type-buttons">
-                        <button type="button" id="domesticButton" class="travel-type-btn">국내 여행</button>
-                        <button type="button" id="overseasButton" class="travel-type-btn">해외 여행</button>
-                    </div>
-                    <input type="hidden" id="selectedTravelType" name="travelType" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="tagsSearch">🏷️ 추가 태그 (선택)</label>
+                    <label for="tagsSearch">🏷️ 태그 옵션</label>
                     <div class="custom-select">
                         <input type="text" id="tagsSearch" placeholder="태그 검색...">
                         <div id="tagsDropdown" class="dropdown-content">
@@ -70,9 +61,8 @@
                         </div>
                     </div>
                     <div id="selectedTagsContainer"></div>
-                    <input type="hidden" id="selectedTags" name="tagsOptions">
+                    <input type="hidden" id="selectedTags" name="tagsOptions" multiple>
                 </div>
-
                 <div class="form-group">
                     <label for="content">✏️ 여행 이야기</label>
                     <textarea id="content" name="detail" rows="10" required placeholder="당신의 특별했던 순간들을 자세히 들려주세요"></textarea>
