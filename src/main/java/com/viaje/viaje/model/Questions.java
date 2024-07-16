@@ -23,18 +23,20 @@ public class Questions {
     @Column(nullable = false)
     private String contents;
 
-
     @ManyToOne
     @JoinColumn(name="userId")
     private Users user;
+
+    @OneToOne(mappedBy = "questions", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Answers answer;
 
     @Column(updatable = false, nullable = false)
     private LocalDateTime createdAt;
 
     @Column(nullable = false)
     private LocalDateTime updatedAt;
-    
-    private Questions.QnaStatus qnaStatus =QnaStatus.확인중;
+
+    private QnaStatus qnaStatus = QnaStatus.확인중;
 
     public enum QnaStatus {
         확인중, 답변완료
@@ -44,10 +46,14 @@ public class Questions {
     protected void onCreate() {
         createdAt = LocalDateTime.now();
         updatedAt = LocalDateTime.now();
-       
-        if (qnaStatus== null) {
+
+        if (qnaStatus == null) {
             qnaStatus = QnaStatus.확인중;
         }
     }
 
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDateTime.now();
+    }
 }

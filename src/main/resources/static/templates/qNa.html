@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,27 +10,30 @@
 <body>
 <header>
     <div class="header-content">
-        <h1>문의게시판 글쓰기</h1>
+        <h1 class="logo">Viaje</h1>
         <nav>
-            <a href="main.html" class="nav-link">HOME</a>
-            <a href="qNa_list.html" class="nav-link">LIST</a>
-            <a href="/logout" class="nav-link">LOGOUT</a>
+            <a th:href="@{/}" class="nav-link">HOME</a>
+            <a th:href="@{/mypage}" class="nav-link">MYPAGE</a>
+            <a th:href="@{/logout}" class="nav-link">LOGOUT</a>
         </nav>
     </div>
 </header>
 
 <main class="content">
-    <div class="image-container">
-        <img src="/static/images/mun2.jpg" alt="문의 게시판 이미지">
-    </div>
     <div class="form-container">
         <div class="board-container">
             <div class="new-post">
-                <h2>새 글 작성</h2>
-                <form id="newPostForm">
-                    <input type="text" id="postTitle" placeholder="제목" required>
-                    <textarea id="postContent" rows="5" placeholder="내용" required></textarea>
-                    <button type="submit" class="btn">작성</button>
+                <h2>새 문의글 작성</h2>
+                <form id="newPostForm" action="/qnaPost">
+                    <div class="form-group">
+                        <label for="title">제목</label>
+                        <input type="text" id="title" name ="title"placeholder="제목을 입력하세요" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="contents">내용</label>
+                        <textarea id="contents" rows="8" placeholder="내용을 입력하세요" required></textarea>
+                    </div>
+                    <button type="submit" class="btn-submit">작성 완료</button>
                 </form>
             </div>
         </div>
