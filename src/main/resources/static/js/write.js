@@ -57,11 +57,11 @@ document.addEventListener('DOMContentLoaded', function() {
     ];
 
     const tags = [
-        { code: 'Recommendation', name: 'Viaje 추천 Plan' ,colname: '추천'},
-        { code: 'active', name: 'active plan' ,colname: '액티비티' },
-        { code: 'taste', name: '맛집 계획' ,colname: '맛집'},
-        { code: 'adventure', name: '쉼 休' ,colname: '휴식'}
-    ];
+            { code: 'Recommendation', name: 'Viaje 추천 Plan', colname: '추천'},
+            { code: 'active', name: 'active plan', colname: '액티비티' },
+            { code: 'taste', name: '맛집 계획', colname: '맛집'},
+            { code: 'adventure', name: '쉼 休', colname: '휴식'},
+        ];
 
 
     const countrySearch = document.getElementById('countrySearch');
@@ -73,7 +73,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const tagsDropdown = document.getElementById('tagsDropdown');
     const selectedTagsContainer = document.getElementById('selectedTagsContainer');
     const selectedTagsInput = document.getElementById('selectedTags');
-    const travelTypeInputs = document.querySelectorAll('input[name="travelType"]');
+    const domesticBtn = document.getElementById('domesticBtn');
+    const overseasBtn = document.getElementById('overseasBtn');
+    const travelTypeInput = document.getElementById('travelType');
+
     let selectedTagsList = [];
 
     const startDate = document.getElementById('startDate');
@@ -129,7 +132,28 @@ document.addEventListener('DOMContentLoaded', function() {
         selectedCountry.value = item.code;
         countrySearch.value = `${item.flag} ${item.name}`;
         currencySymbol.textContent = item.currency;
+
+        // 추가
+        if (item.code === 'KR') {
+            updateTravelType('domestic');
+        } else {
+            updateTravelType('overseas');
+        }
     }
+
+    function updateTravelType(type) {
+        travelTypeInput.value = type;
+        if (type === 'domestic') {
+            domesticBtn.classList.add('active');
+            overseasBtn.classList.remove('active');
+        } else {
+            overseasBtn.classList.add('active');
+            domesticBtn.classList.remove('active');
+        }
+        updateSelectedTags();
+    }
+    domesticBtn.addEventListener('click', () => updateTravelType('domestic'));
+    overseasBtn.addEventListener('click', () => updateTravelType('overseas'));
 
     function selectTag(item) {
         if (!selectedTagsList.some(tag => tag.colname === item.colname)) {
@@ -138,67 +162,34 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         tagsSearch.value = '';
     }
-//    const travelTypeToggle = document.getElementById('travelTypeToggle');
-//    const selectedTravelType = document.getElementById('selectedTravelType');
-//
-//    travelTypeToggle.addEventListener('change', function() {
-//        if (this.checked) {
-//            selectedTravelType.value = 'overseas';
-//        } else {
-//            selectedTravelType.value = 'domestic';
-//        }
-//        updateSelectedTags();
-//    });
-    const domesticButton = document.getElementById('domesticButton');
-    const overseasButton = document.getElementById('overseasButton');
-    const selectedTravelType = document.getElementById('selectedTravelType');
-
-    function selectTravelType(type) {
-        selectedTravelType.value = type;
-        if (type === 'domestic') {
-            domesticButton.classList.add('selected');
-            overseasButton.classList.remove('selected');
-        } else {
-            overseasButton.classList.add('selected');
-            domesticButton.classList.remove('selected');
-        }
-        updateSelectedTags();
-    }
-
-    domesticButton.addEventListener('click', () => selectTravelType('domestic'));
-    overseasButton.addEventListener('click', () => selectTravelType('overseas'));
-
 
     function updateSelectedTags() {
         selectedTagsContainer.innerHTML = '';
-        const travelType = selectedTravelType.value;
-        if (travelType) {
-            const tagElement = document.createElement('span');
-            tagElement.className = 'selected-tag';
-            tagElement.textContent = travelType === 'domestic' ? '국내 여행' : '해외 여행';
-            selectedTagsContainer.appendChild(tagElement);
-        }
+        // 추가
+        selectedTagsList = selectedTagsList.filter(tag => tag.colname !== '국내' && tag.colname !== '해외');
+
+        // 추가
+        const travelTypeTag = {
+            colname: travelTypeInput.value === 'domestic' ? '국내' : '해외',
+            name: travelTypeInput.value === 'domestic' ? '국내 여행' : '해외 여행'
+        };
+        selectedTagsList.push(travelTypeTag);
+
         selectedTagsList.forEach(tag => {
             const tagElement = document.createElement('span');
             tagElement.className = 'selected-tag';
             tagElement.textContent = tag.name;
-            tagElement.onclick = (e) => {
-                e.preventDefault();
-                removeTag(tag.colname);
-            };
+            // 수정
+            if (tag.colname !== '국내' && tag.colname !== '해외') {
+                tagElement.onclick = (e) => {
+                    e.preventDefault();
+                    removeTag(tag.colname);
+                };
+            }
             selectedTagsContainer.appendChild(tagElement);
         });
-        updateHiddenInput();
+        selectedTagsInput.value = selectedTagsList.map(tag => tag.colname).join(',');
     }
-
-    function updateHiddenInput() {
-        const travelType = selectedTravelType.value; // 수정된 부분
-        const allTags = travelType ? [travelType] : [];
-        allTags.push(...selectedTagsList.map(tag => tag.colname));
-        selectedTagsInput.value = allTags.join(',');
-    }
-
-
 
     function removeTag(tagColname) {
         selectedTagsList = selectedTagsList.filter(tag => tag.colname !== tagColname);
@@ -262,7 +253,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         hiddenInput.files = dataTransfer.files;
     }
-
 
     addPlanImageBtn.addEventListener('click', function() {
         planImageInput.click();
@@ -339,11 +329,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // 폼 제출 이벤트 리스너
-   document.querySelector('form').addEventListener('submit', function(e) {
-       if (!selectedTravelType.value) { // 수정된 부분
-           e.preventDefault();
-           alert('여행 유형을 선택해주세요.');
-       }
+    document.querySelector('form').addEventListener('submit', function(e) {
         // 필요한 유효성 검사 로직 추가
     });
 });

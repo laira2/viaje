@@ -67,6 +67,10 @@ public class BoardController {
         // 필요한 경우 모델에 데이터를 추가합니다.
         return "write";
     }
+    @GetMapping("/qnaBoard")
+    public String showQnaBoard(){
+        return "qNa";
+    }
 
 
 
