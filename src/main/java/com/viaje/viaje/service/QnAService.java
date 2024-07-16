@@ -53,6 +53,11 @@ public class QnAService {
 
     public void postQuestion(QuestionsDTO questionsDTO,Users user) {
         Questions newQuestion = new Questions();
+        newQuestion.setUser(user);
+        newQuestion.setTitle(questionsDTO.getTitle());
+        newQuestion.setContents(questionsDTO.getContents());
+
+        questionsRepository.save(newQuestion);
 
     }
 }

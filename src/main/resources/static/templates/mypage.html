@@ -11,7 +11,7 @@
 <body style="background: url('/static/images/backgroundMypage.png') no-repeat center center fixed; background-size: cover;">
 <div class="container">
     <div class="header-logo">
-        <h1><a href="/static/templates/main.html" style="color: white; text-decoration: none;"><i class="fas fa-plane-departure"></i> Viaje</a></h1>
+        <h1><a th:href="@{/}" style="color: white; text-decoration: none;"><i class="fas fa-plane-departure"></i> Viaje</a></h1>
     </div>
     <div class="user-info">
         <div class="user-avatar">
@@ -19,7 +19,7 @@
         </div>
         <div class="user-details">
             <h2 style="color: white;">안녕하세요, <span id="userName" th:text="${user.userName}"></span>님!</h2>
-            <p class="mileage" style="color: white;"><i class="fas fa-coins"></i> <a href="/static/templates/charge.html" id="userMileageLink" style="color: white; text-decoration: none;">마일리지: <span id="userMileage" th:text="${user.point}"></span>점</a></p>
+            <p class="mileage" style="color: white;"><i class="fas fa-coins"></i> <a th:href="@{/pointcharge}" id="userMileageLink" style="color: white; text-decoration: none;">마일리지: <span id="userMileage" th:text="${user.point}"></span>점</a></p>
             <div class="button-group">
                 <label for="avatarUpload" class="btn btn-change-photo"><i class="fas fa-camera"></i> 사진 변경</label>
                 <input type="file" id="avatarUpload" style="display: none;">

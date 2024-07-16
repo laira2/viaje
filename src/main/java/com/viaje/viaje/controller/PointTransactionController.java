@@ -31,10 +31,11 @@ public class PointTransactionController {
     }
 
     @PostMapping("/charge")
-    public String chargePoints(@RequestParam Long userId,
+    public String chargePoints(HttpSession session,@RequestParam Long userId,
                                                             @RequestParam Integer chargeAmount,
                                                             @RequestParam Integer chargePoint) {
         PointTransactionDTO transactionDTO = pointTransactionService.chargePoints(userId, chargeAmount, chargePoint);
+
         return "redirect:/mypage";
     }
 
