@@ -79,11 +79,7 @@ public class AdminController {
 
     @PostMapping("/plan/updateStatus")
     public String updateStatus(@RequestParam("planId") Long planId, @RequestParam("status") String status) {
-        if ("APPROVED".equals(status)) {
-            adminService.approvePlan(planId);
-            adminService.approvePlan(planId);
-        }
-
+        adminService.updatePlanStatus(planId, status);
         return "redirect:/products/admin";
     }
 

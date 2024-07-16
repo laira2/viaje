@@ -5,6 +5,7 @@ import com.viaje.viaje.model.TravelPlans;
 import com.viaje.viaje.model.Users;
 import com.viaje.viaje.repository.BoardRepository;
 import com.viaje.viaje.repository.UserRepository;
+import com.viaje.viaje.repository.TravelPlansRepository;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,9 @@ public class AdminService {
 
     @Autowired
     private BoardService boardService;
+
+    @Autowired
+    private TravelPlansRepository travelPlansRepository;
 
     @Autowired
     private TravelPlansService travelPlansService;
@@ -42,5 +46,13 @@ public class AdminService {
     public void approvePlan(Long id) {
         travelPlansService.approvePlan(id);
         boardService.approvePlan(id);
+    }
+
+    public void updatePlanStatus(Long id, String status) {
+        Board.BoardStatus boardStatus = Board.BoardStatus.valueOf(status);
+        TravelPlans.PlanStatus planStatus = TravelPlans.PlanStatus.valueOf(status);
+
+        boardRepository.updateBoardStatus(id, boardStatus);
+        travelPlansRepository.updatePlanStatus(id, planStatus);
     }
 }
