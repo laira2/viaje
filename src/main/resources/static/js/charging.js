@@ -18,25 +18,32 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     function fetchTotalPoints() {
-        // API에서 총 포인트를 가져오는 로직
-        // 예시: API 호출 대신 임시 데이터 사용
-        setTimeout(() => {
-            totalPointsElement.textContent = '150,000';
-        }, 500);
-    }
+        fetch('/adminCharging')
+            .then(response => response.json())
+            .then(data => {
+                // 총 포인트 업데이트
+                totalPointsElement.textContent = calculateTotalPoints(data);
+            })
+            .catch(error => console.error('총 포인트를 가져오는 중 오류 발생:', error));
+        }
 
     function fetchChargeHistory() {
-        // API에서 충전 내역을 가져오는 로직
-        // 예시: API 호출 대신 임시 데이터 사용
-        const mockData = [
-            { date: '2024-03-15', amount: '10,000' },
-            { date: '2024-03-10', amount: '30,000' },
-            { date: '2024-03-05', amount: '50,000' },
-        ];
+        fetch('/adminCharging')
+            .then(response => response.json())
+            .then(data => {
+                // 충전 내역 렌더링
+                renderChargeHistory(data);
+            })
+            .catch(error => console.error('충전 내역을 가져오는 중 오류 발생:', error));
+        }
 
-        setTimeout(() => {
-            renderChargeHistory(mockData);
-        }, 500);
+    function calculateTotalPoints(transactions) {
+        // 포인트 트랜잭션 데이터에서 총 포인트 계산
+        let totalPoints = 0;
+        transactions.forEach(transaction => {
+            totalPoints += parseInt(transaction.amount);
+        });
+        return totalPoints.toLocaleString();
     }
 
     function renderChargeHistory(data) {

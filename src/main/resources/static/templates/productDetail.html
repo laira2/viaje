@@ -60,7 +60,7 @@
 
             <section class="plan-content">
                 <h3>상세 내용</h3>
-                <div th:utext="${selectedPlan.detail}"></div>
+                <pre class="plan-detail" th:utext="${selectedPlan.detail}"></pre>
             </section>
 
             <section class="plan-images">
@@ -73,7 +73,7 @@
                 <p th:if="${#lists.isEmpty(selectedPlan.imagePaths)}">첨부된 이미지가 없습니다.</p>
             </section>
 
-            <div class="place-item" th:each="planDetail,iterStat: ${planDetails}">
+            <div class="place-item" th:each="planDetail,iterStat: ${planDetails}" th:if="${planDetails != null or session.isAdmin==true}">
                 <div class="place-number-container">
                     <div class="place-number" th:text="${planDetail.planDate}">1</div>
                     <div class="place-time" th:text="${planDetail.planTime}">10:00</div>
@@ -84,6 +84,9 @@
                         <div class="place-category" th:text="${planDetail.description}">관광명소 · 우메다</div>
                     </div>
                 </div>
+            </div>
+            <div class ="place-blockItem" th:if="${planDetails == null}">
+                <p>자세한 계획은 구매 후 확인할 수 있습니다! </p>
             </div>
 
             <div class="action-buttons">

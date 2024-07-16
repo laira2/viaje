@@ -134,6 +134,27 @@ h1 {
     border-radius: 10px;
     padding: 20px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+}
+
+.history-list .user {
+    flex: 1;
+    padding-left: 40px;
+}
+
+.history-list .point {
+    font-weight: 600;
+    color: var(--primary-color);
+    padding-left: 50px;
+}
+
+.history-list .date {
+    text-align: right;
+    color: var(--text-light);
+    flex-grow: 1; /* 오른쪽으로 정렬되도록 */
+    padding-right: 77px;
 }
 
 .history-item {
