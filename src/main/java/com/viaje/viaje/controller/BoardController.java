@@ -1,8 +1,10 @@
 package com.viaje.viaje.controller;
 
+import com.viaje.viaje.dto.QuestionsDTO;
 import com.viaje.viaje.model.*;
 import com.viaje.viaje.repository.PlanDetailRepository;
 import com.viaje.viaje.service.BoardService;
+import com.viaje.viaje.service.QnAService;
 import com.viaje.viaje.service.TravelPlansService;
 import com.viaje.viaje.service.UserService;
 import jakarta.servlet.http.HttpSession;
@@ -10,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -21,17 +25,19 @@ public class BoardController {
     public final UserService userService;
     public final CommentsController commentsController;
     private final PlanDetailRepository planDetailRepository;
+    private final QnAService qnAService;
 
     public BoardController(BoardService boardService,
                            TravelPlansService travelPlansService,
                            UserService userService,
                            CommentsController commentsController,
-                           PlanDetailRepository planDetailRepository) {
+                           PlanDetailRepository planDetailRepository, QnAService qnAService) {
         this.boardService = boardService;
         this.travelPlansService = travelPlansService;
         this.userService = userService;
         this.commentsController = commentsController;
         this.planDetailRepository = planDetailRepository;
+        this.qnAService = qnAService;
     }
 
     @GetMapping("/products")
@@ -68,8 +74,19 @@ public class BoardController {
         return "write";
     }
     @GetMapping("/qnaBoard")
-    public String showQnaBoard(){
-        return "qNa";
+    public String showQnaBoard(Model model){
+        List<Questions> questionsList = qnAService.questionsList();
+        List<Answers> answersList =qnAService.answersList();
+        model.addAttribute("answerList", answersList);
+        model.addAttribute("questionsList", questionsList);
+
+        return "qNa_list";
+    }
+    @PostMapping("/qnaPost")
+    public String showQnaForm(QuestionsDTO questionsDTO, HttpSession session){
+        Users user = userService.findByEmail((String) session.getAttribute("user"));
+        qnAService.postQuestion(questionsDTO,user);
+        return "/qNa";
     }
 
 

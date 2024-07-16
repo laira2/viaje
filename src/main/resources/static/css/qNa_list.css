@@ -2,48 +2,95 @@
 
 body {
     font-family: 'Roboto', sans-serif;
-    background: black;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     margin: 0;
     padding: 0;
     line-height: 1.6;
     color: white;
     overflow: hidden; /* 전체 페이지 스크롤 숨기기 */
 }
-
-.header-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 40px; /* 오른쪽 여백 조정 */
+header {
+    padding: 15px 0;
+    background-color: transparent;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 3; /* 헤더가 상위에 위치하도록 z-index 설정 */
-    background: rgba(0, 0, 0, 0.7); /* 헤더 반투명 배경 */
+    z-index: 1000;
+    transition: background-color 0.3s ease;
 }
 
-.header-content h1 {
-    margin: 0;
-    font-size: 2em;
-    color: white;
+.header-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.logo {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #ffffff;
+    text-decoration: none;
+    font-family: 'Arial', sans-serif;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+nav {
+    display: flex;
+    gap: 20px;
 }
 
 .nav-link {
-    color: white;
-    margin: 0 15px;
+    color: #ffffff;
     text-decoration: none;
-    font-size: 1.1em;
-    transition: color 0.3s;
-}
-
-.nav-link:last-child {
-    margin-right: 100px; /* LOGOUT 링크에 오른쪽 여백 추가 */
+    font-size: 1rem;
+    font-weight: 500;
+    transition: color 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .nav-link:hover {
-    color: #aed581; /* 연한 초록색 */
+    color: #f0f0f0;
 }
+
+/* 태블릿 크기 */
+@media (max-width: 768px) {
+    .logo {
+        font-size: 2rem;
+    }
+
+    .nav-link {
+        font-size: 0.9rem;
+    }
+}
+
+/* 모바일 크기 */
+@media (max-width: 480px) {
+    .header-content {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .logo {
+        font-size: 1.8rem;
+        margin-bottom: 10px;
+    }
+
+    nav {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .nav-link {
+        font-size: 0.8rem;
+    }
+}
+
 
 .image-container {
     position: relative;
@@ -83,41 +130,7 @@ body {
     align-items: center;
 }
 
-.board-container {
-    width: 100%;
-    max-width: 800px;
-    background: rgba(0, 0, 0, 0.5); /* 덜 어두운 반투명 배경 */
-    color: white;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    border-radius: 10px;
-    margin-bottom: 20px;
-}
 
-.board-container h2 {
-    margin-top: 0;
-    color: white;
-}
-
-.post-item {
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
-    transition: background-color 0.3s;
-    position: relative;
-}
-
-.post-item:hover {
-    background-color: #444;
-}
-
-.post-item h3 {
-    margin: 0 0 10px 0;
-    color: white;
-}
-
-.post-item p {
-    margin: 0;
-}
 
 .btn-write {
     position: fixed;
@@ -125,7 +138,7 @@ body {
     right: 20px;
     background: none;
     color: white;
-    font-size: 1.5em;
+    font-size: 1em;
     border: none;
     cursor: pointer;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
@@ -156,4 +169,151 @@ body {
 .btn-edit:hover, .btn-delete:hover {
     color: #aed581;
     transform: translateY(-3px);
+}
+
+
+/* 토글 css */
+.content {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+
+}
+
+.image-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.background-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.overlay-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.board-container {
+    background: rgba(255, 255, 255, 0.5); /* 덜 어두운 반투명 배경 */
+    color: white;
+    border-radius: 10px;
+    padding: 20px;
+    width: 80%;
+    max-width: 800px;
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+.board-container h2 {
+    text-align: center;
+    color: #ffffff;
+    margin-bottom: 20px;
+}
+
+.question-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.question-card {
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    color: white;
+}
+
+.question-card:hover {
+    transform: translateY(-5px);
+}
+
+.question-preview {
+    padding: 15px;
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.question-title {
+    margin: 0;
+    color: #f8f8f;
+    font-size: 1em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 60%;
+}
+
+.question-meta {
+    display: flex;
+    align-items: center;
+}
+
+.user-name {
+    font-weight: bold;
+    color: #fffff;
+    margin-right: 10px;
+    font-size: 0.8em;
+}
+
+.question-status {
+    background-color: #3498db;
+    color: white;
+    padding: 2px 6px;
+    border-radius: 10px;
+    font-size: 0.7em;
+}
+
+.question-details {
+    padding: 15px;
+    border-top: 1px solid #ffffff;
+}
+
+.question-content {
+    color: #ffffff;
+    margin-bottom: 10px;
+}
+
+.question-date {
+    color: #7f8c8d;
+    font-size: 0.9em;
+    text-align: right;
+}
+
+.answer-section {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #e0e0e0;
+}
+
+.btn-write {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-write:hover {
+    background-color: #27ae60;
 }

@@ -17,13 +17,16 @@ public class Answers {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long answersId;
 
+    @ManyToOne
+    @JoinColumn(name="userId")
+    private Users user;
+
     @Column(nullable = false)
     private String contents;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name="questionsId")
     private Questions questions;
-
 
     @Column(updatable = false, nullable = false)
     private LocalDateTime createdAt;
