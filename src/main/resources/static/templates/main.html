@@ -37,6 +37,7 @@
     </div>
     <div id="userMenu" th:if="${session.isLoggedIn == true}">
       <div class="menu-item mypage">
+        <p th:text="${session.userName + '님'}"></p>
         <a href="mypage">마이페이지</a>
       </div>
       <div class="menu-item cart">

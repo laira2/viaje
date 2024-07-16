@@ -32,10 +32,11 @@ public class LoginController {
     public  String loginUser(UserDTO userDTO, HttpSession session, Model model) {
         boolean isAuthenticated = userService.authenticate(userDTO.getEmail(), userDTO.getPassword());
 
+
         logger.info("로그인 isauthenticated :", userService.authenticate(userDTO.getEmail(), userDTO.getPassword()));
         if (isAuthenticated) {
             session.setAttribute("user", userDTO.getEmail());
-            session.setAttribute("userName", userDTO.getUserName());
+            session.setAttribute("userName", userService.findByEmail(userDTO.getEmail()).getUserName());
             session.setAttribute("isLoggedIn", true);
             return "main";
         } else {
