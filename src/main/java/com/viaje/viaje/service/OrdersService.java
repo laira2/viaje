@@ -24,7 +24,7 @@ public class OrdersService {
     private OrdersItemRepository ordersItemRepository;
     private BoardRepository boardRepository;
     private TravelPlansRepository travelPlansRepository;
-    public OrdersService(CartService cartService, CartItemsRepository cartItemsRepository, UserService userService, UserRepository userRepository, OrdersRepository ordersRepository, OrdersItemRepository ordersItemRepository, BoardRepository boardRepository) {
+    public OrdersService(CartService cartService, CartItemsRepository cartItemsRepository, UserService userService, UserRepository userRepository, OrdersRepository ordersRepository, OrdersItemRepository ordersItemRepository, BoardRepository boardRepository, TravelPlansRepository travelPlansRepository) {
         this.cartService = cartService;
         this.cartItemsRepository = cartItemsRepository;
         this.userService = userService;
@@ -32,6 +32,7 @@ public class OrdersService {
         this.ordersRepository = ordersRepository;
         this.ordersItemRepository = ordersItemRepository;
         this.boardRepository = boardRepository;
+        this.travelPlansRepository = travelPlansRepository;
     }
 
 
@@ -87,6 +88,10 @@ public class OrdersService {
                 Users seller = userRepository.findById(createPlanUserId).orElseThrow();
                 seller.setPoint((int) (seller.getPoint()+orderItem.getTravelPlans().getPrice()*0.1));
                 order.setOrderStatus(COMPLETED);
+                TravelPlans orderplan = orderItem.getTravelPlans();
+                System.out.print(orderplan.getPlanId());
+                orderplan.setSold(orderplan.getSold()+1);
+                travelPlansRepository.save(orderplan);
 
                 cartItemsRepository.deleteAllByCart(cartService.getCart(user.getEmail()));
                 model.addAttribute("order", order);

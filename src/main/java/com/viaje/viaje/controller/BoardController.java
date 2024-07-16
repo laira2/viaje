@@ -2,6 +2,7 @@ package com.viaje.viaje.controller;
 
 import com.viaje.viaje.dto.QuestionsDTO;
 import com.viaje.viaje.model.*;
+import com.viaje.viaje.repository.OrdersItemRepository;
 import com.viaje.viaje.repository.PlanDetailRepository;
 import com.viaje.viaje.service.BoardService;
 import com.viaje.viaje.service.QnAService;
@@ -26,24 +27,34 @@ public class BoardController {
     public final CommentsController commentsController;
     private final PlanDetailRepository planDetailRepository;
     private final QnAService qnAService;
+    private final OrdersItemRepository ordersItemRepository;
 
     public BoardController(BoardService boardService,
                            TravelPlansService travelPlansService,
                            UserService userService,
                            CommentsController commentsController,
-                           PlanDetailRepository planDetailRepository, QnAService qnAService) {
+                           PlanDetailRepository planDetailRepository,
+                           QnAService qnAService,
+                           OrdersItemRepository ordersItemRepository) {
         this.boardService = boardService;
         this.travelPlansService = travelPlansService;
         this.userService = userService;
         this.commentsController = commentsController;
         this.planDetailRepository = planDetailRepository;
         this.qnAService = qnAService;
+        this.ordersItemRepository = ordersItemRepository;
     }
 
     @GetMapping("/products")
     public String listPlans(HttpSession session, Model model) {
-        List<Board> boardList = boardService.findApproved();
-        model.addAttribute("boardList", boardList);
+        if (session.getAttribute("isAdmin").equals(true)){
+            List<Board> adminBoardList = boardService.findAllBoardProduct();
+            model.addAttribute("boardList", adminBoardList);
+
+        }else {
+            List<Board> boardList = boardService.findApproved();
+            model.addAttribute("boardList", boardList);
+        }
         return "/board";
     }
 
@@ -60,11 +71,15 @@ public class BoardController {
         TravelPlans selectedPlan = travelPlansService.findByPlanId(id);
         List<Comments> comments = commentsController.getComments(id);
         List<PlanDetail> planDetails = planDetailRepository.findAllByTravelPlanOrderByPlanDateAscPlanTimeAsc(selectedPlan);
+        boardService.increaseViewCount(selectedPlan);
         session.setAttribute("selectedPlan",selectedPlan);
         model.addAttribute("selectedPlan", selectedPlan);
         model.addAttribute("user", user);
         model.addAttribute("comments",comments);
-        model.addAttribute("planDetails", planDetails);
+        boolean alreadyPurchased = ordersItemRepository.existsByOrders_UserAndTravelPlans(user, selectedPlan);
+        if (alreadyPurchased) {
+            model.addAttribute("planDetails", planDetails);
+        }
         return "/productDetail";
     }
 

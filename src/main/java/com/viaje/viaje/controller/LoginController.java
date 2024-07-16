@@ -1,28 +1,33 @@
 package com.viaje.viaje.controller;
 
 import com.viaje.viaje.dto.UserDTO;
+import com.viaje.viaje.service.AdminService;
 import com.viaje.viaje.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 public class LoginController {
 
     private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
 
-    @Autowired
+
     private UserService userService;
+    private final AdminService adminService;
+
+    public LoginController(UserService userService, AdminService adminService) {
+        this.userService = userService;
+
+        this.adminService = adminService;
+    }
+
     @GetMapping("/loginPage")
     public String loginPage(){
         return "login";
@@ -38,6 +43,7 @@ public class LoginController {
             session.setAttribute("user", userDTO.getEmail());
             session.setAttribute("userName", userService.findByEmail(userDTO.getEmail()).getUserName());
             session.setAttribute("isLoggedIn", true);
+            session.setAttribute("isAdmin",adminService.isAdmin(userDTO.getEmail()));
             return "main";
         } else {
             return "/login";

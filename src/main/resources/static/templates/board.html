@@ -18,7 +18,8 @@
     <div class="board-header">
       <h1 th:if="${type==null}">Viaje 게시판</h1>
       <h1 th:if="${type!=null}" th:text="'Viaje #' + ${type}"></h1>
-      <p>여행 경험을 공유해보세요</p>
+      <p if="${session.isAdmin != true or session.isAdmin ==null }">여행 경험을 공유해보세요</p>
+      <p th:if="${session.isAdmin == true}">관리자용 페이지 입니다. pending상태의 게시글만 보입니다.</p>
     </div>
     <div class="board-content">
       <div class="card-grid">

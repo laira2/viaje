@@ -73,4 +73,10 @@ public class BoardService {
             boardRepository.save(board);
         }
     }
+
+    public void increaseViewCount(TravelPlans selectedPlan) {
+        Board selectedBoard = boardRepository.findByTravelPlans(selectedPlan);
+        selectedBoard.setViewCount(selectedBoard.getViewCount()+1);
+        boardRepository.save(selectedBoard);
+    }
 }

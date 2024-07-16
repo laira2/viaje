@@ -50,6 +50,7 @@ public class AdminController {
         }
     }
 
+
     @GetMapping("/products/admin")
     public String PlansStatus(Model model) {
         List<Board> pendingPlans = adminService.findPendingTravelPlans();
