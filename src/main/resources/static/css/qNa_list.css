@@ -1,319 +1,187 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
 
 body {
     font-family: 'Roboto', sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
     margin: 0;
     padding: 0;
     line-height: 1.6;
-    color: white;
-    overflow: hidden; /* 전체 페이지 스크롤 숨기기 */
-}
-header {
-    padding: 15px 0;
-    background-color: transparent;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 1000;
-    transition: background-color 0.3s ease;
+    color: #333;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
-.header-content {
-    max-width: 1200px;
-    margin: 0 auto;
+.top-nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 20px;
+    padding: 10px 20px;
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+.logo-container {
+    perspective: 1000px;
 }
 
 .logo {
     font-size: 2.5rem;
-    font-weight: bold;
-    color: #ffffff;
+    font-weight: 700;
+    color: #333;
     text-decoration: none;
-    font-family: 'Arial', sans-serif;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    display: inline-block;
+    animation: logoAnimation 5s infinite alternate;
+    transform-style: preserve-3d;
 }
 
-nav {
+@keyframes logoAnimation {
+    0% { transform: rotateY(0deg) scale(1); }
+    50% { transform: rotateY(180deg) scale(1.1); }
+    100% { transform: rotateY(360deg) scale(1); }
+}
+
+.nav-links {
     display: flex;
-    gap: 20px;
 }
 
 .nav-link {
-    color: #ffffff;
+    color: #333;
     text-decoration: none;
-    font-size: 1rem;
-    font-weight: 500;
+    font-size: 0.9rem;
+    font-weight: 400;
+    margin-left: 20px;
     transition: color 0.3s ease;
-    text-transform: uppercase;
-    letter-spacing: 1px;
 }
 
 .nav-link:hover {
-    color: #f0f0f0;
-}
-
-/* 태블릿 크기 */
-@media (max-width: 768px) {
-    .logo {
-        font-size: 2rem;
-    }
-
-    .nav-link {
-        font-size: 0.9rem;
-    }
-}
-
-/* 모바일 크기 */
-@media (max-width: 480px) {
-    .header-content {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .logo {
-        font-size: 1.8rem;
-        margin-bottom: 10px;
-    }
-
-    nav {
-        flex-direction: column;
-        align-items: center;
-        gap: 10px;
-    }
-
-    .nav-link {
-        font-size: 0.8rem;
-    }
-}
-
-
-.image-container {
-    position: relative;
-    width: 100%;
-    height: 100vh;
-    overflow: hidden;
-}
-
-.background-image {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: 1;
-}
-
-.overlay-content {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 2; /* 헤더 아래에 위치하도록 z-index 설정 */
+    color: #007bff;
 }
 
 .content {
-    width: 100%;
+    display: flex;
+    margin: 20px;
+    gap: 20px;
+    flex-grow: 1;
+    height: calc(100vh - 100px); /* 상단 네비게이션 바 높이를 제외한 높이 */
+}
+
+.board-container, .form-container {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
     padding: 20px;
-    overflow-y: auto; /* 내용 스크롤 가능 */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    overflow-y: auto; /* 내용이 넘칠 경우 스크롤 생성 */
     display: flex;
     flex-direction: column;
-    align-items: center;
-}
-
-
-
-.btn-write {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: none;
-    color: white;
-    font-size: 1em;
-    border: none;
-    cursor: pointer;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-    transition: color 0.3s, transform 0.3s;
-    z-index: 3; /* 버튼이 상위에 위치하도록 z-index 설정 */
-}
-
-.btn-write:hover {
-    color: #aed581;
-    transform: translateY(-3px);
-}
-
-.btn-edit, .btn-delete {
-    position: absolute;
-    top: 10px;
-    right: 50px;
-    background: none;
-    border: none;
-    color: white;
-    cursor: pointer;
-    transition: color 0.3s, transform 0.3s;
-}
-
-.btn-delete {
-    right: 10px;
-}
-
-.btn-edit:hover, .btn-delete:hover {
-    color: #aed581;
-    transform: translateY(-3px);
-}
-
-
-/* 토글 css */
-.content {
-    width: 100%;
-    height: 100vh;
-    position: relative;
-
-}
-
-.image-container {
-    width: 100%;
-    height: 100%;
-    position: relative;
-}
-
-.background-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.overlay-content {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.board-container {
-    background: rgba(255, 255, 255, 0.5); /* 덜 어두운 반투명 배경 */
-    color: white;
-    border-radius: 10px;
-    padding: 20px;
-    width: 80%;
-    max-width: 800px;
-    max-height: 70vh;
-    overflow-y: auto;
-}
-
-.board-container h2 {
-    text-align: center;
-    color: #ffffff;
-    margin-bottom: 20px;
 }
 
 .question-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    flex-grow: 1;
 }
 
 .question-card {
-    background: rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.3);
     border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
-    transition: transform 0.3s ease;
-    color: white;
+    padding: 15px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    position: relative;
 }
 
 .question-card:hover {
-    transform: translateY(-5px);
-}
-
-.question-preview {
-    padding: 15px;
-}
-
-.question-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
+    background-color: rgba(255, 255, 255, 0.4);
+    transform: translateY(-2px);
 }
 
 .question-title {
     margin: 0;
-    color: #f8f8f;
-    font-size: 1em;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 60%;
+    font-size: 1.1em;
+    font-weight: 500;
 }
 
 .question-meta {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-}
-
-.user-name {
-    font-weight: bold;
-    color: #fffff;
-    margin-right: 10px;
+    margin-top: 10px;
     font-size: 0.8em;
-}
-
-.question-status {
-    background-color: #3498db;
-    color: white;
-    padding: 2px 6px;
-    border-radius: 10px;
-    font-size: 0.7em;
+    color: #666;
 }
 
 .question-details {
-    padding: 15px;
-    border-top: 1px solid #ffffff;
-}
-
-.question-content {
-    color: #ffffff;
-    margin-bottom: 10px;
-}
-
-.question-date {
-    color: #7f8c8d;
-    font-size: 0.9em;
-    text-align: right;
-}
-
-.answer-section {
     margin-top: 15px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
     padding-top: 15px;
-    border-top: 1px solid #e0e0e0;
 }
 
-.btn-write {
-    margin-top: 20px;
+.btn-edit, .btn-delete {
+    position: absolute;
+    top: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 0.8em;
+    color: #007bff;
+}
+
+.btn-edit {
+    right: 50px;
+}
+
+.btn-delete {
+    right: 5px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    height: 100%;
+}
+
+label {
+    font-weight: 500;
+}
+
+input[type="text"], textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    font-size: 0.9em;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+textarea {
+    flex-grow: 1;
+    resize: vertical;
+}
+
+.btn-submit {
     padding: 10px 20px;
-    background: rgba(255, 255, 255, 0.2);
+    background-color: rgba(0, 123, 255, 0.6);
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s;
 }
 
-.btn-write:hover {
-    background-color: #27ae60;
+.btn-submit:hover {
+    background-color: rgba(0, 86, 179, 0.8);
+}
+
+@media (max-width: 768px) {
+    .content {
+        flex-direction: column;
+    }
+
+    .board-container, .form-container {
+        width: 100%;
+    }
 }

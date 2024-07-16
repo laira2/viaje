@@ -3,53 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>문의 게시판 목록</title>
+    <title>문의 게시판</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="/static/css/qNa_list.css">
 </head>
-<body>
-<header>
-    <div class="header-content">
-        <h1 class="logo">Viaje</h1>
-        <nav>
-            <a th:href="@{/}" class="nav-link">HOME</a>
-            <a th:href="@{/mypage}" class="nav-link">MYPAGE</a>
-            <a th:href="@{/logout}" class="nav-link">LOGOUT</a>
-        </nav>
+<body style="background: url('/static/images/boardBack2.jpg') no-repeat center center fixed; background-size: auto;">
+<nav class="top-nav">
+    <div class="logo-container">
+        <a href="/" class="logo">Viaje</a>
     </div>
-</header>
+    <div class="nav-links">
+        <a th:href="@{/}" class="nav-link">HOME</a>
+        <a th:href="@{/mypage}" class="nav-link">MYPAGE</a>
+        <a th:href="@{/logout}" class="nav-link">LOGOUT</a>
+    </div>
+</nav>
 
 <main class="content">
-    <div class="image-container">
-
-        <div class="overlay-content">
-            <div class="board-container" id="boardContainer">
-                <h2>문의 게시판 목록</h2>
-
-                <div class="question-list">
-                    <div class="question-card" th:each="question,iterstat:${questions}">
-                        <div class="question-preview">
-                            <div class="question-header">
-                                <h3 class="question-title" th:text="${question.title}">질문 제목</h3>
-                                <div class="question-meta">
-                                    <span class="user-name" th:text="${question.user.userName}">user1</span>
-                                    <span class="question-status" th:text="${question.qnaStatus}">확인중</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="question-details" style="display: none;">
-                            <p class="question-content" th:text="${question.content}">문의글입니다.</p>
-                            <p class="question-date" th:text="${#temporals.format(question.updatedAt, 'yyyy.MM.dd HH:mm')}">2024.07.16 11:06</p>
-                            <div class="answer-section">
-                                <h4>답변</h4>
-                                <p th:text="${question.answer != null ? question.answer : '아직 답변이 없습니다.'}">답변 내용</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <button class="btn-write" th:href="@{/qnaPost}">글쓰기</button>
+    <div class="board-container" id="boardContainer">
+        <h2>문의 게시판 목록</h2>
+        <div class="question-list" id="questionList">
+            <!-- 질문 카드들이 여기에 동적으로 추가됩니다 -->
         </div>
+    </div>
+    <div class="form-container">
+        <h2>문의 작성</h2>
+        <form id="questionForm">
+            <div>
+                <label for="title">제목</label>
+                <input type="text" id="title" name="title" required>
+            </div>
+            <div>
+                <label for="content">내용</label>
+                <textarea id="content" name="content" rows="10" required></textarea>
+            </div>
+            <button type="submit" class="btn-submit">작성하기</button>
+        </form>
     </div>
 </main>
 <script src="/static/js/qNa_list.js"></script>
