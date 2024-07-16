@@ -39,6 +39,7 @@ public class UserController {
 
             // 회원가입 후 자동 로그인 처리
             session.setAttribute("user", userDTO.getEmail());
+            session.setAttribute("userName", userDTO.getUserName());
             logger.info("User registered and logged in: {}", userDTO.getEmail());
             logger.info("Session ID: {}", session.getId());
             session.setAttribute("isLoggedIn", true);
