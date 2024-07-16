@@ -192,10 +192,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function updateHiddenInput() {
-        const travelType = selectedTravelType.value; // 수정된 부분
+        const travelType = selectedTravelType.value;
         const allTags = travelType ? [travelType] : [];
         allTags.push(...selectedTagsList.map(tag => tag.colname));
         selectedTagsInput.value = allTags.join(',');
+        console.log('Updated tagsOptions:', selectedTagsInput.value); // 디버깅용 로그
     }
 
 
@@ -340,10 +341,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // 폼 제출 이벤트 리스너
    document.querySelector('form').addEventListener('submit', function(e) {
-       if (!selectedTravelType.value) { // 수정된 부분
+       if (!selectedTravelType.value) {
            e.preventDefault();
            alert('여행 유형을 선택해주세요.');
+       } else {
+           // 폼 제출 직전에 tagsOptions 값을 한 번 더 업데이트
+           updateHiddenInput();
+           console.log('Submitting form with tagsOptions:', selectedTagsInput.value); // 디버깅용 로그
        }
-        // 필요한 유효성 검사 로직 추가
-    });
+      });
 });
