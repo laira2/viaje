@@ -58,7 +58,7 @@ public class CartController {
         // 카트에 이미 존재하는 아이템인지 확인
         CartItems existingItem = cartItemsRepository.findByCartAndTravelPlans(cart, plan);
         if (existingItem != null) {
-            return "/cart/detail";
+            return "redirect:/cart/detail";
         } else {
             // 새로운 항목이면 새로 생성
             CartItems newItem = new CartItems();
@@ -67,7 +67,7 @@ public class CartController {
             cartItemsRepository.save(newItem);
         }
 
-        return "/cart/detail";
+        return "redirect:/cart/detail";
     }
     @GetMapping("/cart/detail")
     public String allCartItem (HttpSession session, Model model){
