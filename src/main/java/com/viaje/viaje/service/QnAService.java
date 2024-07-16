@@ -53,7 +53,6 @@ public class QnAService {
 
     public void postQuestion(QuestionsDTO questionsDTO,Users user) {
         Questions newQuestion = new Questions();
-        newQuestion.
 
     }
 }
