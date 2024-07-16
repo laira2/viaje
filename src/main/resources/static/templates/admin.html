@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:text-decoration="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -47,9 +47,9 @@
         <section class="management">
             <h2>Management</h2>
             <div class="management-buttons">
-                <button class="management-btn" id="pointHistoryBtn"><i class="fas fa-coins"></i> <a href="adminCharging">포인트 충전내역</a></button>
-                <button class="management-btn" id="orderHistoryBtn"><i class="fas fa-list-alt"></i> <a href="adminPayment"> 주문내역</a></button>
-                <button class="management-btn" id="paymentHistoryBtn" onclick="openNewPage('/static/templates/payment.html')"><i class="fas fa-credit-card"></i> 결제내역</button>
+                <button class="management-btn" id="pointHistoryBtn"><i class="fas fa-coins"></i> <a href="adminCharging" style="text-decoration: none;">포인트 충전내역</a></button>
+                <button class="management-btn" id="orderHistoryBtn"><i class="fas fa-list-alt"></i> <a href="adminOrderHistory" style="text-decoration: none;">주문내역</a></button>
+                <button class="management-btn" id="paymentHistoryBtn"><i class="fas fa-credit-card"></i> <a href="adminPayment" style="text-decoration: none;"> 결제내역</a></button>
                 <button class="management-btn" id="salesHistoryBtn" onclick="openNewPage('/static/templates/sales.html')"><i class="fas fa-chart-pie"></i> 판매내역</button>
                 <a href="/products/admin" class="management-btn" id="planstatus">
                     <i class="fas fa-info-circl"></i> 여행 계획 상태
