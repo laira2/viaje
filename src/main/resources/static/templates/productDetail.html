@@ -73,7 +73,7 @@
                 <p th:if="${#lists.isEmpty(selectedPlan.imagePaths)}">첨부된 이미지가 없습니다.</p>
             </section>
 
-            <div class="place-item" th:each="planDetail,iterStat: ${planDetails}" th:if="${planDetails != null or session.isAdmin==true}">
+            <div class="place-item" th:each="planDetail,iterStat: ${planDetails}" th:if="${planDetails} != null or ${session.isAdmin}==true or ${selectedPlan.user.email} == ${session.user}">
                 <div class="place-number-container">
                     <div class="place-number" th:text="${planDetail.planDate}">1</div>
                     <div class="place-time" th:text="${planDetail.planTime}">10:00</div>

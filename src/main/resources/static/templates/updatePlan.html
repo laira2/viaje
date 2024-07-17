@@ -52,26 +52,6 @@
                 </div>
 
                 <div class="form-group">
-                    <label>🌍 여행 유형</label>
-                    <div class="travel-type-buttons">
-                        <button type="button" id="domesticBtn" class="travel-type-btn">국내</button>
-                        <button type="button" id="overseasBtn" class="travel-type-btn active">해외</button>
-                    </div>
-                    <input type="hidden" id="travelType" name="travelType" value="overseas">
-                </div>
-
-                <div class="form-group">
-                    <label for="tagsSearch">🏷️ 태그 옵션</label>
-                    <div class="custom-select">
-                        <input type="text" id="tagsSearch" placeholder="태그 검색...">
-                        <div id="tagsDropdown" class="dropdown-content">
-                            <!-- 태그 목록은 JavaScript로 동적으로 추가됩니다 -->
-                        </div>
-                    </div>
-                    <div id="selectedTagsContainer"></div>
-                    <input type="hidden" id="selectedTags" name="tagsOptions" multiple>
-                </div>
-                <div class="form-group">
                     <label for="content">✏️ 여행 이야기</label>
                     <textarea id="content" name="detail" rows="10" required th:text="${updateplan.detail}"></textarea>
                 </div>
@@ -102,6 +82,31 @@
                     </div>
                     <button type="button" id="addPlanDetailBtn">일정 추가</button>
                 </div>
+                <!-- 숨겨진 템플릿 -->
+                <template id="planDetailTemplate">
+                    <div class="plan-detail">
+                        <div class="date-time-container">
+                            <div class="input-wrapper">
+                                <label for="planDate[INDEX]">날짜</label>
+                                <input type="date" id="planDate[INDEX]" name="planDate" required>
+                            </div>
+                            <div class="input-wrapper">
+                                <label for="planTime[INDEX]">시간</label>
+                                <input type="time" id="planTime[INDEX]" name="planTime" required>
+                            </div>
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="activity[INDEX]">활동</label>
+                            <input type="text" id="activity[INDEX]" name="activity" placeholder="활동" required>
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="description[INDEX]">설명</label>
+                            <textarea id="description[INDEX]" name="description" placeholder="설명" required></textarea>
+                        </div>
+                        <button type="button" class="removePlanDetailBtn">삭제</button>
+                    </div>
+                </template>
+
 
                 <div class="form-group button-group">
                     <button type="submit" class="submit-btn">여행 스토리 수정하기 <i class="fas fa-paper-plane"></i></button>
