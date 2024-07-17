@@ -2,6 +2,7 @@ package com.viaje.viaje.controller;
 
 import com.viaje.viaje.model.Users;
 import com.viaje.viaje.dto.UserDTO;
+import com.viaje.viaje.service.AdminService;
 import com.viaje.viaje.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,13 +16,15 @@ import org.slf4j.LoggerFactory;
 public class UserController {
 
     private final UserService userService;
+    private final AdminService adminService;
 
     // 세션 정보 확인용
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, AdminService adminService) {
         this.userService = userService;
+        this.adminService = adminService;
     }
 
     // join.html 뷰를 반환하는 메소드
@@ -43,6 +46,7 @@ public class UserController {
             logger.info("User registered and logged in: {}", userDTO.getEmail());
             logger.info("Session ID: {}", session.getId());
             session.setAttribute("isLoggedIn", true);
+            session.setAttribute("isAdmin",adminService.isAdmin(userDTO.getEmail()));
             // 가입 처리 후, 리다이렉트할 경로를 반환
             return "redirect:/"; // 혹은 다른 리다이렉트할 경로 설정
         } catch (Exception e) {

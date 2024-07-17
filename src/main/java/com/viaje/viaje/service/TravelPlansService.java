@@ -37,15 +37,15 @@ public class TravelPlansService {
     private final UserService userService;
     private final TagsService tagsService;
     private final PlanCertificationRepository planCertificationRepository;
-    private final PlanDetailRepository planDetialRepository;
-    public TravelPlansService(FileUploadUtil fileUploadUtil, TravelPlansRepository travelPlansRepository, BoardService boardService, UserService userService, TagsService tagsService, PlanCertificationRepository planCertificationRepository, PlanDetailRepository planDetialRepository) {
+    private final PlanDetailRepository planDetailRepository;
+    public TravelPlansService(FileUploadUtil fileUploadUtil, TravelPlansRepository travelPlansRepository, BoardService boardService, UserService userService, TagsService tagsService, PlanCertificationRepository planCertificationRepository, PlanDetailRepository planDetailRepository) {
         this.travelPlansRepository = travelPlansRepository;
         this.boardService = boardService;
         this.userService = userService;
         this.tagsService = tagsService;
         this.planCertificationRepository = planCertificationRepository;
         this.fileUploadUtil=fileUploadUtil;
-        this.planDetialRepository = planDetialRepository;
+        this.planDetailRepository = planDetailRepository;
     }
     @Transactional
     public TravelPlans createPlan(HttpSession session, TravelPlansDTO tpDTO, PlanCertificationDTO pcDTO,List<PlanDetailDTO> planDetails) throws IOException {
@@ -101,11 +101,56 @@ public class TravelPlansService {
                     .activity(pdDTO.getActivity())
                     .description(pdDTO.getDescription())
                     .build();
-            planDetialRepository.save(planDetail);
+            planDetailRepository.save(planDetail);
         }
         tagsService.insertPlanTag(session, travelPlans);
         boardService.postPlan(user, travelPlans);
         return travelPlans;
+    }
+
+    @Transactional
+    public TravelPlans updateplan(Users user, Long updatePlanId, TravelPlansDTO tpDTO, List<PlanDetailDTO> planDetails) throws IOException {
+        TravelPlans updatePlan = travelPlansRepository.findById(updatePlanId).orElseThrow();
+
+        if (user == null) {
+            throw new IllegalArgumentException("User is required to update a travel plan.");
+        }
+        Map<String,Number> durations = calculateDurationAndPrice(tpDTO);
+//        travelPlan저장
+
+        updatePlan = TravelPlans.builder()
+                .planId(updatePlanId)
+                .nights((Long) durations.get("nights"))
+                .days((Long) durations.get("days"))
+                .price((Integer) durations.get("price"))
+                .startDate(tpDTO.getStartDate())
+                .endDate(tpDTO.getEndDate())
+                .nation(tpDTO.getNation())
+                .title(tpDTO.getTitle())
+                .detail(tpDTO.getDetail())
+                .sold(updatePlan.getSold())
+                .imagePaths(updatePlan.getImagePaths())
+                .status(TravelPlans.PlanStatus.PENDING)
+                .totalBudget(tpDTO.getTotalBudget())
+                .user(user)
+                .build();
+
+        TravelPlans updatedPlan = travelPlansRepository.save(updatePlan);
+
+        planDetailRepository.deleteAllByTravelPlan(updatedPlan);
+// 여러 개의 계획 내용 저장
+        for (PlanDetailDTO pdDTO : planDetails) {
+            PlanDetail planDetail = PlanDetail.builder()
+                    .travelPlan(updatedPlan)
+                    .planDate(pdDTO.getPlanDate())
+                    .planTime(pdDTO.getPlanTime())
+                    .activity(pdDTO.getActivity())
+                    .description(pdDTO.getDescription())
+                    .build();
+            planDetailRepository.save(planDetail);
+        }
+
+        return updatedPlan;
     }
 
     public TravelPlans findByPlanId(Long planId){
@@ -113,31 +158,6 @@ public class TravelPlansService {
                 .orElseThrow(() -> new EntityNotFoundException("TravelPlan not found"));
 
         return plan;
-    }
-    public String updateTravelPlan(HttpSession session, Long planId, TravelPlansDTO updatedDTO) {
-        TravelPlans plan = travelPlansRepository.findById(planId)
-                .orElseThrow(() -> new EntityNotFoundException("TravelPlan not found"));
-
-        if (plan.getUser() == session.getAttribute("user")) {
-            plan.setNation(updatedDTO.getNation());
-            plan.setTitle(updatedDTO.getTitle());
-            plan.setDetail(updatedDTO.getDetail());
-            // 다른 필드들도 필요에 따라 업데이트
-            travelPlansRepository.save(plan);
-            return "redirect:/";
-        }
-        else{
-            return "redirect:/plans/new";
-        }
-    }
-
-    public String updateStatus(HttpSession session, Long planId){
-        Optional<TravelPlans> plan = travelPlansRepository.findById(planId);
-        if (plan.isPresent()){
-            return "redirect:/plans/new";
-        }else{
-            return "redirect:/";
-        }
     }
 
     public String deletePlan(HttpSession session, Long planId) {
@@ -186,5 +206,9 @@ public class TravelPlansService {
             travelPlansRepository.save(plan);
         }
 
+    }
+
+    public List<PlanDetail> findPlanDetailByPlan(TravelPlans updatePlan) {
+        return planDetailRepository.findAllByTravelPlanOrderByPlanDateAscPlanTimeAsc(updatePlan);
     }
 }

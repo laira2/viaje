@@ -73,7 +73,7 @@
                 <p th:if="${#lists.isEmpty(selectedPlan.imagePaths)}">첨부된 이미지가 없습니다.</p>
             </section>
 
-            <div class="place-item" th:each="planDetail,iterStat: ${planDetails}" th:if="${planDetails != null or session.isAdmin==true}">
+            <div class="place-item" th:each="planDetail,iterStat: ${planDetails}" th:if="${planDetails} != null or ${session.isAdmin}==true or ${selectedPlan.user.email} == ${session.user}">
                 <div class="place-number-container">
                     <div class="place-number" th:text="${planDetail.planDate}">1</div>
                     <div class="place-time" th:text="${planDetail.planTime}">10:00</div>
@@ -94,6 +94,12 @@
                     <input type="hidden" name="planId" th:value="${selectedPlan.planId}">
                     <button class="btn-schedule" type="submit">
                         <i class="fas fa-calendar-plus"></i> 내 일정으로 담기
+                    </button>
+                </form>
+                <form th:action="@{/update/{id}(id=${selectedPlan.planId})}" method="post" th:if="${selectedPlan.user.email} == ${session.user}">
+                    <input type="hidden" name="planId" th:value="${selectedPlan.planId}">
+                    <button class="btn-schedule" type="submit">
+                        <i class="fas fa-calendar-plus"></i> 수정하기
                     </button>
                 </form>
             </div>

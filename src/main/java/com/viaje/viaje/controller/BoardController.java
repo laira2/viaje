@@ -78,7 +78,7 @@ public class BoardController {
         model.addAttribute("user", user);
         model.addAttribute("comments",comments);
         boolean alreadyPurchased = ordersItemRepository.existsByOrders_UserAndTravelPlans(user, selectedPlan);
-        if (alreadyPurchased) {
+        if (alreadyPurchased || selectedPlan.getUser().getEmail().equals(session.getAttribute("user"))) {
             model.addAttribute("planDetails", planDetails);
         }
         return "/productDetail";
