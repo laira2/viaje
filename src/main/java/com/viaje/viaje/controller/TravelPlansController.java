@@ -71,7 +71,7 @@ public class TravelPlansController {
         return "redirect:/product_detail/" + created_plan.getPlanId();
     }
 
-    @GetMapping("/update/{updatePlanId}")
+    @PostMapping("/update/{updatePlanId}")
     public String showUpdate(HttpSession session, Model model,@PathVariable Long updatePlanId ){
         TravelPlans updatePlan = travelPlansService.findByPlanId(updatePlanId);
         List<PlanDetail> updatePlanDetail = travelPlansService.findPlanDetailByPlan(updatePlan);
@@ -104,6 +104,7 @@ public class TravelPlansController {
         Users user = userService.findByEmail(user_email);
 
         TravelPlans updated_plan = travelPlansService.updateplan(user,updatePlanId, tpDTO, planDetails);
+
         return "redirect:/product_detail/" + updated_plan.getPlanId();
     }
 

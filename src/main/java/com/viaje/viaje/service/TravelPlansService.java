@@ -119,6 +119,7 @@ public class TravelPlansService {
 //        travelPlan저장
 
         updatePlan = TravelPlans.builder()
+                .planId(updatePlanId)
                 .nights((Long) durations.get("nights"))
                 .days((Long) durations.get("days"))
                 .price((Integer) durations.get("price"))
@@ -127,7 +128,9 @@ public class TravelPlansService {
                 .nation(tpDTO.getNation())
                 .title(tpDTO.getTitle())
                 .detail(tpDTO.getDetail())
+                .sold(updatePlan.getSold())
                 .imagePaths(updatePlan.getImagePaths())
+                .status(TravelPlans.PlanStatus.PENDING)
                 .totalBudget(tpDTO.getTotalBudget())
                 .user(user)
                 .build();

@@ -24,12 +24,12 @@
             <form th:action="@{/plan/update/{id} (id=${updateplan.planId})}" method="post" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="title">📌 여행 제목</label>
-                    <input type="text" id="title" name="title" required placeholder="당신의 경험이 담긴 제목을 지어주세요">
+                    <input type="text" id="title" name="title" required th:value="${updateplan.title}">
                 </div>
                 <div class="form-group">
                     <label for="countrySearch">🌎 국가</label>
                     <div class="custom-select">
-                        <input type="text" id="countrySearch" placeholder="국가 검색...">
+                        <input type="text" id="countrySearch" th:value="${updateplan.nation}">
                         <div id="countryDropdown" class="dropdown-content">
                             <!-- 국가 목록은 JavaScript로 동적으로 추가됩니다 -->
                         </div>
@@ -38,16 +38,16 @@
                 </div>
                 <div class="form-group">
                     <label for="startDate">📅 여행 시작일</label>
-                    <input type="date" id="startDate" name="startDate" required>
+                    <input type="date" id="startDate" name="startDate" required th:value="${updateplan.startDate}">
                 </div>
                 <div class="form-group">
                     <label for="endDate">📅 여행 종료일</label>
-                    <input type="date" id="endDate" name="endDate" required>
+                    <input type="date" id="endDate" name="endDate" required th:value="${updateplan.endDate}">
                 </div>
                 <div class="form-group">
                     <label for="cost">💵 총 여행 경비</label>
                     <div class="currency-group">
-                        <input type="number" id="cost" name="totalBudget" required placeholder="총 여행 경비를 입력해주세요">
+                        <input type="number" id="cost" name="totalBudget" required th:value="${updateplan.totalBudget}">
                     </div>
                 </div>
 
@@ -73,60 +73,36 @@
                 </div>
                 <div class="form-group">
                     <label for="content">✏️ 여행 이야기</label>
-                    <textarea id="content" name="detail" rows="10" required placeholder="당신의 특별했던 순간들을 자세히 들려주세요"></textarea>
+                    <textarea id="content" name="detail" rows="10" required th:text="${updateplan.detail}"></textarea>
                 </div>
 
                 <div class="form-group">
                     <label>📅 여행 일정</label>
                     <div id="planDetailsContainer">
-                        <div th:each="plan, planStat : ${planDetails}" class="plan-detail">
+                        <div th:each="plan, planStat : ${updateDetail}" class="plan-detail">
                             <div class="date-time-container">
                                 <div class="input-wrapper">
                                     <label for="planDate">날짜</label>
-                                    <input type="date" id="planDate" th:name="|planDate|" required>
+                                    <input type="date" id="planDate" th:name="|planDate|" required th:value="${plan.planDate}">
                                 </div>
                                 <div class="input-wrapper">
                                     <label for="planTime">시간</label>
-                                    <input type="time" id="planTime" th:name="|planTime|" required>
+                                    <input type="time" id="planTime" th:name="|planTime|" required th:value="${plan.planTime}">
                                 </div>
                             </div>
                             <div class="input-wrapper">
                                 <label for="activity">활동</label>
-                                <input type="text" id="activity" th:name="|activity|" placeholder="활동" required>
+                                <input type="text" id="activity" th:name="|activity|" placeholder="활동" required th:value="${plan.activity}">
                             </div>
                             <div class="input-wrapper">
                                 <label for="description">설명</label>
-                                <textarea id="description" th:name="|description|" placeholder="설명" required></textarea>
+                                <textarea id="description" th:name="|description|" placeholder="설명" required th:text="${plan.description}"></textarea>
                             </div>
                         </div>
                     </div>
                     <button type="button" id="addPlanDetailBtn">일정 추가</button>
                 </div>
 
-                <!-- 숨겨진 템플릿 -->
-                <template id="planDetailTemplate">
-                    <div class="plan-detail">
-                        <div class="date-time-container">
-                            <div class="input-wrapper">
-                                <label for="planDate[INDEX]">날짜</label>
-                                <input type="date" id="planDate[INDEX]" name="planDate" required>
-                            </div>
-                            <div class="input-wrapper">
-                                <label for="planTime[INDEX]">시간</label>
-                                <input type="time" id="planTime[INDEX]" name="planTime" required>
-                            </div>
-                        </div>
-                        <div class="input-wrapper">
-                            <label for="activity[INDEX]">활동</label>
-                            <input type="text" id="activity[INDEX]" name="activity" placeholder="활동" required>
-                        </div>
-                        <div class="input-wrapper">
-                            <label for="description[INDEX]">설명</label>
-                            <textarea id="description[INDEX]" name="description" placeholder="설명" required></textarea>
-                        </div>
-                        <button type="button" class="removePlanDetailBtn">삭제</button>
-                    </div>
-                </template>
                 <div class="form-group button-group">
                     <button type="submit" class="submit-btn">여행 스토리 수정하기 <i class="fas fa-paper-plane"></i></button>
                 </div>
@@ -142,6 +118,6 @@
     <p>&copy; 2024 Viaje - 당신의 특별한 여행 파트너. All rights reserved.</p>
 </footer>
 
-<script src="/static/js/write.js"></script>
+<script src="/static/js/updatePlan.js"></script>
 </body>
 </html>
