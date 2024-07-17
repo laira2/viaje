@@ -96,6 +96,12 @@
                         <i class="fas fa-calendar-plus"></i> 내 일정으로 담기
                     </button>
                 </form>
+                <form th:action="@{/update/{id}(id=${selectedPlan.planId})}" method="post" th:if="${selectedPlan.user.email} == ${session.user}">
+                    <input type="hidden" name="planId" th:value="${selectedPlan.planId}">
+                    <button class="btn-schedule" type="submit">
+                        <i class="fas fa-calendar-plus"></i> 수정하기
+                    </button>
+                </form>
             </div>
 
             <section id="commentsSection">

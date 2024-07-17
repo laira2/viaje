@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viaje - 여행 스토리 작성</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="/static/images/icon/board.ico">
+    <link rel="stylesheet" href="/static/css/write.css">
+</head>
+<body>
+<div class="video-container">
+    <video autoplay muted loop id="background-video">
+        <source src="/static/videos/boardVideo/board.mp4" type="video/mp4">
+    </video>
+</div>
+<div class="container">
+    <div class="write-container">
+        <div class="write-header">
+            <h1>🌿 새로운 여행 스토리 수정하기</h1>
+        </div>
+        <div class="write-content">
+            <form th:action="@{/plan/update/{id} (id=${updateplan.planId})}" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="title">📌 여행 제목</label>
+                    <input type="text" id="title" name="title" required placeholder="당신의 경험이 담긴 제목을 지어주세요">
+                </div>
+                <div class="form-group">
+                    <label for="countrySearch">🌎 국가</label>
+                    <div class="custom-select">
+                        <input type="text" id="countrySearch" placeholder="국가 검색...">
+                        <div id="countryDropdown" class="dropdown-content">
+                            <!-- 국가 목록은 JavaScript로 동적으로 추가됩니다 -->
+                        </div>
+                    </div>
+                    <input type="hidden" id="selectedCountry" name="nation" required>
+                </div>
+                <div class="form-group">
+                    <label for="startDate">📅 여행 시작일</label>
+                    <input type="date" id="startDate" name="startDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="endDate">📅 여행 종료일</label>
+                    <input type="date" id="endDate" name="endDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="cost">💵 총 여행 경비</label>
+                    <div class="currency-group">
+                        <input type="number" id="cost" name="totalBudget" required placeholder="총 여행 경비를 입력해주세요">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>🌍 여행 유형</label>
+                    <div class="travel-type-buttons">
+                        <button type="button" id="domesticBtn" class="travel-type-btn">국내</button>
+                        <button type="button" id="overseasBtn" class="travel-type-btn active">해외</button>
+                    </div>
+                    <input type="hidden" id="travelType" name="travelType" value="overseas">
+                </div>
+
+                <div class="form-group">
+                    <label for="tagsSearch">🏷️ 태그 옵션</label>
+                    <div class="custom-select">
+                        <input type="text" id="tagsSearch" placeholder="태그 검색...">
+                        <div id="tagsDropdown" class="dropdown-content">
+                            <!-- 태그 목록은 JavaScript로 동적으로 추가됩니다 -->
+                        </div>
+                    </div>
+                    <div id="selectedTagsContainer"></div>
+                    <input type="hidden" id="selectedTags" name="tagsOptions" multiple>
+                </div>
+                <div class="form-group">
+                    <label for="content">✏️ 여행 이야기</label>
+                    <textarea id="content" name="detail" rows="10" required placeholder="당신의 특별했던 순간들을 자세히 들려주세요"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>📅 여행 일정</label>
+                    <div id="planDetailsContainer">
+                        <div th:each="plan, planStat : ${planDetails}" class="plan-detail">
+                            <div class="date-time-container">
+                                <div class="input-wrapper">
+                                    <label for="planDate">날짜</label>
+                                    <input type="date" id="planDate" th:name="|planDate|" required>
+                                </div>
+                                <div class="input-wrapper">
+                                    <label for="planTime">시간</label>
+                                    <input type="time" id="planTime" th:name="|planTime|" required>
+                                </div>
+                            </div>
+                            <div class="input-wrapper">
+                                <label for="activity">활동</label>
+                                <input type="text" id="activity" th:name="|activity|" placeholder="활동" required>
+                            </div>
+                            <div class="input-wrapper">
+                                <label for="description">설명</label>
+                                <textarea id="description" th:name="|description|" placeholder="설명" required></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" id="addPlanDetailBtn">일정 추가</button>
+                </div>
+
+                <!-- 숨겨진 템플릿 -->
+                <template id="planDetailTemplate">
+                    <div class="plan-detail">
+                        <div class="date-time-container">
+                            <div class="input-wrapper">
+                                <label for="planDate[INDEX]">날짜</label>
+                                <input type="date" id="planDate[INDEX]" name="planDate" required>
+                            </div>
+                            <div class="input-wrapper">
+                                <label for="planTime[INDEX]">시간</label>
+                                <input type="time" id="planTime[INDEX]" name="planTime" required>
+                            </div>
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="activity[INDEX]">활동</label>
+                            <input type="text" id="activity[INDEX]" name="activity" placeholder="활동" required>
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="description[INDEX]">설명</label>
+                            <textarea id="description[INDEX]" name="description" placeholder="설명" required></textarea>
+                        </div>
+                        <button type="button" class="removePlanDetailBtn">삭제</button>
+                    </div>
+                </template>
+                <div class="form-group button-group">
+                    <button type="submit" class="submit-btn">여행 스토리 수정하기 <i class="fas fa-paper-plane"></i></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <button onclick="window.history.back()" class="back-btn">
+        <img src="/static/images/free-icon-logout-659989.png" alt="뒤로가기">
+    </button>
+    <p>&copy; 2024 Viaje - 당신의 특별한 여행 파트너. All rights reserved.</p>
+</footer>
+
+<script src="/static/js/write.js"></script>
+</body>
+</html>

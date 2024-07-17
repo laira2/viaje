@@ -4,6 +4,7 @@ import com.viaje.viaje.dto.PlanCertificationDTO;
 import com.viaje.viaje.dto.PlanDetailDTO;
 import com.viaje.viaje.dto.TravelPlansDTO;
 import com.viaje.viaje.dto.UserDTO;
+import com.viaje.viaje.model.PlanDetail;
 import com.viaje.viaje.model.TravelPlans;
 import com.viaje.viaje.model.Users;
 import com.viaje.viaje.repository.TravelPlansRepository;
@@ -15,10 +16,7 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -73,17 +71,26 @@ public class TravelPlansController {
         return "redirect:/product_detail/" + created_plan.getPlanId();
     }
 
-    @PostMapping("/plan/update")
-    public String updatePlan(PlanCertificationDTO pcDTO,
-                             @RequestParam(value = "tagsOptions", required = false) String[] tagsOptions,
-                             HttpSession session,
+    @GetMapping("/update/{updatePlanId}")
+    public String showUpdate(HttpSession session, Model model,@PathVariable Long updatePlanId ){
+        TravelPlans updatePlan = travelPlansService.findByPlanId(updatePlanId);
+        List<PlanDetail> updatePlanDetail = travelPlansService.findPlanDetailByPlan(updatePlan);
+
+        model.addAttribute("updateplan", updatePlan);
+        model.addAttribute("updateDetail", updatePlanDetail);
+        return "/updatePlan";
+    }
+
+    @PostMapping("/plan/update/{updatePlanId}")
+    public String updatePlan(HttpSession session,
+                             @PathVariable Long updatePlanId,
                              TravelPlansDTO tpDTO,
                              @RequestParam(value = "planDate", required = false) List<LocalDate> planDates,
                              @RequestParam(value = "planTime", required = false) List<LocalTime> planTimes,
                              @RequestParam(value = "activity", required = false) List<String> activities,
-                             @RequestParam(value = "description", required = false) List<String> descriptions,
-                             @RequestParam(value = "plan", required = true)TravelPlans plan) throws IOException {
-        System.out.println("Received tagsOptions: " + Arrays.toString(tagsOptions));
+                             @RequestParam(value = "description", required = false) List<String> descriptions
+                             ) throws IOException {
+
         List<PlanDetailDTO> planDetails = new ArrayList<>();
         for (int i = 0; i < planDates.size(); i++) {
             PlanDetailDTO dto = new PlanDetailDTO();
@@ -93,9 +100,10 @@ public class TravelPlansController {
             dto.setDescription(descriptions.get(i));
             planDetails.add(dto);
         }
+        String user_email = (String) session.getAttribute("user");
+        Users user = userService.findByEmail(user_email);
 
-        session.setAttribute("tagsOptions", tagsOptions);
-        TravelPlans updated_plan = travelPlansService.updateplan(session, tpDTO, pcDTO, planDetails,plan);
+        TravelPlans updated_plan = travelPlansService.updateplan(user,updatePlanId, tpDTO, planDetails);
         return "redirect:/product_detail/" + updated_plan.getPlanId();
     }
 
