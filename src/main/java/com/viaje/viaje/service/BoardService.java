@@ -44,7 +44,7 @@ public class BoardService {
 
         for (PlanTag planTag : typePlanTags) {
             Board board = boardRepository.findByTravelPlans(planTag.getTravelPlans());
-            if (board != null) {
+            if (board != null && board.getTravelPlans().getStatus()== TravelPlans.PlanStatus.APPROVED) {
                 typeProducts.add(board);
             }
         }
