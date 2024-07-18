@@ -1,22 +1,22 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="utf-8" />
+    <meta charset="UTF-8" />
+    <title>결제 실패</title>
+    <link rel="stylesheet" href="/static/css/order_fail.css">
 </head>
-
 <body>
-<h2> 결제 실패 </h2>
-<p id="code"></p>
-<p id="message"></p>
+<div class="fail-container">
+    <a th:href="@{/}"><h2 class="fail-title">결제 실패</h2></a>
+    <div class="fail-content">
+        <p id="message" class="clickable"></p>
+        <a th:href="@{}"><button id="charge-button">포인트 충전하기</button></a>
+    </div>
+    <div id="emoji-container"></div>
+</div>
+
+<audio id="failure-sound" src="/static/sounds/fail-144746.mp3"></audio>
+
+<script src="/static/js/order_fail.js"></script>
 </body>
 </html>
-
-<script>
-    const urlParams = new URLSearchParams(window.location.search);
-
-    const codeElement = document.getElementById("code");
-    const messageElement = document.getElementById("message");
-
-    codeElement.textContent = "에러코드: " + urlParams.get("code");
-    messageElement.textContent = "실패 사유: " + urlParams.get("message");
-</script>
