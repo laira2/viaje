@@ -1,13 +1,12 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:text-decoration="http://www.w3.org/1999/xhtml">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>관리자 페이지</title>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
+    <title>Admin Panel</title>
     <link rel="stylesheet" href="/static/css/admin.css">
-    <link rel="icon" href="/static/images/icon/admin.ico">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
 </head>
 <body>
 <header>
@@ -15,8 +14,6 @@
         <div class="logo">Admin Panel</div>
         <ul class="nav-links">
             <li><a href="/">Home</a></li>
-            <li><a href="/dashboard">Dashboard</a></li>
-            <li><a href="/settings">Settings</a></li>
             <li><a href="/logout">Logout</a></li>
         </ul>
     </nav>
@@ -25,47 +22,43 @@
 <main>
     <div class="container">
         <h1>Welcome, Admin</h1>
-        <section class="stats">
+
+        <div class="stats">
             <div class="stat-item">
                 <i class="fas fa-users"></i>
                 <p><strong>Users:</strong> 1024</p>
             </div>
             <div class="stat-item">
-                <i class="fas fa-chart-line"></i>
+                <i class="fas fa-dollar-sign"></i>
                 <p><strong>Revenue:</strong> $50,000</p>
             </div>
             <div class="stat-item">
                 <i class="fas fa-shopping-cart"></i>
                 <p><strong>Orders:</strong> 512</p>
             </div>
-        </section>
-        <section class="actions">
+        </div>
+
+        <div class="actions">
             <button class="action-btn"><i class="fas fa-user-plus"></i> Add User</button>
             <button class="action-btn"><i class="fas fa-chart-bar"></i> View Reports</button>
-            <button class="action-btn"><i class="fas fa-cogs"></i> Manage Settings</button>
-        </section>
-        <section class="management">
+            <button class="action-btn"><i class="fas fa-cog"></i> Manage Settings</button>
+        </div>
+
+        <div class="management">
             <h2>Management</h2>
             <div class="management-buttons">
-                <button class="management-btn" id="pointHistoryBtn"><i class="fas fa-coins"></i> <a href="adminCharging" style="text-decoration: none;">포인트 충전내역</a></button>
-                <button class="management-btn" id="orderHistoryBtn"><i class="fas fa-list-alt"></i> <a href="adminOrderHistory" style="text-decoration: none;">주문내역</a></button>
-                <button class="management-btn" id="paymentHistoryBtn"><i class="fas fa-credit-card"></i> <a href="adminPayment" style="text-decoration: none;"> 결제내역</a></button>
-                <button class="management-btn" id="salesHistoryBtn"><i class="fas fa-chart-pie"></i> <a href="adminSales" style="text-decoration: none;">판매내역</a></button>
-                <a href="/products/admin" class="management-btn" id="planstatus">
-                    <i class="fas fa-info-circl"></i> 여행 계획 상태
-                </a>
+                <a href="adminCharging" class="management-btn"><i class="fas fa-coins"></i> 포인트 충전내역</a>
+                <a href="adminOrderHistory" class="management-btn"><i class="fas fa-shopping-cart"></i> 주문내역</a>
+                <a href="adminPayment" class="management-btn"><i class="fas fa-credit-card"></i> 결제내역</a>
+                <a href="adminSales" class="management-btn"><i class="fas fa-chart-line"></i> 판매내역</a>
+                <a href="/products/admin" class="management-btn"><i class="fas fa-plane"></i> 여행 계획 상태</a>
             </div>
-        </section>
-<!--        <section class="history-display" id="historyDisplay">-->
-<!--            &lt;!&ndash; 여기에 각 내역의 데이터가 표시됩니다 &ndash;&gt;-->
-<!--        </section>-->
+        </div>
     </div>
 </main>
 
 <footer>
     <p>&copy; 2024 Admin Panel. All rights reserved.</p>
 </footer>
-
-<script src="/static/js/admin.js"></script>
 </body>
 </html>
