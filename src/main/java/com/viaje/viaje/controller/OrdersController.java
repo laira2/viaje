@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -39,18 +40,34 @@ public class OrdersController {
     }
 
     @PostMapping("/order/create")
-    public String createOrders(@RequestParam Long orderId, HttpSession session, Model model){
+    public String createOrders(@RequestParam Long orderId, HttpSession session, Model model, RedirectAttributes redirectAttributes){
         ordersService.payorder(orderId,session,model);
         Orders ordered = ordersRepository.findById(orderId).get();
         if (ordered.getOrderStatus().equals(Orders.OrderStatus.COMPLETED)) {
             return "order_success";
         } else if (ordered.getOrderStatus().equals(Orders.OrderStatus.PROCESSING)) {
-            model.addAttribute("error","포인트가 부족합니다.");
-            return "orderPage";
+            session.setAttribute("error","포인트가 부족합니다.");
+            session.setAttribute("order", ordered);
+            return "redirect:/orderPage";
         }else{
             return "cart";
         }
 
+    }
+
+    @GetMapping("/orderPage")
+    public String showOrderPage(HttpSession session, Model model) {
+        String error = (String) session.getAttribute("error");
+        if (error != null) {
+            model.addAttribute("error", error);
+            session.removeAttribute("error");
+        }
+        Orders order = (Orders) session.getAttribute("order");
+        if (order != null) {
+            model.addAttribute("order", order);
+            session.removeAttribute("order");
+        }
+        return "orderPage";
     }
 
     @GetMapping("/adminOrderHistory")
