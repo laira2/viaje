@@ -55,7 +55,7 @@ body {
   left: 50%; /* 부모 요소의 가운데 정렬 */
   transform: translateX(-50%); /* 가운데 정렬을 위한 변환 */
   padding: 10px 20px;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 700;
   background-color: #53329B;
   color: white;
