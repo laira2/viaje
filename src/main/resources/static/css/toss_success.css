@@ -14,6 +14,7 @@ body {
 }
 
 .success-container {
+    text-decoration: none;
     position: relative;
     text-align: center;
     padding: 20px;

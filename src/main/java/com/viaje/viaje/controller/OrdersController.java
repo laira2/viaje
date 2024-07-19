@@ -46,28 +46,12 @@ public class OrdersController {
         if (ordered.getOrderStatus().equals(Orders.OrderStatus.COMPLETED)) {
             return "order_success";
         } else if (ordered.getOrderStatus().equals(Orders.OrderStatus.PROCESSING)) {
-            session.setAttribute("error","포인트가 부족합니다.");
-            session.setAttribute("order", ordered);
-            return "redirect:/orderPage";
+            model.addAttribute("error","포인트가 부족합니다.");
+            return "orderFail";
         }else{
             return "cart";
         }
 
-    }
-
-    @GetMapping("/orderPage")
-    public String showOrderPage(HttpSession session, Model model) {
-        String error = (String) session.getAttribute("error");
-        if (error != null) {
-            model.addAttribute("error", error);
-            session.removeAttribute("error");
-        }
-        Orders order = (Orders) session.getAttribute("order");
-        if (order != null) {
-            model.addAttribute("order", order);
-            session.removeAttribute("order");
-        }
-        return "orderPage";
     }
 
     @GetMapping("/adminOrderHistory")
