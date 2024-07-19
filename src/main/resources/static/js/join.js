@@ -27,15 +27,20 @@ document.addEventListener('DOMContentLoaded', function() {
         const email = emailInput.value;
         return fetch(`/join/check-email?email=${encodeURIComponent(email)}`)
             .then(response => response.json())
-            .then(data => {
-                if (data.exists) {
-                    showError(emailInput, '이미 사용 중인 이메일입니다.');
-                    isEmailValid = false;
+            .then(exists => {
+                console.log('Email check response:', exists);  // Add logging to ensure response is correct
+                if (typeof exists === 'boolean') {
+                    if (exists) {
+                        showError(emailInput, '이미 사용 중인 이메일입니다.');
+                        isEmailValid = false;
+                    } else {
+                        clearError(emailInput);
+                        isEmailValid = true;
+                    }
+                    toggleSubmitButton();
                 } else {
-                    clearError(emailInput);
-                    isEmailValid = true;
+                    throw new Error('Invalid response from server');
                 }
-                toggleSubmitButton();
             })
             .catch(() => {
                 showError(emailInput, '이메일 검증 중 오류가 발생했습니다. 다시 시도해 주세요.');
@@ -47,16 +52,20 @@ document.addEventListener('DOMContentLoaded', function() {
     function checkNickname() {
         const nickname = nicknameInput.value;
         return fetch(`/join/check-nickname?nickname=${encodeURIComponent(nickname)}`)
-            .then(response => response.json())
-            .then(data => {
-                if (data.exists) {
-                    showError(nicknameInput, '이미 사용 중인 닉네임입니다.');
-                    isNicknameValid = false;
+            .then(response => response.json())  // Ensure this is a boolean
+            .then(exists => {
+                if (typeof exists === 'boolean') {  // Ensure the response is a boolean
+                    if (exists) {
+                        showError(nicknameInput, '이미 사용 중인 닉네임입니다.');
+                        isNicknameValid = false;
+                    } else {
+                        clearError(nicknameInput);
+                        isNicknameValid = true;
+                    }
+                    toggleSubmitButton();
                 } else {
-                    clearError(nicknameInput);
-                    isNicknameValid = true;
+                    throw new Error('Invalid response from server');
                 }
-                toggleSubmitButton();
             })
             .catch(() => {
                 showError(nicknameInput, '닉네임 검증 중 오류가 발생했습니다. 다시 시도해 주세요.');
