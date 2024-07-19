@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Viaje - 게시판</title>
+  <title>Viaje - 여행 계획</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
   <link rel="icon" href="/static/images/icon/board.ico">
@@ -16,7 +16,7 @@
   </div>
   <div class="board-container">
     <div class="board-header">
-      <h1 th:if="${type==null}">Viaje 게시판</h1>
+      <h1 th:if="${type==null}">Viaje 여행 계획</h1>
       <h1 th:if="${type!=null}" th:text="'Viaje #' + ${type}"></h1>
       <p if="${session.isAdmin != true or session.isAdmin ==null }">여행 경험을 공유해보세요</p>
       <p th:if="${session.isAdmin == true}">관리자용 페이지 입니다. pending상태의 게시글만 보입니다.</p>
