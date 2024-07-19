@@ -10,8 +10,11 @@
     <link rel="stylesheet" href="/static/css/sales.css">
 </head>
 <body>
+<div class="back-btn">
+    <img src="/static/images/backback.png" alt="뒤로 가기" onclick="history.back()">
+</div>
 <header>
-    <h1>판매 내역</h1>
+    <h1><a href="/static/templates/main.html">판매 내역</a></h1>
 </header>
 <main>
     <section class="sales-summary" >
@@ -23,10 +26,6 @@
             <h2>총 주문 수</h2>
             <p th:text="${totalOrdersCount}"></p>
         </div>
-<!--        <div class="summary-item">-->
-<!--            <h2>평균 주문액</h2>-->
-<!--            <p th:text="'₩' + ${averageOrderAmount}"></p>-->
-<!--        </div>-->
     </section>
     <section class="sales-list" th:each="sales : ${salesList}">
         <div class="sales-item">
@@ -36,15 +35,6 @@
             <p class="quantity">수량: <span th:text="${sales.quantity}"></span></p>
             <p class="price"><span th:text="${sales.orders.total_amount}"></span></p>
         </div>
-<!--        <div class="sales-item">-->
-<!--            <div class="product-info">-->
-<!--                <h3>상품명 B</h3>-->
-<!--                <p class="category">카테고리: 숙박</p>-->
-<!--            </div>-->
-<!--            <p class="quantity">수량: 3</p>-->
-<!--            <p class="price">₩150,000</p>-->
-<!--        </div>-->
-        <!-- 더 많은 판매 항목 추가 -->
     </section>
 </main>
 <footer>

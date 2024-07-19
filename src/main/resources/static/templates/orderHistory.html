@@ -10,6 +10,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
+<div class="back-btn">
+    <img src="/static/images/backback.png" alt="뒤로 가기" onclick="history.back()">
+</div>
 <div class="container">
     <div class="order-history-container">
         <div class="order-history-header">
@@ -25,7 +28,6 @@
                     <th>가격</th>
                     <th>주문일</th>
                     <th>상태</th>
-<!--                    <th>관리</th>-->
                 </tr>
                 </thead>
                 <tbody>
@@ -35,29 +37,11 @@
                     <td><span th:text="${ordersItem.orders.total_amount}"></span></td>
                     <td><span th:text="${#temporals.format(ordersItem.orders.orderedAt, 'yyyy-MM-dd HH:mm')}"></span></td>
                     <td><span th:text="${ordersItem.orders.orderStatus}"></span></td>
-<!--                    <td><button class="deleteBtn">삭제</button></td>-->
                 </tr>
-<!--                <tr>-->
-<!--                    <td>1002</td>-->
-<!--                    <td>파리 5일 여행 계획</td>-->
-<!--                    <td>50,000원</td>-->
-<!--                    <td>2024-07-11</td>-->
-<!--                    <td>진행중</td>-->
-<!--                    <td><button class="deleteBtn">삭제</button></td>-->
-<!--                </tr>-->
-<!--                <tr>-->
-<!--                    <td>1003</td>-->
-<!--                    <td>뉴욕 7일 여행 계획</td>-->
-<!--                    <td>70,000원</td>-->
-<!--                    <td>2024-07-12</td>-->
-<!--                    <td>대기중</td>-->
-<!--                    <td><button class="deleteBtn">삭제</button></td>-->
-<!--                </tr>-->
                 </tbody>
             </table>
         </div>
         <div class="order-history-footer">
-<!--            <button class="submitBtn">새로운 여행 계획 만들기</button>-->
         </div>
     </div>
 </div>
