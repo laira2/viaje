@@ -43,7 +43,7 @@ public class OrdersController {
         ordersService.payorder(orderId,session,model);
         Orders ordered = ordersRepository.findById(orderId).get();
         if (ordered.getOrderStatus().equals(Orders.OrderStatus.COMPLETED)) {
-            return "OrderComplete";
+            return "order_success";
         } else if (ordered.getOrderStatus().equals(Orders.OrderStatus.PROCESSING)) {
             model.addAttribute("error","포인트가 부족합니다.");
             return "orderPage";
