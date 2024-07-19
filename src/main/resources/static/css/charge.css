@@ -61,6 +61,7 @@ body {
 }
 
 .pointcharge p {
+    font-size: 14px;
     margin: 20px 0;
     font-weight: bold;
     color: #333;
