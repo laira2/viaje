@@ -85,7 +85,7 @@ h1, h2, h3 {
     border-radius: 10px;
 }
 
-.btn-schedule, .btn-submit, .saveBtn {
+.btn-schedule, .btn-submit, .saveBtn, .btn-go-to-list {
     padding: 10px 20px;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
@@ -95,9 +95,12 @@ h1, h2, h3 {
     font-weight: 600;
     cursor: pointer;
     transition: transform 0.3s, box-shadow 0.3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
 }
 
-.btn-schedule:hover, .btn-submit:hover, .saveBtn:hover {
+.btn-schedule:hover, .btn-submit:hover, .saveBtn:hover, .btn-go-to-list:hover {
     transform: translateY(-3px);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
@@ -109,6 +112,7 @@ h1, h2, h3 {
     margin-bottom: 10px;
     position: relative;
 }
+
 .place-blockItem {
     background-color: rgba(255, 255, 255, 0.8); /* 불투명한 흰색 배경 */
     padding: 20px; /* 내부 여백 */
@@ -132,9 +136,11 @@ h1, h2, h3 {
     width: 2px;
     background: #e0e0e0;
 }
-.plan-detail{
-    font-size=16px;
+
+.plan-detail {
+    font-size: 16px;
 }
+
 .place-number-container {
     display: flex;
     flex-direction: column;
@@ -189,6 +195,7 @@ h1, h2, h3 {
     background: none;
     border-top: none;
     margin-top: 20px;
+    gap: 10px; /* 버튼 간격 설정 */
 }
 
 textarea {
