@@ -9,13 +9,13 @@
 <div class="success-container">
     <a th:href="@{/}"><h2 class="success-title" >결제 성공</h2></a>
     <div class="success-content">
-        <a th:href="@{/mypage}"><p id="amount" class="clickable">결제 금액: 0원</p></a>
+        <a th:href="@{/mypage}"><p id="amount" class="clickable"><span th:text="${order.total_amount}"></span>원</p></a>
     </div>
     <div id="emoji-container"></div>
 </div>
 
 <audio id="explosion-sound" src="/static/sounds/explosin.mp3"></audio>
 
-<script src="/static/js/toss_success.js"></script>
+<script src="/static/js/order_success.js"></script>
 </body>
 </html>
