@@ -23,10 +23,14 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
 
+.fail-container a{
+    text-decoration: none;
 }
 
 .fail-title {
+    text-decoration: none;
     font-size: 48px;
     color: #FF0000;
     animation: shake 0.5s ease-in-out infinite;

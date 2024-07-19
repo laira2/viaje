@@ -25,6 +25,10 @@ body {
     align-items: center;
 }
 
+.success-container a{
+    text-decoration: none;
+}
+
 .success-title {
     font-size: 48px;
     color: #4CAF50;
