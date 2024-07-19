@@ -42,8 +42,12 @@ nav {
     font-size: 1.8rem;
     font-weight: 600;
     color: var(--primary-color);
-    text-decoration: none;
     transition: transform 0.3s ease;
+}
+
+.logo a {
+    text-decoration: none; /* 링크의 밑줄 제거 */
+    color: var(--primary-color); /* 링크 색상 설정 */
 }
 
 .logo:hover {
