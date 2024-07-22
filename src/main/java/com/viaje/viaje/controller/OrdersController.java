@@ -34,20 +34,30 @@ public class OrdersController {
 
     @PostMapping("/order")
     public String orderPage (HttpSession session, Model model){
-        List<OrderItems> newOrderList = ordersService.createOrderItems(session,model);
-        model.addAttribute("orderItemList", newOrderList);
+//        if (session.getAttribute("failOrderId") != null) {
+//            List<OrderItems> failOrderItems = ordersItemRepository.findAllByOrders_OrderId((Long) session.getAttribute("failOrderId"));
+//            model.addAttribute("orderItemList", failOrderItems);
+//
+//        }else {
+            List<OrderItems> newOrderList = ordersService.createOrderItems(session, model);
+            model.addAttribute("orderItemList", newOrderList);
+//        }
         return "/orderPage";
     }
 
     @PostMapping("/order/create")
     public String createOrders(@RequestParam Long orderId, HttpSession session, Model model, RedirectAttributes redirectAttributes){
         ordersService.payorder(orderId,session,model);
-        Orders ordered = ordersRepository.findById(orderId).get();
+        Orders ordered = ordersRepository.findById(orderId).orElseThrow();
         if (ordered.getOrderStatus().equals(Orders.OrderStatus.COMPLETED)) {
             model.addAttribute("order", ordered);
+            if (session.getAttribute("failOrderId") != null){
+                session.removeAttribute("failOrderId");
+            }
             return "order_success";
-        } else if (ordered.getOrderStatus().equals(Orders.OrderStatus.PROCESSING)) {
+        } else if (ordered.getOrderStatus().equals(Orders.OrderStatus.CANCELLED)) {
             model.addAttribute("error","포인트가 부족합니다.");
+            session.setAttribute("failOrderId",ordered.getOrderId());
             return "orderFail";
         }else{
             return "cart";

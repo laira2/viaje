@@ -84,11 +84,6 @@ public class BoardController {
         return "/productDetail";
     }
 
-    @GetMapping("/board/write")
-    public String showWriteForm(Model model) {
-        // 필요한 경우 모델에 데이터를 추가합니다.
-        return "write";
-    }
     @GetMapping("/qnaBoard")
     public String showQnaBoard(Model model){
         List<Questions> questionsList = qnAService.questionsList();
@@ -99,17 +94,17 @@ public class BoardController {
         return "qNa_list";
     }
     @PostMapping("/qnaPost")
-    public String showQnaForm(QuestionsDTO questionsDTO, HttpSession session){
+    public String postQuestion(QuestionsDTO questionsDTO, HttpSession session){
         Users user = userService.findByEmail((String) session.getAttribute("user"));
         qnAService.postQuestion(questionsDTO,user);
-        return "/qNa";
+        return "redirect:/qnaBoard";
     }
 
     @PostMapping("/postAnswer")
     public String postanswer(HttpSession session, AnswersDTO answersDTO){
         Users user = userService.findByEmail((String) session.getAttribute("user"));
-        qnAService.addAnswer(answersDTO.getQuestions().getQuestionsId(),answersDTO.getContents(),user);
-        return "/qNaBoard";
+        qnAService.addAnswer(answersDTO.getQuestionsId(),answersDTO.getContents(),user);
+        return "redirect:/qnaBoard";
     }
 
 

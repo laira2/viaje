@@ -14,7 +14,9 @@ import lombok.Setter;
 @Setter
 public class AnswersDTO {
     private Long answersId;
+    private Long questionsId;
     private Users user;
     private String contents;
     private Questions questions;
+
 }

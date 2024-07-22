@@ -1,9 +1,6 @@
 package com.viaje.viaje.controller;
 
-import com.viaje.viaje.model.Board;
-import com.viaje.viaje.model.PointTransaction;
-import com.viaje.viaje.model.TravelPlans;
-import com.viaje.viaje.model.Users;
+import com.viaje.viaje.model.*;
 import com.viaje.viaje.repository.BoardRepository;
 import com.viaje.viaje.service.BoardService;
 import com.viaje.viaje.service.OrdersService;
@@ -48,7 +45,7 @@ public class MypageController {
 
         //구매 내역 가져오기
         List<Board> orderBoard = ordersService.orderItemBoard(user);
-
+//        List<OrderItems> oderItemsList = ordersService.orderList(user);
 
         model.addAttribute("boardList", boardList);
         model.addAttribute("transactions", transactions);
