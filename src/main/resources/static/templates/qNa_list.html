@@ -33,7 +33,14 @@
                 <p class="question-date" th:text="${#temporals.format(question.createdAt, 'yyyy-MM-dd HH:mm')}"></p>
             </div>
             <button class="btn-edit" data-question-id="${question.questionsId}">수정</button>
-            <button class="btn-delete" data-question-id="${question.questionsId}">삭제</button>
+            <form id="form-delete-${question.questionsId}" action="/deleteQuestion" method="post" class="delete-form">
+                <input type="hidden" name="questionsId" th:value="${question.questionsId}">
+                <input type="hidden" name="_method" value="delete">
+                <button type="submit" class="btn-delete">삭제</button>
+            </form>
+<!--            <button class="btn-delete" data-question-id="${question.questionsId}" onclick="submitDeleteForm('${question.questionsId}')">-->
+<!--                삭제-->
+<!--            </button>-->
             <button class="btn-answer" th:attr="data-question-id=${question.questionsId}">답변</button>
             <div class="answer-form" th:id="'answerForm-' + ${question.questionsId}" style="display:none;">
                 <div class="answer-content" th:if="${question.answers} != null" th:each="answer : ${question.answers}">
@@ -57,7 +64,7 @@
                     <label for="editContent-${question.questionsId}">내용</label>
                     <textarea id="editContent-${question.questionsId}" name="contents" rows="5" th:text="${question.contents}" required></textarea>
                     <button type="submit">수정 완료</button>
-                    <button type="button" onclick="cancelEditForm(${question.questionsId})">취소</button>
+                    <button type="button" onclick="cancelEditForm('${question.questionsId}')">취소</button>
                 </form>
             </div>
         </div>

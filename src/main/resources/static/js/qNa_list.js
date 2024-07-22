@@ -30,6 +30,49 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // 취소 폼 토글 함수
+    window.cancelEditForm = (questionsId) => {
+        const editForm = document.getElementById(`editForm-${questionsId}`);
+        if (editForm) {
+            editForm.style.display = 'none';
+        } else {
+            console.error(`Edit form with id editForm-${questionsId} not found`);
+        }
+    };
+
+    // // 삭제 버튼 클릭 시 DELETE 요청을 서버로 보내기
+    // document.addEventListener('click', async (event) => {
+    //     if (event.target.classList.contains('btn-delete')) {
+    //         const questionId = event.target.getAttribute('data-question-id');
+    //         if (confirm('정말로 이 질문을 삭제하시겠습니까?')) {
+    //             try {
+    //                 const response = await fetch('/deleteQuestion', {
+    //                     method: 'POST', // DELETE 요청을 위해 POST를 사용
+    //                     headers: {
+    //                         'Content-Type': 'application/x-www-form-urlencoded',
+    //                         'X-Requested-With': 'XMLHttpRequest'
+    //                     },
+    //                     body: new URLSearchParams({
+    //                         'questionsId': questionId,
+    //                         '_method': 'delete' // 서버에서 DELETE 요청으로 처리하도록 함
+    //                     })
+    //                 });
+    //
+    //                 if (response.ok) {
+    //                     // 성공적으로 삭제된 경우
+    //                     alert('삭제되었습니다.');
+    //                     window.location.reload(); // 페이지 새로고침
+    //                 } else {
+    //                     alert('삭제에 실패했습니다.');
+    //                 }
+    //             } catch (error) {
+    //                 console.error('삭제 요청 중 오류 발생:', error);
+    //                 alert('삭제 요청 중 오류가 발생했습니다.');
+    //             }
+    //         }
+    //     }
+    // });
+
     // 이벤트 위임을 사용한 클릭 이벤트 처리
     document.addEventListener('click', (event) => {
         if (event.target.classList.contains('btn-answer')) {

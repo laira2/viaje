@@ -86,11 +86,14 @@ public class BoardController {
     }
 
     @GetMapping("/qnaBoard")
-    public String showQnaBoard(Model model){
+    public String showQnaBoard(Model model, HttpSession session){
         List<Questions> questionsList = qnAService.questionsList();
         List<Answers> answersList =qnAService.answersList();
+        Users currentUser = userService.findByEmail((String) session.getAttribute("user"));
+
         model.addAttribute("answerList", answersList);
         model.addAttribute("questionsList", questionsList);
+        model.addAttribute("currentUser", currentUser);
 
         return "qNa_list";
     }
