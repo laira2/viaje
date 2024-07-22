@@ -74,15 +74,26 @@
                 <h3>첨부 이미지</h3>
                 <div class="image-gallery" th:if="${not #lists.isEmpty(selectedPlan.imagePaths)}">
                     <div th:each="imagePath : ${selectedPlan.imagePaths}" class="image-item">
-                        <img th:src="@{'../uploads/plan/'+ ${imagePath}}" th:alt="'uploads/plan/'+ ${imagePath}">
+                        <img th:src="@{'../uploads/plan/'+ ${imagePath}}" th:alt="'uploads/plan/'+ ${imagePath}" th:unless="${session.isAdmin}==true">
+                        <img th:src="@{'../../uploads/plan/'+ ${imagePath}}" th:alt="'uploads/plan/'+ ${imagePath}" th:if="${session.isAdmin}==true">
                     </div>
                 </div>
                 <p th:if="${#lists.isEmpty(selectedPlan.imagePaths)}">첨부된 이미지가 없습니다.</p>
             </section>
 
+            <section class="plan-images" th:if="${session.isAdmin==true}">
+                <h3>인증 이미지</h3>
+                <div class="image-gallery" th:if="${not #lists.isEmpty(selectedPlan.certImagePaths)}">
+                    <div th:each="imagePath : ${selectedPlan.certImagePaths}" class="image-item">
+                        <img th:src="@{'../../uploads/cert/'+ ${imagePath}}" th:alt="'uploads/plan/'+ ${imagePath}">
+                    </div>
+                </div>
+                <p th:if="${#lists.isEmpty(selectedPlan.certImagePaths)}">첨부된 이미지가 없습니다.</p>
+            </section>
+
             <div class="place-item" th:each="planDetail,iterStat: ${planDetails}" th:if="${planDetails} != null or ${session.isAdmin}==true or ${selectedPlan.user.email} == ${session.user}">
                 <div class="place-number-container">
-                    <div class="place-number" th:text="${planDetail.planDate}">1</div>
+                    <div class="place-number" th:text="${iterstat}">1</div>
                     <div class="place-time" th:text="${planDetail.planTime}">10:00</div>
                 </div>
                 <div class="place-info-container">

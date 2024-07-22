@@ -74,6 +74,13 @@ public class TravelPlans {
     @Column(nullable = false)
     private PlanStatus status = PlanStatus.PENDING;
 
+    @OneToOne(mappedBy = "travelPlans", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private PlanCertification planCertification;
+
+    public List<String> getCertImagePaths() {
+        return planCertification != null ? planCertification.getCertImagePaths() : new ArrayList<>();
+    }
+
     public enum PlanStatus {
         PENDING, APPROVED, REJECTED, DELETED
     }
