@@ -93,7 +93,7 @@
 
             <div class="place-item" th:each="planDetail,iterStat: ${planDetails}" th:if="${planDetails} != null or ${session.isAdmin}==true or ${selectedPlan.user.email} == ${session.user}">
                 <div class="place-number-container">
-                    <div class="place-number" th:text="${iterstat}">1</div>
+                    <div class="place-number" th:text="${iterStat.count}">1</div>
                     <div class="place-time" th:text="${planDetail.planTime}">10:00</div>
                 </div>
                 <div class="place-info-container">

@@ -2,11 +2,9 @@ package com.viaje.viaje.controller;
 
 import com.viaje.viaje.model.*;
 import com.viaje.viaje.repository.OrdersRepository;
+import com.viaje.viaje.repository.PlanDetailRepository;
 import com.viaje.viaje.repository.PointTransactionRepository;
-import com.viaje.viaje.service.AdminService;
-import com.viaje.viaje.service.BoardService;
-import com.viaje.viaje.service.TravelPlansService;
-import com.viaje.viaje.service.UserService;
+import com.viaje.viaje.service.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -36,12 +34,17 @@ public class AdminController {
 
     private OrdersRepository ordersRepository;
 
+    private PlanDetailRepository planDetailRepository;
+    private TagsService tagsService;
+
     @Autowired
     public BoardService boardService;
 
-    public AdminController(PointTransactionRepository transactionRepository, OrdersRepository ordersRepository) {
+    public AdminController(PointTransactionRepository transactionRepository, OrdersRepository ordersRepository, PlanDetailRepository planDetailRepository, TagsService tagsService) {
         this.transactionRepository = transactionRepository;
         this.ordersRepository = ordersRepository;
+        this.planDetailRepository = planDetailRepository;
+        this.tagsService = tagsService;
     }
 
     @GetMapping("/admin")
@@ -81,6 +84,8 @@ public class AdminController {
         Users user = userService.findByEmail((String) session.getAttribute("user"));
         TravelPlans selectedPlan = travelPlansService.findByPlanId(id);
         List<Comments> comments = commentsController.getComments(id);
+        List<PlanDetail> planDetails = planDetailRepository.findAllByTravelPlanOrderByPlanDateAscPlanTimeAsc(selectedPlan);
+        List<Tags> planTags=tagsService.findTags(selectedPlan);
 
         // 관리자 권한 확인
         if (user != null && user.isAdmin()) {
@@ -88,6 +93,8 @@ public class AdminController {
             model.addAttribute("selectedPlan", selectedPlan);
             model.addAttribute("user", user);
             model.addAttribute("comments", comments);
+            model.addAttribute("planDetails", planDetails);
+            model.addAttribute("tagsList", planTags);
             return "/productDetail";
         } else {
             // 관리자가 아닌 경우, 다른 페이지로 리다이렉트하거나 권한 없음 메시지를 보여줄 수 있음
