@@ -1,16 +1,18 @@
 package com.viaje.viaje.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(exclude = {"user", "answers"})
 public class Questions {
 
     @Id
@@ -27,8 +29,8 @@ public class Questions {
     @JoinColumn(name="userId")
     private Users user;
 
-    @OneToOne(mappedBy = "questions", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Answers answer;
+    @OneToMany(mappedBy = "questions", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Answers> answers = new ArrayList<>();
 
     @Column(updatable = false, nullable = false)
     private LocalDateTime createdAt;
@@ -36,7 +38,20 @@ public class Questions {
     @Column(nullable = false)
     private LocalDateTime updatedAt;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private QnaStatus qnaStatus = QnaStatus.확인중;
+
+    public void addAnswer(Answers answer) {
+        answers.add(answer);
+        answer.setQuestions(this);
+    }
+
+    // 답변을 제거하는 편의 메서드
+    public void removeAnswer(Answers answer) {
+        answers.remove(answer);
+        answer.setQuestions(null);
+    }
 
     public enum QnaStatus {
         확인중, 답변완료

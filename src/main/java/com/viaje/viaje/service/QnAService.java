@@ -34,8 +34,7 @@ public class QnAService {
     public void addAnswer(Long questionId, String content, Users user) {
         Questions question = questionsRepository.findById(questionId)
                 .orElseThrow(() -> new RuntimeException("Question not found"));
-
-        if (question.getAnswer() != null) {
+        if (question.getAnswers() != null && !question.getAnswers().isEmpty()) {
             throw new RuntimeException("This question already has an answer");
         }
 
@@ -46,7 +45,7 @@ public class QnAService {
 
         answersRepository.save(answer);
 
-        question.setAnswer(answer);
+        question.addAnswer(answer);
         question.setQnaStatus(Questions.QnaStatus.답변완료);
         questionsRepository.save(question);
     }

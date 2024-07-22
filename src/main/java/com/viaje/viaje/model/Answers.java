@@ -1,16 +1,16 @@
 package com.viaje.viaje.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(exclude = {"user", "questions"})
 public class Answers {
 
     @Id
@@ -24,8 +24,8 @@ public class Answers {
     @Column(nullable = false)
     private String contents;
 
-    @OneToOne
-    @JoinColumn(name="questionsId")
+    @ManyToOne
+    @JoinColumn(name = "questions_id")
     private Questions questions;
 
     @Column(updatable = false, nullable = false)

@@ -65,7 +65,7 @@ public class OrdersService {
     }
 
     public List<Board> orderItemBoard(Users user) {
-        List<Orders> ordersList = ordersRepository.findAllByUser(user);
+        List<Orders> ordersList = ordersRepository.findAllByUserAndOrderStatus(user, COMPLETED);
         List<Board> orderItemsBoard =new ArrayList<>();
         for (Orders order : ordersList){
             List<OrderItems> orderItem = ordersItemRepository.findAllByOrders(order);
@@ -75,6 +75,16 @@ public class OrdersService {
         }
         return orderItemsBoard;
     }
+
+//    public List<OrderItems> orderList(Users user) {
+//        List<Orders> ordersList = ordersRepository.findAllByUserAndOrderStatus(user, COMPLETED);
+//        List<OrderItems> orderItemList = new ArrayList<>();
+//        for (Orders order : ordersList){
+//            List<OrderItems> items =ordersItemRepository.findAllByOrders(order);
+//            orderItemList.addAll(items);
+//        }
+//        return orderItemList;
+//    }
     @Transactional
     public void payorder(Long orderId, HttpSession session, Model model) {
         Users user = userService.findByEmail((String) session.getAttribute("user"));
@@ -97,7 +107,7 @@ public class OrdersService {
                 model.addAttribute("order", order);
             }
         }else{
-            order.setOrderStatus(PROCESSING);
+            order.setOrderStatus(CANCELLED);
 
         }
 
