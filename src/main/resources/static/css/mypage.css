@@ -234,6 +234,15 @@ body {
     margin-bottom: 10px;
 }
 
+/* info-header 스타일 추가 */
+.info-header {
+    font-size: 2em; /* 글씨 크기를 키우기 */
+    text-align: center; /* 텍스트 가운데 정렬 */
+    color: white; /* 텍스트 색상 */
+    margin-bottom: 40px; /* 정보 섹션과의 간격 조정 */
+    /* 글씨 크기를 바꾸려면 위의 font-size 값을 수정하세요 */
+}
+
 @media (max-width: 768px) {
     .user-info {
         flex-direction: column;

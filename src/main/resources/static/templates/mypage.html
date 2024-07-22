@@ -29,13 +29,17 @@
     </div>
 
     <div class="section-buttons">
-        <button class="section-btn" data-target="pointChargeHistory">포인트 충전 내역</button>
-        <button class="section-btn" data-target="purchasedPlans">내가 구입한 계획</button>
-        <button class="section-btn" data-target="soldPlans">내가 판매한 계획</button>
+        <button class="section-btn" data-target="pointChargeHistory" data-title="포인트 충전 내역">포인트 충전 내역</button>
+        <button class="section-btn" data-target="purchasedPlans" data-title="내가 구입한 계획">내가 구입한 계획</button>
+        <button class="section-btn" data-target="soldPlans" data-title="내가 판매한 계획">내가 판매한 계획</button>
     </div>
 </div>
 
 <div class="right-container">
+    <!-- 오른쪽 영역의 최상단에 버튼 이름을 표시할 영역 -->
+    <div id="infoHeader" class="info-header">정보 제목</div>
+
+    <!-- 버튼 클릭 시 관련 내용을 표시할 영역 -->
     <div id="pointChargeHistory" class="section-content">
         <ul class="contents-list" th:if="${not #lists.isEmpty(transactions)}">
             <li th:each="transaction : ${transactions}" class="contents-card">
