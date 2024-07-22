@@ -1,30 +1,28 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const questionList = document.getElementById('questionList');
-    const questionForm = document.getElementById('questionForm');
+     const questionList = document.getElementById('questionList');
+        const questionForm = document.getElementById('questionForm');
 
-    // 답변 폼 토글 함수
-     window.toggleAnswerForm = (questionId) => {
-         const answerForm = document.getElementById(`answerForm-${questionId}`);
-         if (answerForm) {
-             answerForm.style.display = answerForm.style.display === 'none' ? 'block' : 'none';
-         } else {
-             console.error(`Answer form with id answerForm-${questionId} not found`);
-         }
-     };
+        // 답변 폼 토글 함수
+        window.toggleAnswerForm = (questionId) => {
+            const answerForm = document.getElementById(`answerForm-${questionId}`);
+            if (answerForm) {
+                answerForm.style.display = answerForm.style.display === 'none' ? 'block' : 'none';
+            } else {
+                console.error(`Answer form with id answerForm-${questionId} not found`);
+            }
+        };
 
-    // 모든 답변 버튼에 이벤트 리스너 추가
-    document.querySelectorAll('.btn-answer').forEach(button => {
+        // 이벤트 위임을 사용한 클릭 이벤트 처리
         document.addEventListener('click', (event) => {
             if (event.target.classList.contains('btn-answer')) {
                 const questionId = event.target.getAttribute('data-question-id');
                 toggleAnswerForm(questionId);
             }
         });
-    });
 
-    // 디버깅: 모든 answer-form 요소 출력
-    const allAnswerForms = document.querySelectorAll('.answer-form');
-    console.log('All answer form elements:', allAnswerForms);
+        // 디버깅: 모든 answer-form 요소 출력
+        const allAnswerForms = document.querySelectorAll('.answer-form');
+        console.log('All answer form elements:', allAnswerForms);
 //
 //    // 로컬 스토리지에서 질문 목록 가져오기
 //    let questions = JSON.parse(localStorage.getItem('questions')) || [];
