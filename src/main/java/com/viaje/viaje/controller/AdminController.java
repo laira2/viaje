@@ -1,9 +1,8 @@
 package com.viaje.viaje.controller;
 
-import com.viaje.viaje.model.Board;
-import com.viaje.viaje.model.Comments;
-import com.viaje.viaje.model.TravelPlans;
-import com.viaje.viaje.model.Users;
+import com.viaje.viaje.model.*;
+import com.viaje.viaje.repository.OrdersRepository;
+import com.viaje.viaje.repository.PointTransactionRepository;
 import com.viaje.viaje.service.AdminService;
 import com.viaje.viaje.service.BoardService;
 import com.viaje.viaje.service.TravelPlansService;
@@ -33,12 +32,31 @@ public class AdminController {
 
     @Autowired
     public TravelPlansService travelPlansService;
+    private PointTransactionRepository transactionRepository;
+
+    private OrdersRepository ordersRepository;
 
     @Autowired
     public BoardService boardService;
 
+    public AdminController(PointTransactionRepository transactionRepository, OrdersRepository ordersRepository) {
+        this.transactionRepository = transactionRepository;
+        this.ordersRepository = ordersRepository;
+    }
+
     @GetMapping("/admin")
     public String listPlans(HttpSession session, Model model) {
+        Integer userNumber = userService.findUserNumber();
+        model.addAttribute("userNumber", userNumber);
+
+        Integer totalChargePoint = transactionRepository.sumAllChargeAmounts();
+        model.addAttribute("chargeTotalPoints", totalChargePoint);
+
+        Long userPoints = userService.totalUserPoint();
+        model.addAttribute("userTotalPoint", userPoints);
+
+        Integer totalOrders = ordersRepository.findAllByOrderStatus(Orders.OrderStatus.COMPLETED).size();
+        model.addAttribute("totalOrders", totalOrders);
 
         String email = (String) session.getAttribute("user");
         Boolean isAdmin = adminService.isAdmin(email);

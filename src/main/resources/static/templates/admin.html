@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,21 +26,21 @@
         <div class="stats">
             <div class="stat-item">
                 <i class="fas fa-users"></i>
-                <p><strong>Users:</strong> 1024</p>
+                <p><strong>Users:</strong> <span th:text="${userNumber}"></span></p>
             </div>
             <div class="stat-item">
                 <i class="fas fa-dollar-sign"></i>
-                <p><strong>Revenue:</strong> $50,000</p>
+                <p><strong>Total Charge/UserPoint:</strong> <span th:text="${chargeTotalPoints}+'/'+${userTotalPoint}"></span></p>
             </div>
             <div class="stat-item">
                 <i class="fas fa-shopping-cart"></i>
-                <p><strong>Orders:</strong> 512</p>
+                <p><strong>Orders:</strong> <span th:text="${totalOrders}"></span></p>
             </div>
         </div>
 
         <div class="actions">
-            <button class="action-btn"><i class="fas fa-user-plus"></i> Add User</button>
-            <button class="action-btn"><i class="fas fa-chart-bar"></i> View Reports</button>
+            <button class="action-btn" th:href="@{/join}"><i class="fas fa-user-plus"></i> Add User</button>
+            <button class="action-btn" ><i class="fas fa-chart-bar"></i> View Reports</button>
             <button class="action-btn"><i class="fas fa-cog"></i> Manage Settings</button>
         </div>
 
