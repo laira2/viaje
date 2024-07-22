@@ -51,7 +51,9 @@
             <div class="edit-form" id="editForm-${question.questionsId}" style="display:none;">
                 <h4>수정하기</h4>
                 <form id="form-edit-${question.questionsId}" action="/updateQuestion" method="post">
-                    <input type="hidden" name="questionId" value="${question.questionsId}">
+                    <input type="hidden" name="questionsId" value="${question.questionsId}">
+                    <label for="editTitle-${question.questionsId}">제목</label>
+                    <input type="text" id="editTitle-${question.questionsId}" name="title" th:value="${question.title}">
                     <label for="editContent-${question.questionsId}">내용</label>
                     <textarea id="editContent-${question.questionsId}" name="contents" rows="5" th:text="${question.contents}" required></textarea>
                     <button type="submit">수정 완료</button>

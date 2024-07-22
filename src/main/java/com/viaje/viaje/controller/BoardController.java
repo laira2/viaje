@@ -109,23 +109,31 @@ public class BoardController {
     }
 
     @PostMapping("/updateQuestion")
-    public String updateQuestion(@ModelAttribute QuestionsDTO questionsDTO, HttpSession session) {
+    public String updateQuestion(@RequestParam Long questionsId, @RequestParam String title, @RequestParam String contents, HttpSession session) {
         String userEmail = (String) session.getAttribute("user");
         Users user = userService.findByEmail(userEmail);
 
+        if (questionsId == null) {
+            return "redirect:/qnaBoard";
+        }
+
         try {
-            qnAService.updateQuestion(questionsDTO.getQuestionsId(), questionsDTO, user);
+            QuestionsDTO questionsDTO = new QuestionsDTO();
+            questionsDTO.setQuestionsId(questionsId);
+            questionsDTO.setTitle(title);
+            questionsDTO.setContents(contents);
+
+            qnAService.updateQuestion(questionsId, questionsDTO, user);
             return "redirect:/qnaBoard";
         } catch (NoSuchElementException e) {
-            // Handle case where the question does not exist
             return "error/404";
         }
     }
 
     @PostMapping("/deleteQuestion")
-    public String deleteQuestion(@RequestParam Long questionId, HttpSession session) {
+    public String deleteQuestion(@RequestParam Long questionsId, HttpSession session) {
         Users user = userService.findByEmail((String) session.getAttribute("user"));
-        qnAService.deleteQuestion(questionId, user);
+        qnAService.deleteQuestion(questionsId, user);
         return "redirect:/qnaBoard";
     }
 

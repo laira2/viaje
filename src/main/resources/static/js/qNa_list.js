@@ -13,19 +13,39 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         // 수정 폼 토글 함수
-        window.toggleEditForm = (questionId) => {
-            const editForm = document.getElementById(`editForm-${questionId}`);
+        window.toggleEditForm = (questionsId) => {
+            const editForm = document.getElementById(`editForm-${questionsId}`);
             if (editForm) {
                 editForm.style.display = editForm.style.display === 'none' ? 'block' : 'none';
             } else {
-                console.error(`Edit form with id editForm-${questionId} not found`);
+                console.error(`Edit form with id editForm-${questionsId} not found`);
             }
         };
 
         // 수정 폼 제출 함수
-        function submitEditForm(questionId) {
-            const form = document.getElementById(`form-edit-${questionId}`);
-            const contents = form.querySelector('textarea[name="contents"]').value;
+        window.submitEditForm = (event, questionsId) => {
+            event.preventDefault(); // 폼 제출 기본 동작 방지
+
+            console.log("submitEditForm called with questionsId: ", questionsId);
+            const form = document.getElementById(`form-edit-${questionsId}`);
+            if (!form) {
+                console.error(`Form with id form-edit-${questionsId} not found`);
+                return;
+            }
+
+            const titleInput = form.querySelector('input[name="title"]');
+            const contentsTextarea = form.querySelector('textarea[name="contents"]');
+
+            if (!contentsTextarea) {
+                console.error(`Textarea with name "contents" not found in form ${form.id}`);
+                return;
+            }
+
+            const title = titleInput ? titleInput.value : '';
+            const contents = contentsTextarea.value;
+
+            console.log("Title: ", title);
+            console.log("Contents: ", contents);
 
             fetch(`/updateQuestion`, {
                 method: 'POST',
@@ -33,26 +53,28 @@ document.addEventListener('DOMContentLoaded', () => {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 },
                 body: new URLSearchParams({
-                    questionId: questionId, // 'questionsId'에서 'questionId'로 변경
+                    questionsId: questionsId,
                     title: title,
                     contents: contents
                 })
             }).then(response => {
                 if (response.ok) {
+                    console.log("Request succeeded");
                     location.reload();
                 } else {
+                    console.log("Request failed with status: ", response.status);
                     alert('질문 수정에 실패했습니다.');
                 }
             }).catch(error => {
                 console.error('Error:', error);
                 alert('질문 수정 중 오류가 발생했습니다.');
             });
-        }
+        };
 
         // 삭제 함수
-        function deleteQuestion(questionId) {
+        function deleteQuestion(questionsId) {
             if (confirm('이 질문을 삭제하시겠습니까?')) {
-                fetch(`/deleteQuestion?questionId=${questionId}`, {
+                fetch(`/deleteQuestion?questionsId=${questionsId}`, {
                     method: 'DELETE', // DELETE 메서드로 변경
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded'
@@ -73,8 +95,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // 수정 버튼 클릭 시 수정 폼을 보여줍니다.
         document.querySelectorAll('.btn-edit').forEach(button => {
             button.addEventListener('click', function () {
-                const questionId = this.getAttribute('data-question-id');
-                toggleEditForm(questionId);
+                const questionsId = this.getAttribute('data-question-id');
+                toggleEditForm(questionsId);
             });
         });
 
@@ -82,24 +104,24 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('.edit-form form').forEach(form => {
             form.addEventListener('submit', function (e) {
                 e.preventDefault();
-                const questionId = this.querySelector('input[name="questionId"]').value; // 'questionsId'에서 'questionId'로 변경
-                submitEditForm(questionId);
+                const questionsId = this.querySelector('input[name="questionsId"]').value;
+                submitEditForm(questionsId);
             });
         });
 
         // 삭제 버튼 클릭 시
         document.querySelectorAll('.btn-delete').forEach(button => {
             button.addEventListener('click', function () {
-                const questionId = this.getAttribute('data-question-id');
-                deleteQuestion(questionId);
+                const questionsId = this.getAttribute('data-question-id');
+                deleteQuestion(questionsId);
             });
         });
 
         // 이벤트 위임을 사용한 클릭 이벤트 처리
         document.addEventListener('click', (event) => {
             if (event.target.classList.contains('btn-answer')) {
-                const questionId = event.target.getAttribute('data-question-id');
-                toggleAnswerForm(questionId);
+                const questionsId = event.target.getAttribute('data-question-id');
+                toggleAnswerForm(questionsId);
             }
         });
 
@@ -194,7 +216,7 @@ document.addEventListener('DOMContentLoaded', () => {
 //        }
 //    };
 //
-    // 답변 폼 토글 함수
+//     // 답변 폼 토글 함수
 //    window.toggleAnswerForm = (questionId) => {
 //        const answerForm = document.getElementById(`answerForm-${questionId}`);
 //        if (answerForm) {

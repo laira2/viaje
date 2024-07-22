@@ -31,8 +31,8 @@ public class QnAService {
     }
 
     @Transactional
-    public void addAnswer(Long questionId, String content, Users user) {
-        Questions question = questionsRepository.findById(questionId)
+    public void addAnswer(Long questionsId, String content, Users user) {
+        Questions question = questionsRepository.findById(questionsId)
                 .orElseThrow(() -> new RuntimeException("Question not found"));
         if (question.getAnswers() != null && !question.getAnswers().isEmpty()) {
             throw new RuntimeException("This question already has an answer");
@@ -61,8 +61,11 @@ public class QnAService {
     }
 
     @Transactional
-    public void updateQuestion(Long questionId, QuestionsDTO questionsDTO, Users user) {
-        Questions question = questionsRepository.findById(questionId)
+    public void updateQuestion(Long questionsId, QuestionsDTO questionsDTO, Users user) {
+        if (questionsId == null) {
+            throw new IllegalArgumentException("Question ID cannot be null");
+        }
+        Questions question = questionsRepository.findById(questionsId)
                 .orElseThrow(() -> new RuntimeException("Question not found"));
 
         if (!question.getUser().equals(user)) {
@@ -76,8 +79,8 @@ public class QnAService {
     }
 
     @Transactional
-    public void deleteQuestion(Long questionId, Users user) {
-        Questions question = questionsRepository.findById(questionId)
+    public void deleteQuestion(Long questionsId, Users user) {
+        Questions question = questionsRepository.findById(questionsId)
                 .orElseThrow(() -> new RuntimeException("Question not found"));
 
         if (!question.getUser().equals(user)) {
