@@ -113,45 +113,40 @@ body {
     background-color: rgba(39, 174, 96, 0.2);
 }
 
-.travel-section {
-    margin-bottom: 40px;
-}
-
-.travel-section h2 {
-    font-size: 1.5em;
-    margin-bottom: 20px;
-    color: white;
-}
-
-.section-title {
-    color: white;
+.section-buttons {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    cursor: pointer;
+    margin-top: 20px;
 }
 
-.toggle-btn {
+.section-btn {
     background: none;
     border: none;
-    font-size: 1.2em;
-    cursor: pointer;
-    margin-left: auto;
     color: white;
+    cursor: pointer;
+    font-size: 1.2em;
+    padding: 10px;
+    text-align: center;
+}
+
+.section-btn:hover {
+    text-decoration: underline;
+}
+
+.right-container {
+    width: 50%;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 40px 20px;
+    position: fixed;
+    top: 0;
+    right: 0;
+    background-color: transparent;
+    display: none;
 }
 
 .section-content {
     display: none;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-top: none;
-    border-radius: 0 0 20px 20px;
-    background-color: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(10px);
-}
-
-.section-content.active {
-    display: block;
 }
 
 .contents-list {
