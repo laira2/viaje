@@ -10,17 +10,20 @@ body {
     font-family: 'Poppins', 'Noto Sans KR', sans-serif;
     min-height: 100vh;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: flex-start;
+    align-items: flex-start;
     background-color: #f8f9fa;
     color: #333;
+    margin: 0;
 }
 
 .container {
-    width: 100%;
-    max-width: 1200px;
+    width: 50%;
+    max-width: none;
     padding: 40px 20px;
     position: relative;
+    height: 100vh;
+    overflow-y: auto;
 }
 
 .header-logo {
