@@ -22,4 +22,5 @@ public interface BoardRepository extends JpaRepository<Board,Long> {
     @Transactional
     @Query("UPDATE Board b SET b.boardStatus = :status WHERE b.id = :id")
     void updateBoardStatus(@Param("id") Long id, @Param("status") Board.BoardStatus status);
+
 }
