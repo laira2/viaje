@@ -23,7 +23,6 @@
     <div class="board-container" id="boardContainer">
         <h2>문의 게시판 목록</h2>
         <div class="question-list" id="questionList" th:each="question : ${questionsList}">
-            <!-- 질문 카드들이 여기에 동적으로 추가됩니다 -->
             <h3 class="question-title" th:text="${question.title}"></h3>
             <div class="question-meta">
                 <span class="user-name" th:text="${question.user.userName}"></span>
@@ -31,7 +30,7 @@
             </div>
             <div class="question-details">
                 <p class="question-content" th:text="${question.contents}"></p>
-                <p class="question-date"th:text="${question.createdAt}"></p>
+                <p class="question-date" th:text="${#temporals.format(question.createdAt, 'yyyy-MM-dd HH:mm')}"></p>
             </div>
             <button class="btn-edit" >수정</button>
             <button class="btn-delete" >삭제</button>
@@ -39,7 +38,7 @@
             <div class="answer-form" th:id="'answerForm-' + ${question.questionsId}" style="display:none;">
                 <div class="answer-content" th:if="${question.answers} != null" th:each="answer : ${question.answers}">
                     <p th:text="'답변 :' +${answer.contents}">답변 : </p>
-                    <p class="answer-date" th:text="${answer.createdAt}"></p>
+                    <p class="answer-date" th:text="${#temporals.format(answer.createdAt, 'yyyy-MM-dd HH:mm')}"></p>
                 </div>
 
                 <form action="/postAnswer" method="post" th:if="${question.answers == null or #lists.isEmpty(question.answers)}">
