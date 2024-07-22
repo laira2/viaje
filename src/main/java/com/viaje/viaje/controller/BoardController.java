@@ -5,10 +5,7 @@ import com.viaje.viaje.dto.QuestionsDTO;
 import com.viaje.viaje.model.*;
 import com.viaje.viaje.repository.OrdersItemRepository;
 import com.viaje.viaje.repository.PlanDetailRepository;
-import com.viaje.viaje.service.BoardService;
-import com.viaje.viaje.service.QnAService;
-import com.viaje.viaje.service.TravelPlansService;
-import com.viaje.viaje.service.UserService;
+import com.viaje.viaje.service.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,6 +26,7 @@ public class BoardController {
     private final PlanDetailRepository planDetailRepository;
     private final QnAService qnAService;
     private final OrdersItemRepository ordersItemRepository;
+    private final TagsService tagsService;
 
     public BoardController(BoardService boardService,
                            TravelPlansService travelPlansService,
@@ -36,7 +34,7 @@ public class BoardController {
                            CommentsController commentsController,
                            PlanDetailRepository planDetailRepository,
                            QnAService qnAService,
-                           OrdersItemRepository ordersItemRepository) {
+                           OrdersItemRepository ordersItemRepository, TagsService tagsService) {
         this.boardService = boardService;
         this.travelPlansService = travelPlansService;
         this.userService = userService;
@@ -44,6 +42,7 @@ public class BoardController {
         this.planDetailRepository = planDetailRepository;
         this.qnAService = qnAService;
         this.ordersItemRepository = ordersItemRepository;
+        this.tagsService = tagsService;
     }
 
     @GetMapping("/products")
@@ -72,11 +71,14 @@ public class BoardController {
         TravelPlans selectedPlan = travelPlansService.findByPlanId(id);
         List<Comments> comments = commentsController.getComments(id);
         List<PlanDetail> planDetails = planDetailRepository.findAllByTravelPlanOrderByPlanDateAscPlanTimeAsc(selectedPlan);
+        List<Tags> planTags=tagsService.findTags(selectedPlan);
         boardService.increaseViewCount(selectedPlan);
         session.setAttribute("selectedPlan",selectedPlan);
         model.addAttribute("selectedPlan", selectedPlan);
         model.addAttribute("user", user);
         model.addAttribute("comments",comments);
+        model.addAttribute("tagsList", planTags);
+
         boolean alreadyPurchased = ordersItemRepository.existsByOrders_UserAndTravelPlans(user, selectedPlan);
         if (alreadyPurchased || selectedPlan.getUser().getEmail().equals(session.getAttribute("user"))) {
             model.addAttribute("planDetails", planDetails);

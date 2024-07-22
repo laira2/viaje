@@ -252,3 +252,34 @@ textarea {
     display: flex;
     gap: 10px;
 }
+
+.cute-tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 15px;
+}
+
+.cute-tag {
+    display: inline-block;
+    padding: 8px 15px;
+    background-color: #ffd6e0;
+    color: #ff4d6d;
+    border-radius: 25px;
+    font-size: 14px;
+    font-weight: bold;
+    box-shadow: 0 3px 6px rgba(255, 77, 109, 0.2);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.cute-tag:hover {
+    transform: translateY(-3px) rotate(3deg);
+    background-color: #ff9db6;
+    color: #fff;
+    box-shadow: 0 5px 10px rgba(255, 77, 109, 0.3);
+}
+
+.cute-tag:active {
+    transform: translateY(1px);
+}

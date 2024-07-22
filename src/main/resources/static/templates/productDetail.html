@@ -39,8 +39,13 @@
                     <p><strong>최종 수정일:</strong> <span th:text="${#temporals.format(selectedPlan.updatedAt, 'yyyy-MM-dd HH:mm')}"></span></p>
                 </div>
             </section>
+            <section class="plan-tags">
+               <div class="cute-tags-container">
+                    <a class="cute-tag" th:each="tag :${tagsList}" th:text="${tag.tagName}" th:href="@{/products/{type}(type=${tag.tagName})}">귀여움</a>
+                </div>
+            </section>
 
-            <section class="plan-status">
+            <section class="plan-status" th:if="${session.isAdmin==true} or ${selectedPlan.user.email}==${session.user}">
                 <div class="detail-item">
                     <i class="fas fa-info-circle"></i>
                     <p><strong>상태:</strong></p>
