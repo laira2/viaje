@@ -7,6 +7,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -71,6 +72,16 @@ public class UserService {
             throw new UserNotFoundException("User not found with email: " + userEmail);
         }
     }
+
+    public Integer findUserNumber() {
+        List<Users> findAll = userRepository.findAll();
+
+        return findAll.size();
+    }
+    public Long totalUserPoint(){
+        return userRepository.sumAllPoints();
+    }
+
     public class UserNotFoundException extends RuntimeException {
         public UserNotFoundException(String message) {
             super(message);
