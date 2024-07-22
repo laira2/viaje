@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // 섹션 버튼 기능
     const sectionButtons = document.querySelectorAll('.section-btn');
+    const infoHeader = document.getElementById('infoHeader');
     const rightContainer = document.querySelector('.right-container');
 
     sectionButtons.forEach(button => {
@@ -31,6 +32,10 @@ document.addEventListener('DOMContentLoaded', function() {
             e.stopPropagation();
             const targetId = this.getAttribute('data-target');
             const targetContent = document.getElementById(targetId);
+            const buttonTitle = this.getAttribute('data-title');
+
+            // 오른쪽 영역 상단에 버튼 이름 표시
+            infoHeader.innerText = buttonTitle;
 
             // 모든 섹션 숨기기
             document.querySelectorAll('.right-container .section-content').forEach(section => {
