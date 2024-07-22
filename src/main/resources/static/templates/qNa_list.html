@@ -32,8 +32,8 @@
                 <p class="question-content" th:text="${question.contents}"></p>
                 <p class="question-date" th:text="${#temporals.format(question.createdAt, 'yyyy-MM-dd HH:mm')}"></p>
             </div>
-            <button class="btn-edit" >수정</button>
-            <button class="btn-delete" >삭제</button>
+            <button class="btn-edit" data-question-id="${question.questionsId}">수정</button>
+            <button class="btn-delete" data-question-id="${question.questionsId}">삭제</button>
             <button class="btn-answer" th:attr="data-question-id=${question.questionsId}">답변</button>
             <div class="answer-form" th:id="'answerForm-' + ${question.questionsId}" style="display:none;">
                 <div class="answer-content" th:if="${question.answers} != null" th:each="answer : ${question.answers}">
@@ -47,8 +47,19 @@
                     <button type="submit">답변 제출</button>
                 </form>
             </div>
-
+            <!-- 수정 폼 영역 -->
+            <div class="edit-form" id="editForm-${question.questionsId}" style="display:none;">
+                <h4>수정하기</h4>
+                <form id="form-edit-${question.questionsId}" action="/updateQuestion" method="post">
+                    <input type="hidden" name="questionId" value="${question.questionsId}">
+                    <label for="editContent-${question.questionsId}">내용</label>
+                    <textarea id="editContent-${question.questionsId}" name="contents" rows="5" th:text="${question.contents}" required></textarea>
+                    <button type="submit">수정 완료</button>
+                    <button type="button" onclick="cancelEditForm(${question.questionsId})">취소</button>
+                </form>
+            </div>
         </div>
+
     </div>
     <div class="form-container">
         <h2>문의 작성</h2>
@@ -65,6 +76,8 @@
         </form>
     </div>
 </main>
+
+
 
 <script src="/static/js/qNa_list.js"></script>
 </body>

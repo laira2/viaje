@@ -22,11 +22,11 @@ public class QnAService {
         this.answersRepository = answersRepository;
     }
 
-    public List<Questions> questionsList(){
+    public List<Questions> questionsList() {
         return questionsRepository.findAll();
     }
 
-    public List<Answers> answersList(){
+    public List<Answers> answersList() {
         return answersRepository.findAll();
     }
 
@@ -50,7 +50,7 @@ public class QnAService {
         questionsRepository.save(question);
     }
 
-    public void postQuestion(QuestionsDTO questionsDTO,Users user) {
+    public void postQuestion(QuestionsDTO questionsDTO, Users user) {
         Questions newQuestion = new Questions();
         newQuestion.setUser(user);
         newQuestion.setTitle(questionsDTO.getTitle());
@@ -58,5 +58,57 @@ public class QnAService {
 
         questionsRepository.save(newQuestion);
 
+    }
+
+    @Transactional
+    public void updateQuestion(Long questionId, QuestionsDTO questionsDTO, Users user) {
+        Questions question = questionsRepository.findById(questionId)
+                .orElseThrow(() -> new RuntimeException("Question not found"));
+
+        if (!question.getUser().equals(user)) {
+            throw new RuntimeException("You are not authorized to update this question");
+        }
+
+        question.setTitle(questionsDTO.getTitle());
+        question.setContents(questionsDTO.getContents());
+
+        questionsRepository.save(question);
+    }
+
+    @Transactional
+    public void deleteQuestion(Long questionId, Users user) {
+        Questions question = questionsRepository.findById(questionId)
+                .orElseThrow(() -> new RuntimeException("Question not found"));
+
+        if (!question.getUser().equals(user)) {
+            throw new RuntimeException("You are not authorized to delete this question");
+        }
+
+        questionsRepository.delete(question);
+    }
+
+    @Transactional
+    public void updateAnswer(Long answerId, String content, Users user) {
+        Answers answer = answersRepository.findById(answerId)
+                .orElseThrow(() -> new RuntimeException("Answer not found"));
+
+        if (!answer.getUser().equals(user)) {
+            throw new RuntimeException("You are not authorized to update this answer");
+        }
+
+        answer.setContents(content);
+        answersRepository.save(answer);
+    }
+
+    @Transactional
+    public void deleteAnswer(Long answerId, Users user) {
+        Answers answer = answersRepository.findById(answerId)
+                .orElseThrow(() -> new RuntimeException("Answer not found"));
+
+        if (!answer.getUser().equals(user)) {
+            throw new RuntimeException("You are not authorized to delete this answer");
+        }
+
+        answersRepository.delete(answer);
     }
 }

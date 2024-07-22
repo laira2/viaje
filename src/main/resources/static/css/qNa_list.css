@@ -185,3 +185,18 @@ textarea {
         width: 100%;
     }
 }
+
+/* 수정 폼의 z-index를 높여서 버튼 위에 표시되도록 합니다. */
+.edit-form {
+    position: absolute; /* 또는 relative */
+    z-index: 1000; /* 높은 값으로 설정 */
+    background-color: white; /* 배경색 설정 */
+    border: 1px solid #ccc; /* 경계선 설정 */
+    padding: 10px; /* 내부 여백 설정 */
+}
+
+/* 버튼의 z-index를 낮게 설정하여 폼 위에 표시되도록 합니다. */
+.btn-edit, .btn-delete, .btn-answer {
+    position: relative;
+    z-index: 500; /* 낮은 값으로 설정 */
+}

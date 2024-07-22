@@ -9,12 +9,11 @@ import com.viaje.viaje.service.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+import java.nio.file.AccessDeniedException;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Controller
 public class BoardController {
@@ -106,6 +105,41 @@ public class BoardController {
     public String postanswer(HttpSession session, AnswersDTO answersDTO){
         Users user = userService.findByEmail((String) session.getAttribute("user"));
         qnAService.addAnswer(answersDTO.getQuestionsId(),answersDTO.getContents(),user);
+        return "redirect:/qnaBoard";
+    }
+
+    @PostMapping("/updateQuestion")
+    public String updateQuestion(@ModelAttribute QuestionsDTO questionsDTO, HttpSession session) {
+        String userEmail = (String) session.getAttribute("user");
+        Users user = userService.findByEmail(userEmail);
+
+        try {
+            qnAService.updateQuestion(questionsDTO.getQuestionsId(), questionsDTO, user);
+            return "redirect:/qnaBoard";
+        } catch (NoSuchElementException e) {
+            // Handle case where the question does not exist
+            return "error/404";
+        }
+    }
+
+    @PostMapping("/deleteQuestion")
+    public String deleteQuestion(@RequestParam Long questionId, HttpSession session) {
+        Users user = userService.findByEmail((String) session.getAttribute("user"));
+        qnAService.deleteQuestion(questionId, user);
+        return "redirect:/qnaBoard";
+    }
+
+    @PostMapping("/updateAnswer")
+    public String updateAnswer(@RequestParam Long answerId, @RequestParam String content, HttpSession session) {
+        Users user = userService.findByEmail((String) session.getAttribute("user"));
+        qnAService.updateAnswer(answerId, content, user);
+        return "redirect:/qnaBoard";
+    }
+
+    @PostMapping("/deleteAnswer")
+    public String deleteAnswer(@RequestParam Long answerId, HttpSession session) {
+        Users user = userService.findByEmail((String) session.getAttribute("user"));
+        qnAService.deleteAnswer(answerId, user);
         return "redirect:/qnaBoard";
     }
 

@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
      const questionList = document.getElementById('questionList');
-        const questionForm = document.getElementById('questionForm');
+     const questionForm = document.getElementById('questionForm');
 
         // 답변 폼 토글 함수
         window.toggleAnswerForm = (questionId) => {
@@ -11,6 +11,89 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.error(`Answer form with id answerForm-${questionId} not found`);
             }
         };
+
+        // 수정 폼 토글 함수
+        window.toggleEditForm = (questionId) => {
+            const editForm = document.getElementById(`editForm-${questionId}`);
+            if (editForm) {
+                editForm.style.display = editForm.style.display === 'none' ? 'block' : 'none';
+            } else {
+                console.error(`Edit form with id editForm-${questionId} not found`);
+            }
+        };
+
+        // 수정 폼 제출 함수
+        function submitEditForm(questionId) {
+            const form = document.getElementById(`form-edit-${questionId}`);
+            const contents = form.querySelector('textarea[name="contents"]').value;
+
+            fetch(`/updateQuestion`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: new URLSearchParams({
+                    questionId: questionId, // 'questionsId'에서 'questionId'로 변경
+                    title: title,
+                    contents: contents
+                })
+            }).then(response => {
+                if (response.ok) {
+                    location.reload();
+                } else {
+                    alert('질문 수정에 실패했습니다.');
+                }
+            }).catch(error => {
+                console.error('Error:', error);
+                alert('질문 수정 중 오류가 발생했습니다.');
+            });
+        }
+
+        // 삭제 함수
+        function deleteQuestion(questionId) {
+            if (confirm('이 질문을 삭제하시겠습니까?')) {
+                fetch(`/deleteQuestion?questionId=${questionId}`, {
+                    method: 'DELETE', // DELETE 메서드로 변경
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                }).then(response => {
+                    if (response.ok) {
+                        location.reload();
+                    } else {
+                        alert('질문 삭제에 실패했습니다.');
+                    }
+                }).catch(error => {
+                    console.error('Error:', error);
+                    alert('질문 삭제 중 오류가 발생했습니다.');
+                });
+            }
+        }
+
+        // 수정 버튼 클릭 시 수정 폼을 보여줍니다.
+        document.querySelectorAll('.btn-edit').forEach(button => {
+            button.addEventListener('click', function () {
+                const questionId = this.getAttribute('data-question-id');
+                toggleEditForm(questionId);
+            });
+        });
+
+        // 수정 폼 제출 시
+        document.querySelectorAll('.edit-form form').forEach(form => {
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+                const questionId = this.querySelector('input[name="questionId"]').value; // 'questionsId'에서 'questionId'로 변경
+                submitEditForm(questionId);
+            });
+        });
+
+        // 삭제 버튼 클릭 시
+        document.querySelectorAll('.btn-delete').forEach(button => {
+            button.addEventListener('click', function () {
+                const questionId = this.getAttribute('data-question-id');
+                deleteQuestion(questionId);
+            });
+        });
 
         // 이벤트 위임을 사용한 클릭 이벤트 처리
         document.addEventListener('click', (event) => {
