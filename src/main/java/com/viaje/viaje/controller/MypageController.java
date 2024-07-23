@@ -2,10 +2,7 @@ package com.viaje.viaje.controller;
 
 import com.viaje.viaje.model.*;
 import com.viaje.viaje.repository.BoardRepository;
-import com.viaje.viaje.service.BoardService;
-import com.viaje.viaje.service.OrdersService;
-import com.viaje.viaje.service.PointTransactionService;
-import com.viaje.viaje.service.UserService;
+import com.viaje.viaje.service.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,13 +19,15 @@ public class MypageController {
     private  PointTransactionService pointTransactionService;
     private BoardRepository boardRepository;
     private final OrdersService ordersService;
+    private final LikeService likeService;
 
     @Autowired
-    public MypageController(UserService userService, PointTransactionService pointTransactionService, BoardRepository boardRepository, OrdersService ordersService) {
+    public MypageController(UserService userService, PointTransactionService pointTransactionService, BoardRepository boardRepository, OrdersService ordersService, LikeService likeService) {
         this.userService = userService;
         this.pointTransactionService = pointTransactionService;
         this.boardRepository = boardRepository;
         this.ordersService = ordersService;
+        this.likeService = likeService;
     }
 
     @GetMapping("/mypage")
@@ -46,10 +45,13 @@ public class MypageController {
         //구매 내역 가져오기
         List<Board> orderBoard = ordersService.orderItemBoard(user);
 //        List<OrderItems> oderItemsList = ordersService.orderList(user);
+        //좋아요 목록 가져오기
+        List<Board> likeBoard = likeService.findLikeBoard(user);
 
         model.addAttribute("boardList", boardList);
         model.addAttribute("transactions", transactions);
         model.addAttribute("oderBoardList", orderBoard);
+        model.addAttribute("likeBoardList", likeBoard);
 
     }
 }
