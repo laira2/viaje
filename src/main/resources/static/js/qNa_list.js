@@ -35,63 +35,68 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
+
+    // // 수정 버튼 클릭 시 수정 폼을 보여줍니다.
+    // document.querySelectorAll('.edit-form').forEach(form => {
+    //     form.style.display = 'block';
+    // });
+
     // 수정 폼 토글 함수
     window.toggleEditForm = (questionsId) => {
         console.log(`Toggling edit form for ID: ${questionsId}`);
         const editForm = document.querySelector(`.edit-form[data-question-id="${questionsId}"]`);
+        console.log(`Edit form element found:`, editForm); // 추가된 로그
         if (editForm) {
             const currentDisplay = window.getComputedStyle(editForm).display;
-            console.log(`Current display style: ${currentDisplay}`);
             editForm.style.display = currentDisplay === 'none' ? 'block' : 'none';
-            console.log(`New display style: ${editForm.style.display}`);
         } else {
             console.error(`Edit form with data-question-id="${questionsId}" not found`);
         }
     };
-
-
-    // 수정 버튼 클릭 시 폼을 토글하는 함수
-    function toggleEditForm(questionId) {
-        // 모든 폼을 숨깁니다
-        document.querySelectorAll('.edit-form').forEach(form => {
-            form.style.display = 'none';
-        });
-
-        // 클릭된 버튼에 해당하는 폼을 보이게 합니다
-        const editForm = document.querySelector(`.edit-form[data-question-id="${questionId}"]`);
-        if (editForm) {
-            // 현재 폼이 숨겨져 있다면 보이게 하고, 보이고 있다면 숨깁니다
-            if (editForm.style.display === 'none' || editForm.style.display === '') {
-                editForm.style.display = 'block';
-            } else {
-                editForm.style.display = 'none';
-            }
-        }
-    }
 
     // 모든 수정 버튼에 클릭 이벤트를 추가합니다
     document.querySelectorAll('.btn-edit').forEach(button => {
         button.addEventListener('click', (event) => {
-            const questionId = button.getAttribute('data-question-id');
-            toggleEditForm(questionId);
+            const questionId = button.getAttribute('data-question-id'); // data-question-id 값 가져오기
+            toggleEditForm(questionId); // 가져온 값을 toggleEditForm 함수에 전달
         });
     });
 
-    // 취소 폼 토글 함수
-    window.cancelEditForm = (questionsId) => {
-        const editForm = document.querySelector(`.edit-form[data-question-id="${questionsId}"]`);
-        if (editForm) {
-            editForm.style.display = 'none';
-        } else {
-            console.error(`Edit form with data-question-id="${questionsId}" not found`);
-        }
-    };
+    // 모든 수정 폼에 제출 이벤트를 추가합니다
+    document.querySelectorAll('.edit-form form').forEach(form => {
+        form.addEventListener('submit', (event) => {
+            event.preventDefault(); // 폼 기본 제출 방지
+            const formData = new FormData(form); // 폼 데이터 가져오기
+            const questionsId = form.id.split('-')[1]; // 폼 ID에서 questionsId 추출
+            formData.append('questionsId', questionsId); // formData에 questionsId 추가
+
+            fetch('/updateQuestion', {
+                method: 'POST',
+                body: new URLSearchParams(formData),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            })
+                .then(response => {
+                    if (response.ok) {
+                        alert('수정되었습니다!');
+                        location.reload(); // 페이지 새로고침
+                    } else {
+                        return response.text().then(text => { throw new Error(text) });
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('오류가 발생했습니다.');
+                });
+        });
+    });
 
     // 이벤트 위임을 사용한 클릭 이벤트 처리
     document.addEventListener('click', (event) => {
         if (event.target.classList.contains('btn-answer')) {
-            const questionId = event.target.getAttribute('data-question-id');
-            toggleAnswerForm(questionId);
+            const questionsId = event.target.getAttribute('data-question-id');
+            toggleAnswerForm(questionsId);
         }
     });
 
