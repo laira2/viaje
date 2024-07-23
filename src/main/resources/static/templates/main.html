@@ -70,14 +70,21 @@
       <div class="menu-item cart">
         <a th:href="@{/cart/detail}">장바구니</a>
       </div>
+
+      <div class="menu-item cart">
+        <a th:href="@{/products/myplan}">내가 구매한 계획</a>
+      </div>
+
       <!-- 상품 링크, 관리자인 경우와 아닌 경우로 나뉘어 있음 -->
+
       <div class="menu-item products">
         <a href="products" th:unless="${session.isAdmin}">상품</a>
         <a th:href="@{/products/admin}" th:if="${session.isAdmin}==true">상품</a>
       </div>
       <!-- 게시판 링크 -->
       <div class="menu-item board">
-        <a th:href="@{/qnaBoard}">게시판</a>
+        <a th:href="@{/qnaBoard}" >문의 게시판</a>
+
       </div>
     </div>
 
