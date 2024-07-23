@@ -165,8 +165,23 @@
 
     <!-- 좋아요한 계획 섹션 추가 -->
     <div id="likedPlans" class="section-content">
-        <ul class="contents-list">
-            <!-- 좋아요한 계획 목록은 JavaScript에서 동적으로 추가됩니다. -->
+        <ul class="contents-list" th:if="${not #lists.isEmpty(likeBoardList)}">
+            <li th:each="likeboard : ${likeBoardList}" class="contents-card">
+                <div class="plan-icon">
+                    <i class="fas fa-map-marked-alt"></i>
+                </div>
+                <div class="plan-details">
+                    <h3 class="plan-title">
+                        <a th:href="@{/product_detail/{id}(id=${likeboard.travelPlans.planId})}" th:text="${likeboard.travelPlans.title}" style="color: white;"></a>
+                    </h3>
+                    <p class="plan-info" style="color: white;">
+                        <span><i class="fas fa-eye"></i> <th:block th:text="${likeboard.viewCount}"></th:block></span>
+                        <span><i class="fas fa-heart"></i> <th:block th:text="${likeboard.likeCount}"></th:block></span>
+                        <span class="plan-status" th:text="${likeboard.boardStatus}"></span>
+                    </p>
+
+                </div>
+            </li>
         </ul>
         <div class="no-data" style="display: none;">
             <i class="fas fa-exclamation-circle" style="color: white;"></i>
