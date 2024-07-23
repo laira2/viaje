@@ -79,24 +79,19 @@
 
     <!-- 포인트 충전 내역 섹션 -->
     <div id="pointChargeHistory" class="section-content">
-        <!-- 포인트 충전 내역이 있는 경우 목록을 표시합니다. -->
         <ul class="contents-list" th:if="${not #lists.isEmpty(transactions)}">
             <li th:each="transaction : ${transactions}" class="contents-card">
                 <div class="transaction-icon">
-                    <!-- 거래 유형에 따라 아이콘 색상을 변경합니다. -->
                     <i class="fas fa-coins" th:style="${transaction.transactionType == 'CREDIT' ? 'color: #4CAF50;' : 'color: #F44336;'}"></i>
                 </div>
                 <div class="transaction-details">
-                    <!-- 거래 포인트 및 유형을 표시합니다. -->
                     <p class="transaction-point" style="color: white;">
                         <span th:text="${transaction.chargePoint}"></span> 포인트
                         <span class="transaction-type" th:text="${transaction.transactionType}"></span>
                     </p>
-                    <!-- 거래 상태를 표시합니다. -->
                     <p class="transaction-status" style="color: white;">
                         상태: <span th:text="${transaction.transactionStatus}" th:class="${transaction.transactionStatus == 'COMPLETED' ? 'status-completed' : 'status-pending'}"></span>
                     </p>
-                    <!-- 거래 날짜를 표시합니다. -->
                     <p class="transaction-date" style="color: white;">
                         <i class="far fa-calendar-alt"></i>
                         <span th:text="${#temporals.format(transaction.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></span>
@@ -104,7 +99,6 @@
                 </div>
             </li>
         </ul>
-        <!-- 거래 내역이 없는 경우 표시되는 메시지 -->
         <div class="no-data" th:if="${#lists.isEmpty(transactions)}">
             <i class="fas fa-exclamation-circle" style="color: white;"></i>
             <span style="color: white;">충전 내역이 없습니다.</span>
@@ -113,24 +107,20 @@
 
     <!-- 내가 구입한 계획 섹션 -->
     <div id="purchasedPlans" class="section-content">
-        <!-- 내가 구입한 계획이 있는 경우 목록을 표시합니다. -->
         <ul class="contents-list" th:if="${not #lists.isEmpty(oderBoardList)}">
             <li th:each="orderboard : ${oderBoardList}" class="contents-card">
                 <div class="plan-icon">
                     <i class="fas fa-map-marked-alt"></i>
                 </div>
                 <div class="plan-details">
-                    <!-- 계획 제목을 표시하고, 클릭 시 상세 페이지로 이동합니다. -->
                     <h3 class="plan-title">
                         <a th:href="@{/product_detail/{id}(id=${orderboard.travelPlans.planId})}" th:text="${orderboard.travelPlans.title}" style="color: white;"></a>
                     </h3>
-                    <!-- 계획 정보(조회수, 좋아요 수 등)를 표시합니다. -->
                     <p class="plan-info" style="color: white;">
                         <span><i class="fas fa-eye"></i> <th:block th:text="${orderboard.viewCount}"></th:block></span>
                         <span><i class="fas fa-heart"></i> <th:block th:text="${orderboard.likeCount}"></th:block></span>
                         <span class="plan-status" th:text="${orderboard.boardStatus}"></span>
                     </p>
-                    <!-- 계획 생성 날짜를 표시합니다. -->
                     <p class="plan-date" style="color: white;">
                         <i class="far fa-calendar-alt"></i>
                         <span th:text="${#temporals.format(orderboard.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></span>
@@ -138,7 +128,6 @@
                 </div>
             </li>
         </ul>
-        <!-- 구입 내역이 없는 경우 표시되는 메시지 -->
         <div class="no-data" th:if="${#lists.isEmpty(oderBoardList)}">
             <i class="fas fa-exclamation-circle" style="color: white;"></i>
             <span style="color: white;">구매 내역이 없습니다.</span>
@@ -147,24 +136,20 @@
 
     <!-- 내가 판매한 계획 섹션 -->
     <div id="soldPlans" class="section-content">
-        <!-- 내가 판매한 계획이 있는 경우 목록을 표시합니다. -->
         <ul class="contents-list" th:if="${not #lists.isEmpty(boardList)}">
             <li th:each="board : ${boardList}" class="contents-card">
                 <div class="plan-icon">
                     <i class="fas fa-map-marked-alt"></i>
                 </div>
                 <div class="plan-details">
-                    <!-- 계획 제목을 표시하고, 클릭 시 상세 페이지로 이동합니다. -->
                     <h3 class="plan-title">
                         <a th:href="@{/product_detail/{id}(id=${board.travelPlans.planId})}" th:text="${board.travelPlans.title}" style="color: white;"></a>
                     </h3>
-                    <!-- 계획 정보(조회수, 좋아요 수 등)를 표시합니다. -->
                     <p class="plan-info" style="color: white;">
                         <span><i class="fas fa-eye"></i> <th:block th:text="${board.viewCount}"></th:block></span>
                         <span><i class="fas fa-heart"></i> <th:block th:text="${board.likeCount}"></th:block></span>
                         <span class="plan-status" th:text="${board.boardStatus}"></span>
                     </p>
-                    <!-- 계획 생성 날짜를 표시합니다. -->
                     <p class="plan-date" style="color: white;">
                         <i class="far fa-calendar-alt"></i>
                         <span th:text="${#temporals.format(board.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></span>
@@ -172,15 +157,25 @@
                 </div>
             </li>
         </ul>
-        <!-- 판매 내역이 없는 경우 표시되는 메시지 -->
         <div class="no-data" th:if="${#lists.isEmpty(boardList)}">
             <i class="fas fa-exclamation-circle" style="color: white;"></i>
             <span style="color: white;">판매 내역이 없습니다.</span>
         </div>
     </div>
+
+    <!-- 좋아요한 계획 섹션 추가 -->
+    <div id="likedPlans" class="section-content">
+        <ul class="contents-list">
+            <!-- 좋아요한 계획 목록은 JavaScript에서 동적으로 추가됩니다. -->
+        </ul>
+        <div class="no-data" style="display: none;">
+            <i class="fas fa-exclamation-circle" style="color: white;"></i>
+            <span style="color: white;">좋아요한 내역이 없습니다.</span>
+        </div>
+    </div>
 </div>
 
-<!-- JavaScript 파일을 포함합니다. -->
+<!-- JavaScript 파일을 추가합니다. -->
 <script src="/static/js/mypage.js"></script>
 </body>
 </html>
