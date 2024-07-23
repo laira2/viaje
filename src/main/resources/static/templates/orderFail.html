@@ -1,22 +1,38 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <!-- 문자 인코딩을 UTF-8로 설정하여 다양한 문자를 올바르게 표시합니다. -->
     <meta charset="UTF-8" />
+    <!-- 브라우저 탭에 표시될 제목을 설정합니다. -->
     <title>결제 실패</title>
+    <!-- 페이지에 적용할 스타일을 정의하는 CSS 파일을 링크합니다. -->
     <link rel="stylesheet" href="/static/css/order_fail.css">
 </head>
 <body>
+<!-- 결제 실패를 알리는 메인 컨테이너 -->
 <div class="fail-container">
-    <a th:href="@{/}"><h2 class="fail-title">결제 실패</h2></a>
+    <!-- 결제 실패 메시지와 홈 페이지로 돌아가는 링크 -->
+    <a th:href="@{/}">
+        <!-- 결제 실패 제목 -->
+        <h2 class="fail-title">결제 실패</h2>
+    </a>
+    <!-- 결제 실패 메시지와 추가 행동을 유도하는 버튼을 포함한 섹션 -->
     <div class="fail-content">
+        <!-- 결제 실패 메시지를 표시하는 부분 -->
         <p id="message" class="clickable"></p>
-        <a th:href="@{/pointcharge}"><button id="charge-button">포인트 충전하기</button></a>
+        <!-- 포인트 충전 페이지로 이동하는 버튼 -->
+        <a th:href="@{/pointcharge}">
+            <button id="charge-button">포인트 충전하기</button>
+        </a>
     </div>
+    <!-- 이모지 또는 기타 애니메이션 요소를 삽입할 영역 -->
     <div id="emoji-container"></div>
 </div>
 
+<!-- 결제 실패 시 소리 효과를 추가하는 오디오 요소 -->
 <audio id="failure-sound" src="/static/sounds/fail-144746.mp3"></audio>
 
+<!-- 페이지의 동작을 제어하는 자바스크립트 파일을 포함합니다. -->
 <script src="/static/js/order_fail.js"></script>
 </body>
 </html>

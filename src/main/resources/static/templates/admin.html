@@ -1,17 +1,25 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <!-- 문서의 문자 인코딩을 UTF-8로 설정 -->
     <meta charset="UTF-8">
+    <!-- 반응형 웹 디자인을 위해 뷰포트 설정 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 웹 페이지 제목 -->
     <title>Admin Panel</title>
+    <!-- 외부 CSS 파일 링크 -->
     <link rel="stylesheet" href="/static/css/admin.css">
+    <!-- Google Fonts에서 Poppins 폰트 불러오기 -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome에서 아이콘 폰트 불러오기 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
 </head>
 <body>
 <header>
     <nav>
+        <!-- 로고와 메인 페이지로 연결되는 링크 -->
         <div class="logo"><a href="/static/templates/main.html">Admin Panel</a></div>
+        <!-- 내비게이션 링크 목록 -->
         <ul class="nav-links">
             <li><a href="/">Home</a></li>
             <li><a href="/logout">Logout</a></li>
@@ -21,17 +29,21 @@
 
 <main>
     <div class="container">
+        <!-- 관리자 환영 메시지 -->
         <h1>Welcome, Admin</h1>
 
         <div class="stats">
+            <!-- 사용자 수 통계 항목 -->
             <div class="stat-item">
                 <i class="fas fa-users"></i>
                 <p><strong>Users:</strong> <span th:text="${userNumber}"></span></p>
             </div>
+            <!-- 총 충전 포인트와 사용자 포인트 통계 항목 -->
             <div class="stat-item">
                 <i class="fas fa-dollar-sign"></i>
                 <p><strong>Total Charge/UserPoint:</strong> <span th:text="${chargeTotalPoints}+'/'+${userTotalPoint}"></span></p>
             </div>
+            <!-- 주문 수 통계 항목 -->
             <div class="stat-item">
                 <i class="fas fa-shopping-cart"></i>
                 <p><strong>Orders:</strong> <span th:text="${totalOrders}"></span></p>
@@ -39,18 +51,27 @@
         </div>
 
         <div class="actions">
+            <!-- 사용자 추가 버튼 -->
             <button class="action-btn" th:href="@{/join}"><i class="fas fa-user-plus"></i> Add User</button>
-            <button class="action-btn" ><i class="fas fa-chart-bar"></i> View Reports</button>
+            <!-- 보고서 보기 버튼 -->
+            <button class="action-btn"><i class="fas fa-chart-bar"></i> View Reports</button>
+            <!-- 설정 관리 버튼 -->
             <button class="action-btn"><i class="fas fa-cog"></i> Manage Settings</button>
         </div>
 
         <div class="management">
+            <!-- 관리 섹션 제목 -->
             <h2>Management</h2>
             <div class="management-buttons">
+                <!-- 포인트 충전 내역 페이지로 이동하는 버튼 -->
                 <a href="adminCharging" class="management-btn"><i class="fas fa-coins"></i> 포인트 충전내역</a>
+                <!-- 주문 내역 페이지로 이동하는 버튼 -->
                 <a href="adminOrderHistory" class="management-btn"><i class="fas fa-shopping-cart"></i> 주문내역</a>
+                <!-- 결제 내역 페이지로 이동하는 버튼 -->
                 <a href="adminPayment" class="management-btn"><i class="fas fa-credit-card"></i> 결제내역</a>
+                <!-- 판매 내역 페이지로 이동하는 버튼 -->
                 <a href="adminSales" class="management-btn"><i class="fas fa-chart-line"></i> 판매내역</a>
+                <!-- 여행 계획 상태 페이지로 이동하는 버튼 -->
                 <a href="/products/admin" class="management-btn"><i class="fas fa-plane"></i> 여행 계획 상태</a>
             </div>
         </div>
@@ -58,6 +79,7 @@
 </main>
 
 <footer>
+    <!-- 푸터에 저작권 정보 표시 -->
     <p>&copy; 2024 Admin Panel. All rights reserved.</p>
 </footer>
 </body>

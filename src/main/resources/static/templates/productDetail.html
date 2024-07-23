@@ -1,27 +1,38 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <!-- 문자 인코딩을 UTF-8로 설정합니다. -->
     <meta charset="UTF-8">
+    <!-- 모바일 장치에서 적절하게 표시되도록 뷰포트를 설정합니다. -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 브라우저 탭에 표시될 제목을 설정합니다. -->
     <title>여행 계획 상세</title>
+    <!-- Google Fonts에서 Poppins 글꼴을 불러와 페이지에 적용합니다. -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- 페이지의 스타일을 정의하는 CSS 파일을 링크합니다. -->
     <link rel="stylesheet" href="/static/css/productDetail.css">
+    <!-- 브라우저 탭 아이콘을 설정합니다. -->
     <link rel="icon" href="/static/images/icon/product.ico">
+    <!-- Font Awesome 아이콘을 로드하여 페이지에서 아이콘을 사용할 수 있게 합니다. -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
 <header>
     <nav>
-        <div class="logo"><a href="/">Viaje</a></div> <!-- 로고에 링크 추가 -->
+        <!-- 페이지 로고를 클릭하면 홈페이지로 이동합니다. -->
+        <div class="logo"><a href="/">Viaje</a></div>
     </nav>
 </header>
 
 <main>
     <div class="container">
+        <!-- 선택된 여행 계획이 있을 경우 해당 계획을 표시합니다. -->
         <article th:if="${selectedPlan}">
+            <!-- 여행 계획 제목을 표시합니다. -->
             <h1 class="planTitle" th:text="${selectedPlan.title}">여행 계획 제목</h1>
 
             <section class="plan-details">
+                <!-- 여행 계획의 상세 정보를 표시합니다. -->
                 <div class="detail-item">
                     <i class="fas fa-globe"></i>
                     <p><strong>국가:</strong> <span th:text="${selectedPlan.nation}"></span></p>
@@ -39,13 +50,16 @@
                     <p><strong>최종 수정일:</strong> <span th:text="${#temporals.format(selectedPlan.updatedAt, 'yyyy-MM-dd HH:mm')}"></span></p>
                 </div>
             </section>
+
             <section class="plan-tags">
-               <div class="cute-tags-container">
+                <!-- 여행 계획과 관련된 태그를 표시합니다. -->
+                <div class="cute-tags-container">
                     <a class="cute-tag" th:each="tag :${tagsList}" th:text="${tag.tagName}" th:href="@{/products/{type}(type=${tag.tagName})}">귀여움</a>
                 </div>
             </section>
 
             <section class="plan-status" th:if="${session.isAdmin==true} or ${selectedPlan.user.email}==${session.user}">
+                <!-- 관리자인 경우 또는 사용자가 작성자인 경우 상태를 수정할 수 있는 섹션입니다. -->
                 <div class="detail-item">
                     <i class="fas fa-info-circle"></i>
                     <p><strong>상태:</strong></p>
@@ -64,6 +78,7 @@
             </section>
 
             <section class="plan-content">
+                <!-- 여행 계획의 상세 내용을 표시합니다. -->
                 <h3 class="content-title">상세 내용</h3>
                 <div class="plan-detail-container">
                     <pre class="plan-detail" th:utext="${selectedPlan.detail}"></pre>
@@ -71,6 +86,7 @@
             </section>
 
             <section class="plan-images">
+                <!-- 여행 계획에 첨부된 이미지를 표시합니다. -->
                 <h3>첨부 이미지</h3>
                 <div class="image-gallery" th:if="${not #lists.isEmpty(selectedPlan.imagePaths)}">
                     <div th:each="imagePath : ${selectedPlan.imagePaths}" class="image-item">
@@ -82,6 +98,7 @@
             </section>
 
             <section class="plan-images" th:if="${session.isAdmin==true}">
+                <!-- 관리자인 경우 인증 이미지를 추가로 표시합니다. -->
                 <h3>인증 이미지</h3>
                 <div class="image-gallery" th:if="${not #lists.isEmpty(selectedPlan.certImagePaths)}">
                     <div th:each="imagePath : ${selectedPlan.certImagePaths}" class="image-item">
@@ -92,6 +109,7 @@
             </section>
 
             <div class="place-item" th:each="planDetail,iterStat: ${planDetails}" th:if="${planDetails} != null or ${session.isAdmin}==true or ${selectedPlan.user.email} == ${session.user}">
+                <!-- 여행 계획의 세부 장소를 나열합니다. -->
                 <div class="place-number-container">
                     <div class="place-number" th:text="${iterStat.count}">1</div>
                     <div class="place-time" th:text="${planDetail.planTime}">10:00</div>
@@ -104,10 +122,12 @@
                 </div>
             </div>
             <div class ="place-blockItem" th:if="${planDetails == null}">
+                <!-- 여행 계획의 세부 장소 정보가 없을 때 표시됩니다. -->
                 <p>자세한 계획은 구매 후 확인할 수 있습니다! </p>
             </div>
 
             <div class="action-buttons">
+                <!-- 여행 계획을 일정에 추가하거나 수정, 목록으로 이동할 수 있는 버튼을 제공합니다. -->
                 <form th:action="@{/cart/add}" method="post">
                     <input type="hidden" name="planId" th:value="${selectedPlan.planId}">
                     <button class="btn-schedule" type="submit">
@@ -125,9 +145,17 @@
                         <i class="fas fa-list"></i> Go to List
                     </button>
                 </form>
+                <!-- 좋아요 버튼을 상태에 따라 표시합니다. -->
+                <span th:if="${isLiked}" class="like-button liked" th:data-plan-id="${selectedPlan.planId}">
+                    ❤️
+                </span>
+                <span th:unless="${isLiked}" class="like-button" th:data-plan-id="${selectedPlan.planId}">
+                    🤍
+                </span>
             </div>
 
             <section id="commentsSection">
+                <!-- 댓글 작성 및 표시 섹션입니다. -->
                 <h3>댓글</h3>
                 <form id="commentForm" method="post" action="/comment/add">
                     <input type="hidden" id="planId" name="planId" th:value="${selectedPlan.planId}">
@@ -139,7 +167,7 @@
                     </button>
                 </form>
 
-                <!-- 수정 버튼 선택 시 폼 여는 스크립트-->
+                <!-- 댓글 수정 버튼 클릭 시 폼을 토글하는 JavaScript 함수입니다. -->
                 <script th:inline="javascript">
                     function toggleEditForm(commentId) {
                         var form = document.getElementById('edit-form-' + commentId);
@@ -151,6 +179,7 @@
                     }
                 </script>
 
+                <!-- 댓글을 반복하여 표시합니다. -->
                 <div th:each="comment : ${comments}" class="comment">
                     <p><strong th:text="${comment.user.nickname}"></strong>
                         <span class="comment-date" th:text="${#temporals.format(comment.createdAt, 'yyyy. M. d. a h:mm:ss')}"></span></p>
@@ -163,6 +192,7 @@
                         </form>
                     </div>
 
+                    <!-- 댓글 수정 폼입니다. -->
                     <div th:id="'edit-form-' + ${comment.commentId}" style="display: none;" class="edit-form">
                         <form th:action="@{'/modify/' + ${comment.commentId}}" method="post">
                             <input type="hidden" name="_method" value="post">
@@ -173,10 +203,45 @@
                 </div>
             </section>
         </article>
+        <!-- 선택된 여행 계획이 없을 경우 메시지를 표시합니다. -->
         <div th:unless="${selectedPlan}">
             <p>선택된 여행 계획이 없습니다.</p>
         </div>
     </div>
 </main>
 </body>
+<script>
+    // 좋아요 버튼 클릭 시 상태를 변경하는 JavaScript 코드입니다.
+    document.querySelectorAll('.like-button').forEach(button => {
+        button.addEventListener('click', function() {
+            const planId = this.getAttribute('data-plan-id');
+            fetch(`/plan/${planId}/like`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Received data:', data); // 디버깅을 위해 받은 데이터를 로그로 출력
+                    if (data.liked) {
+                        this.innerHTML = '❤️';
+                        this.classList.add('liked');
+                    } else {
+                        this.innerHTML = '🤍';
+                        this.classList.remove('liked');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    // 오류 처리 로직 (예: 사용자에게 오류 메시지 표시)
+                });
+        });
+    });
+</script>
 </html>

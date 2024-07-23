@@ -1,56 +1,113 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <!-- 문서의 문자 인코딩을 UTF-8로 설정 -->
     <meta charset="UTF-8">
+    <!-- 페이지의 뷰포트를 설정하여 모바일 기기에서도 적절하게 표시되도록 함 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 페이지의 제목을 설정 -->
     <title>Login Page</title>
+    <!-- 외부 CSS 파일을 링크하여 로그인 페이지의 스타일을 적용 -->
     <link rel="stylesheet" href="/static/css/login.css">
+    <!-- 페이지의 파비콘을 설정 -->
     <link rel="icon" href="/static/images/icon/login.ico">
 </head>
 <body>
+<!-- 전체 페이지를 감싸는 컨테이너 -->
 <div class="container">
+    <!-- 배경 요소, 로그인 페이지의 배경 이미지를 포함할 수 있음 -->
     <div class="background"></div>
+
+    <!-- Viaje 로고를 표시하는 컨테이너 -->
     <div class="viaje-logo">
-        <a th:href="@{/}" ><img src="/static/images/start/Viaje_logo2.png" alt="Viaje Logo"></a>
+        <!-- 로고 이미지를 포함하는 링크, 클릭 시 홈으로 이동하도록 설정 -->
+        <a th:href="@{/}">
+            <img src="/static/images/start/Viaje_logo2.png" alt="Viaje Logo">
+        </a>
     </div>
+
+    <!-- 로그인 폼을 감싸는 컨테이너 -->
     <div class="form-wrapper">
-        <form action="/loginPage" id="loginForm" class="form" method="post" >
+        <!-- 로그인 폼, POST 메서드를 사용하여 "/loginPage"로 데이터를 전송 -->
+        <form action="/loginPage" id="loginForm" class="form" method="post">
+            <!-- 폼 내부 컨테이너 -->
             <div class="form-inner">
+                <!-- 폼 제목 -->
                 <h2>User Login</h2>
+
+                <!-- 사용자 이메일 입력 필드 그룹 -->
                 <div class="input-wrapper">
                     <label for="login-username">Username</label>
+                    <!-- 입력 필드와 아이콘을 감싸는 그룹 -->
                     <div class="input-group">
+                        <!-- 입력 필드 아이콘 -->
                         <span class="icon">
-                            <svg viewBox="0 0 24 24">
-                                <path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z"/>
-                            </svg>
-                        </span>
+                                <!-- SVG (Scalable Vector Graphics) 이미지 요소 & 사용자 아이콘을 SVG로 정의 -->
+                                <svg viewBox="0 0 24 24">
+                                    <!-- SVG의 'path' 요소는 도형을 정의하는데 사용됩니다. -->
+                                    <path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z"/>
+                                </svg>
+                            </span>
+                        <!-- 이메일 입력 필드, 필수 입력(required)을 요구 -->
                         <input type="email" id="login-username" name="email" required>
                     </div>
                 </div>
+
+                <!-- 사용자 비밀번호 입력 필드 그룹 -->
                 <div class="input-wrapper">
                     <label for="login-password">Password</label>
+                    <!-- 입력 필드와 아이콘을 감싸는 그룹 -->
                     <div class="input-group">
+                        <!-- 입력 필드 아이콘 -->
                         <span class="icon">
-                            <svg viewBox="0 0 24 24">
-                                <path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z"/>
-                            </svg>
-                        </span>
+                                <!-- 자물쇠 아이콘을 SVG로 정의 -->
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z"/>
+                                </svg>
+                            </span>
+                        <!-- 비밀번호 입력 필드, 필수 입력을 요구 -->
                         <input type="password" id="login-password" name="password" required>
                     </div>
                 </div>
+
+                <!-- 버튼 그룹 -->
                 <div class="btn-group">
+                    <!-- 제출 버튼, "Sign In" 텍스트와 스타일을 포함 -->
                     <button type="submit" class="btn btn--primary">Sign In</button>
                     <div>
-<!--                        <a href="#" class="btn&#45;&#45;text">Forgot password?</a>-->
+                        <!-- 회원가입 링크, 타임리프를 사용하여 동적 URL 설정 -->
+                        <!-- 주석 처리된 비밀번호 재설정 링크는 현재 사용되지 않음 -->
                         <a th:href="@{/yac}" class="btn--text" id="registerLink">JOIN</a>
                     </div>
-
                 </div>
             </div>
         </form>
-
     </div>
 </div>
 </body>
 </html>
+
+<!--<코드에 대한 설명>-->
+<!--<div class="viaje-logo">: Viaje 로고를 포함하는 요소입니다.-->
+<!--<a th:href="@{/}">: 로고를 클릭하면 홈으로 이동하도록 설정합니다. Thymeleaf를 사용하여 동적 URL 설정.-->
+<!--<img src="/static/images/start/Viaje_logo2.png" alt="Viaje Logo">: Viaje 로고 이미지. alt 속성으로 이미지 설명을 추가합니다.-->
+<!--<div class="form-wrapper">: 로그인 폼을 감싸는 요소입니다.-->
+<!--<form action="/loginPage" id="loginForm" class="form" method="post">: 로그인 폼을 정의하며, 데이터를 "/loginPage"로 POST 방식으로 전송합니다.-->
+<!--<div class="form-inner">: 폼의 내부 컨테이너로, 폼 요소들을 그룹화합니다.-->
+<!--<h2>User Login</h2>: 폼의 제목을 설정합니다.-->
+<!--<div class="input-wrapper">: 각 입력 필드를 감싸는 요소입니다.-->
+<!--<label for="login-username">Username</label>: 이메일 입력 필드에 대한 레이블입니다.-->
+<!--<div class="input-group">: 입력 필드와 아이콘을 감싸는 그룹입니다.-->
+<!--<span class="icon">: 입력 필드에 대한 아이콘을 포함합니다.-->
+<!--<svg viewBox="0 0 24 24">: SVG 아이콘을 정의합니다. 사용자 아이콘을 포함합니다.-->
+<!--<input type="email" id="login-username" name="email" required>: 이메일 입력 필드입니다. 필수 입력을 요구합니다.-->
+<!--<div class="input-wrapper">: 비밀번호 입력 필드를 감싸는 요소입니다.-->
+<!--<label for="login-password">Password</label>: 비밀번호 입력 필드에 대한 레이블입니다.-->
+<!--<div class="input-group">: 입력 필드와 아이콘을 감싸는 그룹입니다.-->
+<!--<span class="icon">: 입력 필드에 대한 아이콘을 포함합니다.-->
+<!--<svg viewBox="0 0 24 24">: SVG 아이콘을 정의합니다. 자물쇠 아이콘을 포함합니다.-->
+<!--<input type="password" id="login-password" name="password" required>: 비밀번호 입력 필드입니다. 필수 입력을 요구합니다.-->
+<!--<div class="btn-group">: 버튼을 감싸는 그룹입니다.-->
+<!--<button type="submit" class="btn btn&#45;&#45;primary">Sign In</button>: 제출 버튼, "Sign In" 텍스트와 함께 스타일을 적용합니다.-->
+<!--<div>: 추가적인 버튼이나 링크를 포함하는 요소입니다.-->
+<!--<a th:href="@{/yac}" class="btn&#45;&#45;text" id="registerLink">JOIN</a>: 회원가입 링크입니다. Thymeleaf를 사용하여 동적 URL 설정.-->

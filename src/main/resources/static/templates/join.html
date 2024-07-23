@@ -1,54 +1,103 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <!-- 문서의 문자 인코딩을 UTF-8로 설정 -->
     <meta charset="UTF-8">
+    <!-- 페이지의 뷰포트를 설정하여 모바일 기기에서도 적절하게 표시되도록 함 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 페이지의 제목을 설정 -->
     <title>Viaje - 너의 경험?! 나의 경험! 경험의 시작</title>
+    <!-- 구글 폰트를 링크하여 "Poppins" 폰트를 사용 -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- FontAwesome 아이콘 라이브러리를 링크 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <!-- 페이지의 파비콘을 설정 -->
     <link rel="icon" href="/static/images/icon/join.ico">
+    <!-- 외부 CSS 파일을 링크 -->
     <link rel="stylesheet" href="/css/join.css">
 </head>
 <body>
 <div class="container">
+    <!-- 전체 페이지 컨테이너 -->
     <div class="form-container">
+        <!-- 폼을 감싸는 컨테이너 -->
         <div class="form-header">
+            <!-- 폼의 헤더 섹션 -->
             <h1>Viaje</h1>
+            <!-- 사이트 제목 -->
             <p>특별한 여행의 시작</p>
+            <!-- 사이트 설명 -->
         </div>
         <form id="joinForm" action="/join/register" method="POST">
+            <!-- 회원가입 폼, POST 메서드를 사용하여 "/join/register"로 데이터를 전송 -->
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+            <!-- CSRF 토큰을 포함하여 보안을 강화 -->
+
             <div class="input-group">
+                <!-- 이메일 입력 필드 그룹 -->
                 <input type="email" id="email" name="email" required placeholder="이메일">
+                <!-- 이메일 입력 필드, 이메일 형식과 필수 입력을 요구 -->
                 <label for="email"><i class="fas fa-envelope"></i></label>
+                <!-- 이메일 입력 필드에 대한 레이블, 아이콘을 포함 -->
                 <span class="error-message" id="emailError"></span>
+                <!-- 이메일 오류 메시지를 표시할 스팬 요소 -->
             </div>
+
             <div class="input-group">
+                <!-- 이름 입력 필드 그룹 -->
                 <input type="text" id="userName" name="userName" required placeholder="이름">
+                <!-- 이름 입력 필드, 텍스트 형식과 필수 입력을 요구 -->
                 <label for="userName"><i class="fas fa-user"></i></label>
+                <!-- 이름 입력 필드에 대한 레이블, 아이콘을 포함 -->
             </div>
+
             <div class="input-group">
+                <!-- 닉네임 입력 필드 그룹 -->
                 <input type="text" id="nickname" name="nickname" required placeholder="닉네임">
+                <!-- 닉네임 입력 필드, 텍스트 형식과 필수 입력을 요구 -->
                 <label for="nickname"><i class="fas fa-user-tag"></i></label>
+                <!-- 닉네임 입력 필드에 대한 레이블, 아이콘을 포함 -->
                 <span class="error-message" id="nicknameError"></span>
+                <!-- 닉네임 오류 메시지를 표시할 스팬 요소 -->
             </div>
+
             <div class="input-group">
+                <!-- 비밀번호 입력 필드 그룹 -->
                 <input type="password" id="password" name="password" required placeholder="비밀번호">
+                <!-- 비밀번호 입력 필드, 비밀번호 형식과 필수 입력을 요구 -->
                 <label for="password"><i class="fas fa-lock"></i></label>
+                <!-- 비밀번호 입력 필드에 대한 레이블, 아이콘을 포함 -->
                 <span class="error-message" id="passwordError"></span>
+                <!-- 비밀번호 오류 메시지를 표시할 스팬 요소 -->
             </div>
+
             <div class="input-group">
+                <!-- 비밀번호 확인 입력 필드 그룹 -->
                 <input type="password" id="confirmPassword" name="confirmPassword" required placeholder="비밀번호 확인">
+                <!-- 비밀번호 확인 입력 필드, 비밀번호 형식과 필수 입력을 요구 -->
                 <label for="confirmPassword"><i class="fas fa-lock"></i></label>
+                <!-- 비밀번호 확인 입력 필드에 대한 레이블, 아이콘을 포함 -->
                 <span class="error-message" id="confirmPasswordError"></span>
+                <!-- 비밀번호 확인 오류 메시지를 표시할 스팬 요소 -->
             </div>
-            <a th:href="@{/join/register}"><button type="submit" class="submit-btn" disabled>여행 시작하기 <i class="fas fa-paper-plane"></i></button></a>
+
+            <a th:href="@{/join/register}">
+                <!-- 회원가입 버튼을 감싸는 링크, 타임리프를 사용하여 동적 URL 설정 -->
+                <button type="submit" class="submit-btn" disabled>
+                    <!-- 회원가입 버튼, 초기에는 비활성화 상태 -->
+                    여행 시작하기 <i class="fas fa-paper-plane"></i>
+                    <!-- 버튼 텍스트와 아이콘 -->
+                </button>
+            </a>
         </form>
         <div class="form-footer">
+            <!-- 폼의 푸터 섹션 -->
             <p>이미 계정이 있으신가요? <a href="/login">로그인</a></p>
+            <!-- 로그인 링크를 포함한 메시지 -->
         </div>
     </div>
 </div>
+<!-- 외부 스크립트 파일을 포함하여 폼 유효성 검사 및 기타 기능 제공 -->
 <script src="/js/join.js"></script>
 </body>
 </html>

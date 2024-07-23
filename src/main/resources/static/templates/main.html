@@ -1,77 +1,122 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+  <!-- 문서의 문자 인코딩을 UTF-8로 설정 -->
   <meta charset="UTF-8">
+
+  <!-- 페이지의 뷰포트를 설정하여 모바일 기기에서도 적절하게 표시되도록 함 -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- 페이지의 제목을 설정 -->
   <title>나의 경험을 너도 해봐!</title>
+
+  <!-- 페이지의 파비콘(브라우저 탭에 표시되는 아이콘) 설정 -->
   <link rel="icon" href="/static/images/icon/airmain.ico">
+
+  <!-- 외부 CSS 파일을 링크하여 페이지의 스타일을 적용 -->
   <link rel="stylesheet" href="/static/css/main.css">
   <link rel="stylesheet" href="/static/css/menu.css">
 </head>
 <body>
-<!--mainPage video play-->
+<!-- 비디오 배경을 설정하는 컨테이너 -->
 <div class="video-container">
+  <!-- 자동 재생, 음소거, 루프 설정된 비디오 -->
   <video autoplay muted loop id="background-video">
+    <!-- 비디오 소스, mp4 형식으로 지정 -->
     <source id="video-source" type="video/mp4">
   </video>
 
-
+  <!-- 비디오 위에 표시될 콘텐츠 -->
   <div class="content">
+    <!-- 페이지의 주요 제목 -->
     <h1>Welcome to Viaje</h1>
+    <!-- 페이지의 주요 부제목 -->
     <p>My Plan? Your Experience!</p>
   </div>
 </div>
+
+<!-- 페이지 스크롤을 유도하는 버튼 -->
 <button id="bounce-button">
+  <!-- 스크롤을 안내하는 아이콘 이미지 -->
   <img id="scroll-icon" src="/static/images/book.png" alt="Scroll Down" class="scroll-icon">
 </button>
+
+<!-- 메뉴 오버레이, 화면의 특정 영역을 가리는 레이어 -->
 <div id="menu-overlay">
   <div class="menu-container" id="menuContainer">
+    <!-- 팀 이름 -->
     <h1 class="team-name">Viaje</h1>
+
+    <!-- 로그인되지 않은 게스트를 위한 메뉴 항목 -->
     <div id="guestMenu" th:if="${session.isLoggedIn == null or session.isLoggedIn == false}">
+      <!-- 로그인 링크 -->
       <div class="menu-item login">
-        <a href="login" >로그인</a>
+        <a href="login">로그인</a>
       </div>
+      <!-- 회원 가입 링크, 페이지 이동을 위해 "yac" 경로 사용 -->
       <div class="menu-item join">
         <a href="yac">회원 가입</a> <!-- 변경된 부분 -->
       </div>
     </div>
+
+    <!-- 로그인된 사용자를 위한 메뉴 항목 -->
     <div id="userMenu" th:if="${session.isLoggedIn == true}">
+      <!-- 사용자 이름과 마이페이지 링크 -->
       <div class="menu-item mypage">
         <p th:text="${session.userName + '님'}"></p>
         <a href="mypage">마이페이지</a>
       </div>
+      <!-- 장바구니 링크 -->
       <div class="menu-item cart">
         <a th:href="@{/cart/detail}">장바구니</a>
       </div>
+
+      <div class="menu-item cart">
+        <a th:href="@{/products/myplan}">내가 구매한 계획</a>
+      </div>
+
+      <!-- 상품 링크, 관리자인 경우와 아닌 경우로 나뉘어 있음 -->
+
       <div class="menu-item products">
         <a href="products" th:unless="${session.isAdmin}">상품</a>
         <a th:href="@{/products/admin}" th:if="${session.isAdmin}==true">상품</a>
       </div>
+      <!-- 게시판 링크 -->
       <div class="menu-item board">
-        <a th:href="@{/qnaBoard}" >게시판</a>
+        <a th:href="@{/qnaBoard}" >문의 게시판</a>
 
       </div>
     </div>
+
+    <!-- 메뉴 하단에 위치한 추가 항목 -->
     <div class="bottom-container">
+      <!-- 관리자 링크 -->
       <div class="menu-item small admin">
         <a href="admin">관리자</a>
       </div>
+      <!-- 로그아웃 링크, 로그인된 사용자만 표시 -->
       <div class="menu-item small logout" th:if="${session.isLoggedIn == true}">
         <a href="/logout">로그아웃</a>
       </div>
     </div>
   </div>
 </div>
+
+<!-- 슬라이드 업 콘텐츠를 담을 영역 -->
 <div id="slide-up-content">
   <div id="slide-up-inner-content">
-    <!-- start.html 파일 내용이 여기 로드됨. -->
+    <!-- start.html 파일의 내용이 여기 로드됨 -->
   </div>
 </div>
-<!-- 햄버거 메뉴 아이콘 추가 -->
+
+<!-- 햄버거 메뉴 아이콘 -->
 <div class="hamburger-menu">
-  <img id="hamburger-icon" src="/static/images/hamburger.png" alt="Menu" class="hamburger-icon">
+  <!-- 햄버거 아이콘 이미지, 메뉴를 열기 위한 버튼 -->
+  <img id="hamburger-icon" src="/static/images/Hamburger.png" alt="Menu" class="hamburger-icon">
 </div>
+
+<!-- 외부 자바스크립트 파일을 링크하여 페이지 기능을 추가 -->
 <script src="/static/js/start.js"></script>
-<script src="/static/js/main.js"></script> <!-- main.js 파일 추가 -->
+<script src="/static/js/main.js"></script>
 </body>
 </html>

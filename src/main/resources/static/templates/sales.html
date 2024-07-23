@@ -1,42 +1,68 @@
 <!DOCTYPE html>
-<html lang="ko" mlns:th="http://www.thymeleaf.org" xmlns:th="http://www.w3.org/1999/xhtml"
-      xmlns:mlns="http://www.w3.org/1999/xhtml">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:mlns="http://www.w3.org/1999/xhtml">
 <head>
+    <!-- 문자 인코딩을 UTF-8로 설정 -->
     <meta charset="UTF-8">
+    <!-- 뷰포트 설정: 모바일 화면에 적합한 크기 조정 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 페이지 제목 설정 -->
     <title>판매 내역</title>
+    <!-- 페이지 아이콘 설정 -->
     <link rel="icon" href="/static/images/icon/salepay.ico">
+    <!-- 구글 폰트 Noto Sans KR 링크, 다양한 굵기 제공 -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
+    <!-- 사용자 정의 CSS 파일 링크 -->
     <link rel="stylesheet" href="/static/css/sales.css">
 </head>
 <body>
+<!-- 뒤로 가기 버튼 -->
 <div class="back-btn">
+    <!-- 클릭 시 브라우저의 이전 페이지로 이동 -->
     <img src="/static/images/backback.png" alt="뒤로 가기" onclick="history.back()">
 </div>
+
+<!-- 페이지 헤더 -->
 <header>
+    <!-- 페이지 제목과 홈 페이지 링크 -->
     <h1><a href="/static/templates/main.html">판매 내역</a></h1>
 </header>
+
+<!-- 주요 콘텐츠 영역 -->
 <main>
-    <section class="sales-summary" >
+    <!-- 판매 요약 정보 섹션 -->
+    <section class="sales-summary">
+        <!-- 총 판매액 정보 항목 -->
         <div class="summary-item">
             <h2>총 판매액</h2>
+            <!-- 총 판매액을 원화 기호와 함께 표시 -->
             <p th:text="'₩' + ${totalSalesAmount}"></p>
         </div>
+        <!-- 총 주문 수 정보 항목 -->
         <div class="summary-item">
             <h2>총 주문 수</h2>
+            <!-- 총 주문 수를 표시 -->
             <p th:text="${totalOrdersCount}"></p>
         </div>
     </section>
+
+    <!-- 개별 판매 항목 목록 섹션 -->
     <section class="sales-list" th:each="sales : ${salesList}">
+        <!-- 각 판매 항목을 표시 -->
         <div class="sales-item">
+            <!-- 상품 정보 -->
             <div class="product-info">
+                <!-- 상품명 표시 -->
                 <h3>상품명: <span th:text="${sales.travelPlans.title}"></span></h3>
             </div>
+            <!-- 수량 정보 -->
             <p class="quantity">수량: <span th:text="${sales.quantity}"></span></p>
+            <!-- 가격 정보 -->
             <p class="price"><span th:text="${sales.orders.total_amount}"></span></p>
         </div>
     </section>
 </main>
+
+<!-- 페이지 푸터 -->
 <footer>
     <p>&copy; 2024 Viaje. All rights reserved.</p>
 </footer>
