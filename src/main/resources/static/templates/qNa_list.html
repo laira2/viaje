@@ -23,52 +23,52 @@
     <div class="board-container" id="boardContainer">
         <h2>문의 게시판 목록</h2>
         <div class="question-list" id="questionList" th:each="question : ${questionsList}">
-            <h3 class="question-title" th:text="${question.title}"></h3>
-            <div class="question-meta">
-                <span class="user-name" th:text="${question.user.userName}"></span>
-                <span class="question-status" th:text="${question.qnaStatus}"></span>
-            </div>
-            <div class="question-details">
-                <p class="question-content" th:text="${question.contents}"></p>
-                <p class="question-date" th:text="${#temporals.format(question.createdAt, 'yyyy-MM-dd HH:mm')}"></p>
-            </div>
-            <button class="btn-edit" data-question-id="${question.questionsId}">수정</button>
-            <form id="form-delete-${question.questionsId}" action="/deleteQuestion" method="post" class="delete-form">
-                <input type="hidden" name="questionsId" th:value="${question.questionsId}">
-                <input type="hidden" name="_method" value="delete">
-                <button type="submit" class="btn-delete">삭제</button>
-            </form>
-<!--            <button class="btn-delete" data-question-id="${question.questionsId}" onclick="submitDeleteForm('${question.questionsId}')">-->
-<!--                삭제-->
-<!--            </button>-->
-            <button class="btn-answer" th:attr="data-question-id=${question.questionsId}">답변</button>
-            <div class="answer-form" th:id="'answerForm-' + ${question.questionsId}" style="display:none;">
-                <div class="answer-content" th:if="${question.answers} != null" th:each="answer : ${question.answers}">
-                    <p th:text="'답변 :' +${answer.contents}">답변 : </p>
-                    <p class="answer-date" th:text="${#temporals.format(answer.createdAt, 'yyyy-MM-dd HH:mm')}"></p>
+            <div class="question-card" th:attr="data-question-id=${question.questionsId}">
+                <h3 class="question-title" th:text="${question.title}"></h3>
+                <div class="question-meta">
+                    <span class="user-name" th:text="${question.user.userName}"></span>
+                    <span class="question-status" th:text="${question.qnaStatus}"></span>
+                </div>
+                <div class="question-details">
+                    <p class="question-content" th:text="${question.contents}"></p>
+                    <p class="question-date" th:text="${#temporals.format(question.createdAt, 'yyyy-MM-dd HH:mm')}"></p>
+                </div>
+                <button class="btn-edit" data-question-id="${question.questionsId}">수정</button>
+                <!-- 수정 폼 영역 -->
+                <div class="edit-form" data-question-id="${question.questionsId}" style="display:none;">
+                    <h4>수정하기</h4>
+                    <form id="form-edit-${question.questionsId}" action="/updateQuestion" method="post">
+                        <input type="hidden" name="questionsId" th:value="${question.questionsId}">
+                        <label for="editTitle-${question.questionsId}">제목</label>
+                        <input type="text" id="editTitle-${question.questionsId}" name="title" th:value="${question.title}">
+                        <label for="editContent-${question.questionsId}">내용</label>
+                        <textarea id="editContent-${question.questionsId}" name="contents" rows="5" th:text="${question.contents}" required></textarea>
+                        <button type="submit">수정 완료</button>
+                        <button type="button" onclick="cancelEditForm('${question.questionsId}')">취소</button>
+                    </form>
+                </div>
+                <form id="form-delete-${question.questionsId}" action="/deleteQuestion" method="post" class="delete-form">
+                    <input type="hidden" name="questionsId" th:value="${question.questionsId}">
+                    <input type="hidden" name="_method" value="delete">
+                    <button type="submit" class="btn-delete">삭제</button>
+                </form>
+
+                <button class="btn-answer" th:attr="data-question-id=${question.questionsId}">답변</button>
+                <div class="answer-form" th:id="'answerForm-' + ${question.questionsId}" style="display:none;">
+                    <div class="answer-content" th:if="${question.answers} != null" th:each="answer : ${question.answers}">
+                        <p th:text="'답변 :' + ${answer.contents}">답변 : </p>
+                        <p class="answer-date" th:text="${#temporals.format(answer.createdAt, 'yyyy-MM-dd HH:mm')}"></p>
+                    </div>
+
+                    <form action="/postAnswer" method="post" th:if="${question.answers == null or #lists.isEmpty(question.answers)}">
+                        <input type="hidden" name="questionsId" th:value="${question.questionsId}">
+                        <textarea name="contents" rows="3" placeholder="답변을 입력하세요"></textarea>
+                        <button type="submit">답변 제출</button>
+                    </form>
                 </div>
 
-                <form action="/postAnswer" method="post" th:if="${question.answers == null or #lists.isEmpty(question.answers)}">
-                    <input type="hidden" name="questionsId" th:value="${question.questionsId}">
-                    <textarea name="contents" rows="3" placeholder="답변을 입력하세요"></textarea>
-                    <button type="submit">답변 제출</button>
-                </form>
-            </div>
-            <!-- 수정 폼 영역 -->
-            <div class="edit-form" id="editForm-${question.questionsId}" style="display:none;">
-                <h4>수정하기</h4>
-                <form id="form-edit-${question.questionsId}" action="/updateQuestion" method="post">
-                    <input type="hidden" name="questionsId" th:value="${question.questionsId}">
-                    <label for="editTitle-${question.questionsId}">제목</label>
-                    <input type="text" id="editTitle-${question.questionsId}" name="title" th:value="${question.title}">
-                    <label for="editContent-${question.questionsId}">내용</label>
-                    <textarea id="editContent-${question.questionsId}" name="contents" rows="5" th:text="${question.contents}" required></textarea>
-                    <button type="submit">수정 완료</button>
-                    <button type="button" onclick="cancelEditForm('${question.questionsId}')">취소</button>
-                </form>
             </div>
         </div>
-
     </div>
     <div class="form-container">
         <h2>문의 작성</h2>
@@ -85,8 +85,6 @@
         </form>
     </div>
 </main>
-
-
 
 <script src="/static/js/qNa_list.js"></script>
 </body>
