@@ -1,32 +1,50 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <!-- 문서의 문자 인코딩을 UTF-8로 설정하여 다양한 문자를 지원합니다. -->
     <meta charset="UTF-8">
+    <!-- 모바일 장치에서 적절하게 표시되도록 뷰포트를 설정합니다. -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 브라우저 탭에 표시될 제목을 설정합니다. -->
     <title>결제 내역</title>
+    <!-- 브라우저 탭에 표시될 아이콘을 설정합니다. -->
     <link rel="icon" href="/static/images/icon/pay.ico">
+    <!-- Google Fonts에서 Noto Sans KR 글꼴을 불러와 페이지에 적용합니다. -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
+    <!-- 결제 내역 페이지의 스타일을 정의하는 CSS 파일을 링크합니다. -->
     <link rel="stylesheet" href="/static/css/payment.css">
 </head>
 <body>
+<!-- 페이지 상단 바 -->
 <div class="top-bar">
+    <!-- 뒤로 가기 버튼 -->
     <div class="back-btn">
+        <!-- 클릭 시 브라우저의 이전 페이지로 돌아가는 버튼 -->
         <img src="/static/images/backback.png" alt="뒤로 가기" onclick="history.back()">
     </div>
+    <!-- 페이지 제목을 포함한 링크 -->
     <h1><a href="/static/templates/main.html">결제 내역</a></h1>
 </div>
+<!-- 페이지의 주요 내용 -->
 <main>
+    <!-- 결제 목록을 반복하여 표시 -->
     <section class="payment-list" th:each="payment : ${paymentList}">
+        <!-- 개별 결제 항목 -->
         <div class="payment-item">
+            <!-- 결제 정보 -->
             <div class="payment-info">
+                <!-- 주문번호 및 날짜 -->
                 <h2>주문번호: <span th:text="${payment.user.uuid}"></span></h2>
                 <p class="date" th:text="${#temporals.format(payment.createdAt, 'yyyy-MM-dd HH:mm')}"></p>
             </div>
+            <!-- 결제 금액 -->
             <p class="amount" th:text="${payment.chargeAmount + '원'}"></p>
+            <!-- 거래 상태 -->
             <span class="status completed" th:text="${payment.transactionStatus}"></span>
         </div>
     </section>
 </main>
+<!-- 페이지 하단의 푸터 -->
 <footer>
     <p>&copy; 2024 Viaje. All rights reserved.</p>
 </footer>

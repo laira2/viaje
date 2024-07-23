@@ -1,35 +1,50 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <!-- 문자 인코딩 설정 -->
     <meta charset="UTF-8">
+    <!-- 뷰포트 설정 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 페이지 제목 설정 -->
     <title>Viaje - 포인트 충전 내역</title>
+    <!-- 파비콘 설정 -->
     <link rel="icon" href="/static/images/icon/pointcoin.ico">
+    <!-- FontAwesome 아이콘 라이브러리 추가 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- 외부 스타일시트 추가 -->
     <link rel="stylesheet" href="/static/css/charging.css">
 </head>
 <body>
 <header>
     <div class="header-content">
+        <!-- 헤더 콘텐츠 -->
         <h1><i class="fas fa-plane-departure"></i> Viaje</h1>
+        <!-- 사이트 로고 및 제목 -->
         <nav>
+            <!-- 네비게이션 바 -->
             <a href="/static/templates/main.html" class="nav-link"><i class="fas fa-home"></i>홈</a>
             <a href="#" class="nav-link"><i class="fas fa-map-marked-alt"></i>여행 플랜</a>
             <a href="#" class="nav-link"><i class="fas fa-users"></i>커뮤니티</a>
             <a href="#" class="nav-link active"><i class="fas fa-coins"></i>충전</a>
+            <!-- 네비게이션 링크 -->
         </nav>
     </div>
 </header>
 
 <main class="container">
     <div class="dashboard">
+        <!-- 대시보드 섹션 -->
         <div class="card total-points">
+            <!-- 유저 총 보유 포인트 카드 -->
             <h2>유저 총 보유 포인트</h2>
             <p id="totalPoints"></p>
+            <!-- 총 보유 포인트를 표시할 요소 -->
         </div>
         <div class="card quick-charge">
+            <!-- 빠른 충전 카드 -->
             <h2>빠른 충전</h2>
             <div class="charge-options">
+                <!-- 충전 옵션 버튼들 -->
                 <button class="charge-btn" data-amount="10000">10,000P</button>
                 <button class="charge-btn" data-amount="30000">30,000P</button>
                 <button class="charge-btn" data-amount="50000">50,000P</button>
@@ -38,11 +53,17 @@
     </div>
 
     <div class="history-section">
+        <!-- 충전 내역 섹션 -->
         <h2>충전 내역</h2>
         <div class="history-list" th:each="point : ${pointList}" >
+            <!-- 충전 내역을 반복하여 표시 -->
             <span class="user" th:text="${point.user.userName}">유저이름</span>
+            <!-- 유저 이름 -->
             <span class="point" th:text="${point.chargePoint + 'P'}">충전 포인트</span>
-            <span class="date" th:text="${#temporals.format(point.createdAt, 'yyyy-MM-dd HH:mm')}">충전일</span><br/>
+            <!-- 충전 포인트 -->
+            <span class="date" th:text="${#temporals.format(point.createdAt, 'yyyy-MM-dd HH:mm')}">충전일</span>
+            <!-- 충전 날짜 -->
+            <br/>
         </div>
     </div>
 </main>
@@ -50,36 +71,45 @@
 <footer>
     <p>&copy; 2024 Viaje. All rights reserved.</p>
 </footer>
+
 <script>
     // 포인트 합계를 계산하는 함수
     function calculateTotalPoints() {
         const pointElements = document.querySelectorAll('.history-list .point');
+        // 충전 내역에서 포인트 요소들을 선택
         let totalPoints = 0;
 
         pointElements.forEach(pointElement => {
             const pointText = pointElement.textContent.trim();
             const pointValue = parseInt(pointText.replace('P', ''), 10);
+            // 포인트 텍스트에서 숫자 값 추출
             if (!isNaN(pointValue)) {
                 totalPoints += pointValue;
+                // 유효한 숫자인 경우 합산
             }
         });
 
         return totalPoints;
+        // 총 포인트 반환
     }
 
     // 페이지 로드 시 총 포인트를 계산하고 HTML에 반영하는 함수
     function updateTotalPoints() {
         const totalPointsElement = document.getElementById('totalPoints');
         const totalPoints = calculateTotalPoints();
+        // 총 포인트 계산
         totalPointsElement.textContent = totalPoints + 'P';
+        // 총 포인트를 HTML에 반영
     }
 
     // 페이지 로드 시 호출하여 초기 총 포인트 업데이트
     window.onload = function() {
         updateTotalPoints();
+        // 페이지 로드 시 총 포인트 업데이트 함수 호출
     };
 </script>
 
 <!--<script src="/static/js/Charging.js"></script>-->
+<!-- 외부 스크립트 파일을 포함하는 주석 처리된 예시 -->
 </body>
 </html>

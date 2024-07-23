@@ -1,21 +1,39 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <!-- 문자 인코딩을 설정하여 한글 등 다양한 문자를 올바르게 표시합니다. -->
     <meta charset="UTF-8" />
+    <!-- 브라우저 탭에 표시될 제목을 설정합니다. -->
     <title>결제 성공</title>
+    <!-- 페이지에 적용할 스타일을 정의하는 CSS 파일을 링크합니다. -->
     <link rel="stylesheet" href="/static/css/toss_success.css">
 </head>
 <body>
+<!-- 결제 성공을 알리는 메인 컨테이너 -->
 <div class="success-container">
-    <a th:href="@{/}"><h2 class="success-title" >결제 성공</h2></a>
+    <!-- 결제 성공 메시지와 홈 페이지로 돌아가는 링크 -->
+    <a th:href="@{/}">
+        <!-- 결제 성공 제목 -->
+        <h2 class="success-title">결제 성공</h2>
+    </a>
+    <!-- 결제 금액을 표시하는 부분 -->
     <div class="success-content">
-        <a th:href="@{/mypage}"><p id="amount" class="clickable"><span th:text="${order.total_amount}"></span>원</p></a>
+        <a th:href="@{/mypage}">
+            <!-- 결제 금액을 클릭하면 마이페이지로 이동 -->
+            <p id="amount" class="clickable">
+                <!-- 주문 총액을 동적으로 삽입 -->
+                <span th:text="${order.total_amount}"></span>원
+            </p>
+        </a>
     </div>
+    <!-- 이모지 또는 기타 애니메이션 요소를 삽입할 영역 -->
     <div id="emoji-container"></div>
 </div>
 
+<!-- 결제 성공 시 소리 효과를 추가하는 오디오 요소 -->
 <audio id="explosion-sound" src="/static/sounds/explosin.mp3"></audio>
 
+<!-- 페이지의 동작을 제어하는 자바스크립트 파일을 포함합니다. -->
 <script src="/static/js/order_success.js"></script>
 </body>
 </html>

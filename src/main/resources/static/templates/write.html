@@ -1,32 +1,47 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <!-- 문자 인코딩을 UTF-8로 설정 -->
     <meta charset="UTF-8">
+    <!-- 모바일 장치에서의 뷰포트 설정 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 페이지 제목 설정 -->
     <title>Viaje - 여행 스토리 작성</title>
+    <!-- 구글 폰트 Poppins 링크 -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome 아이콘 라이브러리 링크 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- 페이지 아이콘 설정 -->
     <link rel="icon" href="/static/images/icon/board.ico">
+    <!-- 사용자 정의 CSS 파일 링크 -->
     <link rel="stylesheet" href="/static/css/write.css">
 </head>
 <body>
+<!-- 배경 비디오 컨테이너 -->
 <div class="video-container">
     <video autoplay muted loop id="background-video">
         <source src="/static/videos/boardVideo/board.mp4" type="video/mp4">
     </video>
 </div>
+<!-- 메인 콘텐츠 컨테이너 -->
 <div class="container">
     <div class="write-container">
+        <!-- 제목과 설명을 포함하는 헤더 -->
         <div class="write-header">
             <h1>🌿 새로운 여행 스토리 만들기</h1>
             <p>당신의 특별한 여행 경험을 공유해주세요!</p>
         </div>
+        <!-- 폼을 포함하는 콘텐츠 -->
         <div class="write-content">
+            <!-- 여행 스토리 작성 폼 -->
             <form th:action="@{/plan/save}" method="post" enctype="multipart/form-data">
+                <!-- 여행 제목 입력 필드 -->
                 <div class="form-group">
                     <label for="title">📌 여행 제목</label>
                     <input type="text" id="title" name="title" required placeholder="당신의 경험이 담긴 제목을 지어주세요">
                 </div>
+
+                <!-- 국가 검색 입력 필드 -->
                 <div class="form-group">
                     <label for="countrySearch">🌎 국가</label>
                     <div class="custom-select">
@@ -37,14 +52,20 @@
                     </div>
                     <input type="hidden" id="selectedCountry" name="nation" required>
                 </div>
+
+                <!-- 여행 시작일 입력 필드 -->
                 <div class="form-group">
                     <label for="startDate">📅 여행 시작일</label>
                     <input type="date" id="startDate" name="startDate" required>
                 </div>
+
+                <!-- 여행 종료일 입력 필드 -->
                 <div class="form-group">
                     <label for="endDate">📅 여행 종료일</label>
                     <input type="date" id="endDate" name="endDate" required>
                 </div>
+
+                <!-- 총 여행 경비 입력 필드 -->
                 <div class="form-group">
                     <label for="cost">💵 총 여행 경비</label>
                     <div class="currency-group">
@@ -53,6 +74,7 @@
                     </div>
                 </div>
 
+                <!-- 여행 유형 선택 버튼 -->
                 <div class="form-group">
                     <label>🌍 여행 유형</label>
                     <div class="travel-type-buttons">
@@ -62,6 +84,7 @@
                     <input type="hidden" id="travelType" name="travelType" value="overseas">
                 </div>
 
+                <!-- 태그 검색 및 선택 필드 -->
                 <div class="form-group">
                     <label for="tagsSearch">🏷️ 태그 옵션</label>
                     <div class="custom-select">
@@ -73,15 +96,19 @@
                     <div id="selectedTagsContainer"></div>
                     <input type="hidden" id="selectedTags" name="tagsOptions" multiple>
                 </div>
+
+                <!-- 여행 이야기 입력 필드 -->
                 <div class="form-group">
                     <label for="content">✏️ 여행 이야기</label>
                     <textarea id="content" name="detail" rows="10" required placeholder="당신의 특별했던 순간들을 자세히 들려주세요"></textarea>
                 </div>
 
+                <!-- 여행 일정 추가 섹션 -->
                 <div class="form-group">
                     <label>📅 여행 일정</label>
                     <div id="planDetailsContainer">
                         <div th:each="plan, planStat : ${planDetails}" class="plan-detail">
+                            <!-- 날짜 및 시간 입력 필드 -->
                             <div class="date-time-container">
                                 <div class="input-wrapper">
                                     <label for="planDate">날짜</label>
@@ -92,6 +119,7 @@
                                     <input type="time" id="planTime" th:name="|planTime|" required>
                                 </div>
                             </div>
+                            <!-- 활동 및 설명 입력 필드 -->
                             <div class="input-wrapper">
                                 <label for="activity">활동</label>
                                 <input type="text" id="activity" th:name="|activity|" placeholder="활동" required>
@@ -105,7 +133,7 @@
                     <button type="button" id="addPlanDetailBtn">일정 추가</button>
                 </div>
 
-                <!-- 숨겨진 템플릿 -->
+                <!-- 숨겨진 템플릿: 새 일정 추가를 위한 양식 -->
                 <template id="planDetailTemplate">
                     <div class="plan-detail">
                         <div class="date-time-container">
@@ -130,7 +158,9 @@
                     </div>
                 </template>
 
+                <!-- 파일 업로드 섹션 -->
                 <div class="form-group file-group">
+                    <!-- 여행 사진 업로드 -->
                     <div class="file-input">
                         <label for="planImageInput">📸 여행 사진</label>
                         <input type="file" id="planImageInput" accept="image/*">
@@ -139,6 +169,7 @@
                         <!-- 실제 서버로 전송될 input -->
                         <input type="file" id="planImages" name="planImages" multiple accept="image/*" style="display: none;">
                     </div>
+                    <!-- 여행 증명사진 업로드 -->
                     <div class="file-input">
                         <label for="certImageInput">📄 여행 증명사진</label>
                         <input type="file" id="certImageInput" accept="image/*">
@@ -149,6 +180,7 @@
                     </div>
                 </div>
 
+                <!-- 제출 버튼 -->
                 <div class="form-group button-group">
                     <button type="submit" class="submit-btn">여행 스토리 공유하기 <i class="fas fa-paper-plane"></i></button>
                 </div>
@@ -157,13 +189,17 @@
     </div>
 </div>
 
+<!-- 푸터 -->
 <footer>
+    <!-- 뒤로가기 버튼 -->
     <button onclick="window.history.back()" class="back-btn">
         <img src="/static/images/free-icon-logout-659989.png" alt="뒤로가기">
     </button>
+    <!-- 저작권 정보 -->
     <p>&copy; 2024 Viaje - 당신의 특별한 여행 파트너. All rights reserved.</p>
 </footer>
 
+<!-- 사용자 정의 JavaScript 파일 링크 -->
 <script src="/static/js/write.js"></script>
 </body>
 </html>

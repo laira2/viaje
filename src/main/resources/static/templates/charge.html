@@ -2,54 +2,85 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <!-- SDK 추가 -->
+    <!-- Toss Payments SDK 추가 -->
     <script src="https://js.tosspayments.com/v2/standard"></script>
+    <!-- 페이지 제목 설정 -->
     <title>결제 페이지</title>
+    <!-- 결제 페이지 스타일시트 -->
     <link rel="stylesheet" href="/static/css/charge.css">
 </head>
 <body style="background: url('/static/images/chargeImage1.png') no-repeat center center fixed; background-size: cover;">
+<!-- 배경 이미지 설정 -->
+
 <div class="logo-container">
+    <!-- 로고 컨테이너 -->
     <h1><a th:href="@{/}" class="logo">Viaje</a></h1>
+    <!-- 메인 페이지로 이동하는 로고 링크 -->
 </div>
+
 <div class="user-container">
+    <!-- 사용자 정보 컨테이너 -->
     <a th:href="@{/mypage}" class="user-link" th:text="${session.userName}">000님</a>
+    <!-- 사용자 이름과 마이페이지 링크 -->
 </div>
+
 <div class="pointcharge">
+    <!-- 포인트 충전 폼 컨테이너 -->
     <form action="/requestcharge" method="post" onsubmit="return validateForm()">
+        <!-- 포인트 충전 폼, 제출 전 validateForm() 함수 호출 -->
         <p>Viaje 포인트 충전</p>
+        <!-- 포인트 충전 제목 -->
+
         <label class="box-radio-input">
             <input type="radio" name="chargeAmount" value="5000">
             <span>5,000원</span>
         </label>
+        <!-- 5,000원 충전 금액 선택 라디오 버튼 -->
+
         <label class="box-radio-input">
             <input type="radio" name="chargeAmount" value="10000">
             <span>10,000원</span>
         </label>
+        <!-- 10,000원 충전 금액 선택 라디오 버튼 -->
+
         <label class="box-radio-input">
             <input type="radio" name="chargeAmount" value="20000">
             <span>20,000원</span>
         </label>
+        <!-- 20,000원 충전 금액 선택 라디오 버튼 -->
+
         <label class="box-radio-input">
             <input type="radio" name="chargeAmount" value="30000">
             <span>30,000원</span>
         </label>
+        <!-- 30,000원 충전 금액 선택 라디오 버튼 -->
+
         <label class="box-radio-input">
             <input type="radio" name="chargeAmount" value="50000">
             <span>50,000원</span>
         </label>
+        <!-- 50,000원 충전 금액 선택 라디오 버튼 -->
+
         <p>Viaje 최소 충전금액은 5,000원이며 <br/>최대 충전금액은 50,000원 입니다.</p>
+        <!-- 충전 금액 안내문 -->
+
         <button class="button" type="submit">결제하기</button>
+        <!-- 결제하기 버튼 -->
     </form>
 </div>
 
 <script>
     function validateForm() {
+        // 폼 유효성 검사 함수
         var selected = document.querySelector('input[name="chargeAmount"]:checked');
+        // 선택된 라디오 버튼을 찾음
         if (!selected) {
             alert('충전할 금액을 선택해주세요.');
+            // 금액이 선택되지 않았을 경우 경고 메시지 출력
             return false;
         }
         return true;
+        // 금액이 선택된 경우 폼 제출 허용
     }
 </script>
 </body>

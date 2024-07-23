@@ -2,27 +2,43 @@
 <html lang="ko" mlns:th="http://www.thymeleaf.org" xmlns:mlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
+    <!-- 문서의 문자 인코딩을 UTF-8로 설정하여 다양한 문자를 지원합니다. -->
     <meta charset="UTF-8">
+    <!-- 뷰포트의 너비를 장치의 너비에 맞게 설정하고, 페이지를 초기 확대 비율로 설정합니다. -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 브라우저 탭에 표시될 제목을 설정합니다. -->
     <title>주문내역 - 여행 계획표 사이트</title>
+    <!-- 브라우저 탭에 표시될 아이콘을 설정합니다. -->
     <link rel="icon" href="/static/images/icon/orderpay.ico">
+    <!-- 주문 내역 페이지의 스타일을 정의하는 CSS 파일을 링크합니다. -->
     <link rel="stylesheet" href="/static/css/orderHistory.css">
+    <!-- Google Fonts에서 Poppins 글꼴을 불러와 페이지에 적용합니다. -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
+<!-- 페이지의 뒤로 가기 버튼 -->
 <div class="back-btn">
+    <!-- 클릭 시 브라우저의 이전 페이지로 돌아가는 버튼 -->
     <img src="/static/images/backback.png" alt="뒤로 가기" onclick="history.back()">
 </div>
+<!-- 주문 내역 페이지의 메인 컨테이너 -->
 <div class="container">
+    <!-- 주문 내역을 표시하는 컨테이너 -->
     <div class="order-history-container">
+        <!-- 주문 내역 페이지의 헤더 -->
         <div class="order-history-header">
+            <!-- 페이지 제목 -->
             <h1>주문내역</h1>
+            <!-- 페이지 설명 -->
             <p>여행 계획표 구매 내역을 확인하세요.</p>
         </div>
+        <!-- 주문 내역 내용을 표시하는 부분 -->
         <div class="order-history-content">
+            <!-- 주문 내역을 테이블 형태로 표시 -->
             <table>
                 <thead>
                 <tr>
+                    <!-- 테이블 헤더: 각 열의 제목 -->
                     <th>주문번호</th>
                     <th>상품명</th>
                     <th>가격</th>
@@ -31,16 +47,23 @@
                 </tr>
                 </thead>
                 <tbody>
+                <!-- Thymeleaf를 사용하여 서버에서 전달된 주문 항목 리스트를 반복하여 표시 -->
                 <tr th:each="ordersItem : ${ordersItemList}">
+                    <!-- 주문 번호 -->
                     <td><span th:text="${ordersItem.orders.user.uuid}"></span></td>
+                    <!-- 상품명 -->
                     <td><span th:text="${ordersItem.travelPlans.title}"></span></td>
+                    <!-- 가격 -->
                     <td><span th:text="${ordersItem.orders.total_amount}"></span></td>
+                    <!-- 주문일, 날짜와 시간을 특정 형식으로 표시 -->
                     <td><span th:text="${#temporals.format(ordersItem.orders.orderedAt, 'yyyy-MM-dd HH:mm')}"></span></td>
+                    <!-- 주문 상태 -->
                     <td><span th:text="${ordersItem.orders.orderStatus}"></span></td>
                 </tr>
                 </tbody>
             </table>
         </div>
+        <!-- 주문 내역 페이지의 바닥글 (현재는 비어있음) -->
         <div class="order-history-footer">
         </div>
     </div>
