@@ -79,4 +79,5 @@ public class BoardService {
         selectedBoard.setViewCount(selectedBoard.getViewCount()+1);
         boardRepository.save(selectedBoard);
     }
+
 }

@@ -31,6 +31,7 @@ public class BoardController {
     private final OrdersItemRepository ordersItemRepository;
     private final TagsService tagsService;
     private final LikeService likeService;
+    private final OrdersService ordersService;
 
     public BoardController(BoardService boardService,
                            TravelPlansService travelPlansService,
@@ -38,7 +39,7 @@ public class BoardController {
                            CommentsController commentsController,
                            PlanDetailRepository planDetailRepository,
                            QnAService qnAService,
-                           OrdersItemRepository ordersItemRepository, TagsService tagsService, LikeService likeService) {
+                           OrdersItemRepository ordersItemRepository, TagsService tagsService, LikeService likeService, OrdersService ordersService) {
         this.boardService = boardService;
         this.travelPlansService = travelPlansService;
         this.userService = userService;
@@ -48,6 +49,7 @@ public class BoardController {
         this.ordersItemRepository = ordersItemRepository;
         this.tagsService = tagsService;
         this.likeService = likeService;
+        this.ordersService = ordersService;
     }
 
     @GetMapping("/products")
@@ -68,6 +70,14 @@ public class BoardController {
         List<Board> boardList = boardService.findProductByType(type);
         model.addAttribute("boardList",boardList);
         return "/board";
+    }
+    @GetMapping("/products/myplan")
+    public String myplan(HttpSession session, Model model){
+        Users user = userService.findByEmail((String) session.getAttribute("user"));
+        List<Board> purchasedPlan = ordersService.orderItemBoard(user);
+        model.addAttribute("boardList", purchasedPlan);
+        return "/board";
+
     }
 
     @GetMapping("/product_detail/{id}")
