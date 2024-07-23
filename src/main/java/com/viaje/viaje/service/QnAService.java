@@ -22,17 +22,17 @@ public class QnAService {
         this.answersRepository = answersRepository;
     }
 
-    public List<Questions> questionsList(){
+    public List<Questions> questionsList() {
         return questionsRepository.findAll();
     }
 
-    public List<Answers> answersList(){
+    public List<Answers> answersList() {
         return answersRepository.findAll();
     }
 
     @Transactional
-    public void addAnswer(Long questionId, String content, Users user) {
-        Questions question = questionsRepository.findById(questionId)
+    public void addAnswer(Long questionsId, String content, Users user) {
+        Questions question = questionsRepository.findById(questionsId)
                 .orElseThrow(() -> new RuntimeException("Question not found"));
         if (question.getAnswers() != null && !question.getAnswers().isEmpty()) {
             throw new RuntimeException("This question already has an answer");
@@ -50,7 +50,7 @@ public class QnAService {
         questionsRepository.save(question);
     }
 
-    public void postQuestion(QuestionsDTO questionsDTO,Users user) {
+    public void postQuestion(QuestionsDTO questionsDTO, Users user) {
         Questions newQuestion = new Questions();
         newQuestion.setUser(user);
         newQuestion.setTitle(questionsDTO.getTitle());
@@ -59,4 +59,35 @@ public class QnAService {
         questionsRepository.save(newQuestion);
 
     }
+
+    @Transactional
+    public void updateQuestion(Long questionsId, QuestionsDTO questionsDTO, Users user) {
+        if (questionsId == null) {
+            throw new IllegalArgumentException("Question ID cannot be null");
+        }
+        Questions question = questionsRepository.findById(questionsId)
+                .orElseThrow(() -> new RuntimeException("Question not found"));
+
+        if (!question.getUser().equals(user)) {
+            throw new RuntimeException("You are not authorized to update this question");
+        }
+
+        question.setTitle(questionsDTO.getTitle());
+        question.setContents(questionsDTO.getContents());
+
+        questionsRepository.save(question);
+    }
+
+    @Transactional
+    public void deleteQuestion(Long questionsId, Users user) {
+        Questions question = questionsRepository.findById(questionsId)
+                .orElseThrow(() -> new RuntimeException("Question not found"));
+
+        if (!question.getUser().equals(user)) {
+            throw new RuntimeException("You are not authorized to delete this question");
+        }
+
+        questionsRepository.delete(question);
+    }
+
 }

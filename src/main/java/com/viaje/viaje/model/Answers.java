@@ -25,7 +25,7 @@ public class Answers {
     private String contents;
 
     @ManyToOne
-    @JoinColumn(name = "questions_id")
+    @JoinColumn(name = "questionsId")
     private Questions questions;
 
     @Column(updatable = false, nullable = false)
