@@ -1,22 +1,36 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <!-- 문자 인코딩을 UTF-8로 설정 -->
     <meta charset="UTF-8" />
+    <!-- 페이지 제목 설정 -->
     <title>결제 실패</title>
+    <!-- 사용자 정의 CSS 파일 링크 -->
     <link rel="stylesheet" href="/static/css/order_fail.css">
 </head>
 <body>
+<!-- 결제 실패 화면의 주요 컨테이너 -->
 <div class="fail-container">
-    <a th:href="@{/}"><h2 class="fail-title">결제 실패</h2></a>
+    <!-- 홈페이지 링크와 제목 -->
+    <a th:href="@{/}">
+        <h2 class="fail-title">결제 실패</h2>
+    </a>
     <div class="fail-content">
+        <!-- 실패 메시지를 표시할 공간 -->
         <p id="message" class="clickable"></p>
-        <a th:href="@{}"><button id="charge-button">포인트 충전하기</button></a>
+        <!-- 포인트 충전 버튼 -->
+        <a th:href="@{}">
+            <button id="charge-button">포인트 충전하기</button>
+        </a>
     </div>
+    <!-- 이모지 또는 추가적인 콘텐츠를 위한 컨테이너 -->
     <div id="emoji-container"></div>
 </div>
 
+<!-- 실패 사운드 파일을 포함하는 오디오 요소 -->
 <audio id="failure-sound" src="/static/sounds/fail-144746.mp3"></audio>
 
+<!-- 사용자 정의 JavaScript 파일 링크 -->
 <script src="/static/js/order_fail.js"></script>
 </body>
 </html>

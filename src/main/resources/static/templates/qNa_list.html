@@ -4,15 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>문의 게시판</title>
+    <!-- Font Awesome 아이콘을 사용하기 위한 CSS 파일 링크 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- 사용자 정의 CSS 파일 링크 -->
     <link rel="stylesheet" href="/static/css/qNa_list.css">
 </head>
 <body style="background: url('/static/images/boardBack2.jpg') no-repeat center center fixed; background-size: auto;">
 <nav class="top-nav">
+    <!-- 로고와 네비게이션 링크가 포함된 상단 내비게이션 바 -->
     <div class="logo-container">
+        <!-- 홈페이지로 이동하는 로고 링크 -->
         <a href="/" class="logo">Viaje</a>
     </div>
     <div class="nav-links">
+        <!-- 사이트의 다른 페이지로 이동하는 네비게이션 링크들 -->
         <a th:href="@{/}" class="nav-link">HOME</a>
         <a th:href="@{/mypage}" class="nav-link">MYPAGE</a>
         <a th:href="@{/logout}" class="nav-link">LOGOUT</a>
@@ -21,40 +26,48 @@
 
 <main class="content">
     <div class="board-container" id="boardContainer">
+        <!-- 게시판 목록 제목 -->
         <h2>문의 게시판 목록</h2>
+        <!-- 문의 게시판 목록을 표시하는 부분 -->
         <div class="question-list" id="questionList" th:each="question : ${questionsList}">
+            <!-- 각 문의 항목의 제목 -->
             <h3 class="question-title" th:text="${question.title}"></h3>
             <div class="question-meta">
+                <!-- 문의 작성자 이름 -->
                 <span class="user-name" th:text="${question.user.userName}"></span>
+                <!-- 문의 상태 -->
                 <span class="question-status" th:text="${question.qnaStatus}"></span>
             </div>
             <div class="question-details">
+                <!-- 문의 내용 -->
                 <p class="question-content" th:text="${question.contents}"></p>
+                <!-- 문의 작성일 -->
                 <p class="question-date" th:text="${#temporals.format(question.createdAt, 'yyyy-MM-dd HH:mm')}"></p>
             </div>
+            <!-- 수정 버튼, 클릭 시 수정 폼을 표시하는 기능을 담당 -->
             <button class="btn-edit" data-question-id="${question.questionsId}">수정</button>
+            <!-- 삭제 폼, 숨겨진 질문 ID와 HTTP 메소드로 DELETE 요청을 전송 -->
             <form id="form-delete-${question.questionsId}" action="/deleteQuestion" method="post" class="delete-form">
                 <input type="hidden" name="questionsId" th:value="${question.questionsId}">
                 <input type="hidden" name="_method" value="delete">
                 <button type="submit" class="btn-delete">삭제</button>
             </form>
-<!--            <button class="btn-delete" data-question-id="${question.questionsId}" onclick="submitDeleteForm('${question.questionsId}')">-->
-<!--                삭제-->
-<!--            </button>-->
+            <!-- 답변 버튼, 클릭 시 답변 폼을 표시하는 기능을 담당 -->
             <button class="btn-answer" th:attr="data-question-id=${question.questionsId}">답변</button>
             <div class="answer-form" th:id="'answerForm-' + ${question.questionsId}" style="display:none;">
+                <!-- 답변이 있는 경우, 각 답변을 표시 -->
                 <div class="answer-content" th:if="${question.answers} != null" th:each="answer : ${question.answers}">
                     <p th:text="'답변 :' +${answer.contents}">답변 : </p>
                     <p class="answer-date" th:text="${#temporals.format(answer.createdAt, 'yyyy-MM-dd HH:mm')}"></p>
                 </div>
-
+                <!-- 답변이 없는 경우, 답변 작성 폼을 표시 -->
                 <form action="/postAnswer" method="post" th:if="${question.answers == null or #lists.isEmpty(question.answers)}">
                     <input type="hidden" name="questionsId" th:value="${question.questionsId}">
                     <textarea name="contents" rows="3" placeholder="답변을 입력하세요"></textarea>
                     <button type="submit">답변 제출</button>
                 </form>
             </div>
-            <!-- 수정 폼 영역 -->
+            <!-- 수정 폼 영역, 숨겨진 질문 ID와 기존 제목, 내용을 미리 채운 수정 폼 -->
             <div class="edit-form" id="editForm-${question.questionsId}" style="display:none;">
                 <h4>수정하기</h4>
                 <form id="form-edit-${question.questionsId}" action="/updateQuestion" method="post">
@@ -64,12 +77,13 @@
                     <label for="editContent-${question.questionsId}">내용</label>
                     <textarea id="editContent-${question.questionsId}" name="contents" rows="5" th:text="${question.contents}" required></textarea>
                     <button type="submit">수정 완료</button>
+                    <!-- 수정 폼 취소 버튼, 수정 폼을 숨김 -->
                     <button type="button" onclick="cancelEditForm('${question.questionsId}')">취소</button>
                 </form>
             </div>
         </div>
-
     </div>
+    <!-- 문의 작성 폼 -->
     <div class="form-container">
         <h2>문의 작성</h2>
         <form id="questionForm" action="/qnaPost" method="post">
@@ -86,8 +100,7 @@
     </div>
 </main>
 
-
-
+<!-- JavaScript 파일 링크 -->
 <script src="/static/js/qNa_list.js"></script>
 </body>
 </html>

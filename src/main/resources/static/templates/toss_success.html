@@ -1,21 +1,34 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <!-- 문자 인코딩을 UTF-8로 설정 -->
     <meta charset="UTF-8" />
+    <!-- 페이지 제목 설정 -->
     <title>결제 성공</title>
+    <!-- 사용자 정의 CSS 파일 링크 -->
     <link rel="stylesheet" href="/static/css/toss_success.css">
 </head>
 <body>
+<!-- 결제 성공 메시지를 포함하는 주요 컨테이너 -->
 <div class="success-container">
-    <a th:href="@{/}"><h2 class="success-title">결제 성공</h2></a>
+    <!-- 홈페이지 링크와 결제 성공 제목 -->
+    <a th:href="@{/}">
+        <h2 class="success-title">결제 성공</h2>
+    </a>
     <div class="success-content">
-        <a th:href="@{/mypage}"><p id="amount" class="clickable">충전 금액: 0원</p></a>
+        <!-- 충전 금액을 표시하는 링크 -->
+        <a th:href="@{/mypage}">
+            <p id="amount" class="clickable">충전 금액: 0원</p>
+        </a>
     </div>
+    <!-- 이모지 또는 추가적인 콘텐츠를 위한 컨테이너 -->
     <div id="emoji-container"></div>
 </div>
 
+<!-- 성공 사운드 파일을 포함하는 오디오 요소 -->
 <audio id="explosion-sound" src="/static/sounds/explosin.mp3"></audio>
 
+<!-- 사용자 정의 JavaScript 파일 링크 -->
 <script src="/static/js/toss_success.js"></script>
 </body>
 </html>

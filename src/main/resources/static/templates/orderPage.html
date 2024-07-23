@@ -1,27 +1,43 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <!-- 문서의 문자 인코딩을 UTF-8로 설정하여 다양한 문자를 지원합니다. -->
     <meta charset="UTF-8">
+    <!-- 모바일 장치에서 적절하게 표시되도록 뷰포트를 설정합니다. -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 브라우저 탭에 표시될 제목을 설정합니다. -->
     <title>Viaje - 주문하기</title>
+    <!-- Google Fonts에서 Poppins 글꼴을 불러와 페이지에 적용합니다. -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- 주문하기 페이지의 스타일을 정의하는 CSS 파일을 링크합니다. -->
     <link rel="stylesheet" href="/static/css/order.css">
+    <!-- 브라우저 탭에 표시될 아이콘을 설정합니다. -->
     <link rel="icon" href="/static/images/icon/cart.ico">
 </head>
 <body>
+<!-- 페이지의 뒤로 가기 버튼 -->
 <div class="back-btn">
+    <!-- 클릭 시 브라우저의 이전 페이지로 돌아가는 버튼 -->
     <img src="/static/images/backback.png" alt="뒤로 가기" onclick="history.back()">
 </div>
+<!-- 주문하기 페이지의 메인 컨테이너 -->
 <div class="container">
+    <!-- 주문 내용을 표시하는 컨테이너 -->
     <div class="order-container">
+        <!-- 주문하기 페이지의 헤더 -->
         <div class="order-header">
+            <!-- 페이지 제목 -->
             <h1>Viaje 주문하기</h1>
+            <!-- 페이지 설명 -->
             <p>주문하실 계획을 확인해주세요.</p>
         </div>
+        <!-- 주문 내용 테이블을 포함하는 부분 -->
         <div class="order-content">
+            <!-- 주문 내용을 테이블 형식으로 표시 -->
             <table>
                 <thead>
                 <tr>
+                    <!-- 테이블 헤더: 각 열의 제목 -->
                     <th>번호</th>
                     <th>제목</th>
                     <th>수량</th>
@@ -29,26 +45,37 @@
                 </tr>
                 </thead>
                 <tbody id="order-content">
+                <!-- 주문 항목이 없을 경우 표시할 메시지 -->
                 <tr th:if="${orderItemList == null or #lists.isEmpty(orderItemList)}">
-                    <td colspan="5">주문 내역이 없습니다.</td>
+                    <td colspan="4">주문 내역이 없습니다.</td>
                 </tr>
+                <!-- Thymeleaf를 사용하여 서버에서 전달된 주문 항목 리스트를 반복하여 표시 -->
                 <tr th:each="orderItem, iterStat : ${orderItemList}" th:if="${orderItem != null}">
+                    <!-- 항목 번호, 1부터 시작하는 순서 번호 -->
                     <td th:text="${iterStat.count}"></td>
+                    <!-- 여행 계획 제목을 포함하는 링크 -->
                     <td>
                         <a th:href="@{/product_detail/{id}(id=${orderItem.travelPlans?.planId})}"
                            th:text="${orderItem.travelPlans?.title}"></a>
                     </td>
+                    <!-- 수량 -->
                     <td th:text="${orderItem.quantity}"></td>
+                    <!-- 가격 -->
                     <td th:text="${orderItem.travelPlans?.price}"></td>
                 </tr>
                 </tbody>
             </table>
         </div>
+        <!-- 주문 항목이 있을 경우 표시할 주문 총액 및 결제 버튼 -->
         <div class="order-footer" th:if="${orderItemList != null and not #lists.isEmpty(orderItemList)}">
+            <!-- 총 금액을 표시 -->
             <h3>총 금액: <span th:text="${orderItemList[0].orders.total_amount}"></span>원</h3>
             <br>
+            <!-- 결제하기 버튼을 포함하는 폼 -->
             <form th:action="@{/order/create}" method="post">
+                <!-- 숨겨진 입력 필드로 주문 ID를 전송 -->
                 <input type="hidden" name="orderId" th:value="${orderItemList[0].orders.orderId}">
+                <!-- 결제 버튼 -->
                 <button type="submit" class="submitBtn">결제하기</button>
             </form>
         </div>
