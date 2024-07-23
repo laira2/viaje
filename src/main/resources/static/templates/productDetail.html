@@ -125,6 +125,14 @@
                         <i class="fas fa-list"></i> Go to List
                     </button>
                 </form>
+                <span th:if="${isLiked}" class="like-button liked" th:data-plan-id="${selectedPlan.planId}">
+                    ❤️
+                </span>
+                <span th:unless="${isLiked}" class="like-button" th:data-plan-id="${selectedPlan.planId}">
+                    🤍
+                </span>
+
+
             </div>
 
             <section id="commentsSection">
@@ -179,4 +187,37 @@
     </div>
 </main>
 </body>
+<script>
+    document.querySelectorAll('.like-button').forEach(button => {
+        button.addEventListener('click', function() {
+            const planId = this.getAttribute('data-plan-id');
+            fetch(`/plan/${planId}/like`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Received data:', data); // 디버깅을 위해 받은 데이터를 로그로 출력
+                if (data.liked) {
+                    this.innerHTML = '❤️';
+                    this.classList.add('liked');
+                } else {
+                    this.innerHTML = '🤍';
+                    this.classList.remove('liked');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // 오류 처리 로직 (예: 사용자에게 오류 메시지 표시)
+            });
+        });
+    });
+</script>
 </html>

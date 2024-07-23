@@ -51,8 +51,10 @@ public class AdminService {
     public void updatePlanStatus(Long id, String status) {
         Board.BoardStatus boardStatus = Board.BoardStatus.valueOf(status);
         TravelPlans.PlanStatus planStatus = TravelPlans.PlanStatus.valueOf(status);
+        TravelPlans updatePlan = travelPlansRepository.findById(id).orElseThrow();
+        Board updateBoard = boardRepository.findByTravelPlans(updatePlan);
 
-        boardRepository.updateBoardStatus(id, boardStatus);
+        boardRepository.updateBoardStatus(updateBoard.getBoardId(), boardStatus);
         travelPlansRepository.updatePlanStatus(id, planStatus);
     }
 }
