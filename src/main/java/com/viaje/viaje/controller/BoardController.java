@@ -140,21 +140,4 @@ public class BoardController {
         return "redirect:/qnaBoard";
     }
 
-    @PostMapping("/updateAnswer")
-    public String updateAnswer(@RequestParam Long answerId, @RequestParam String content, HttpSession session) {
-        Users user = userService.findByEmail((String) session.getAttribute("user"));
-        qnAService.updateAnswer(answerId, content, user);
-        return "redirect:/qnaBoard";
-    }
-
-    @PostMapping("/deleteAnswer")
-    public String deleteAnswer(@RequestParam Long answerId, HttpSession session) {
-        Users user = userService.findByEmail((String) session.getAttribute("user"));
-        qnAService.deleteAnswer(answerId, user);
-        return "redirect:/qnaBoard";
-    }
-
-
-
-
 }

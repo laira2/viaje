@@ -90,28 +90,4 @@ public class QnAService {
         questionsRepository.delete(question);
     }
 
-    @Transactional
-    public void updateAnswer(Long answerId, String content, Users user) {
-        Answers answer = answersRepository.findById(answerId)
-                .orElseThrow(() -> new RuntimeException("Answer not found"));
-
-        if (!answer.getUser().equals(user)) {
-            throw new RuntimeException("You are not authorized to update this answer");
-        }
-
-        answer.setContents(content);
-        answersRepository.save(answer);
-    }
-
-    @Transactional
-    public void deleteAnswer(Long answerId, Users user) {
-        Answers answer = answersRepository.findById(answerId)
-                .orElseThrow(() -> new RuntimeException("Answer not found"));
-
-        if (!answer.getUser().equals(user)) {
-            throw new RuntimeException("You are not authorized to delete this answer");
-        }
-
-        answersRepository.delete(answer);
-    }
 }
