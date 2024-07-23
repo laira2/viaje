@@ -1,12 +1,15 @@
 package com.viaje.viaje.controller;
 
 import com.viaje.viaje.dto.AnswersDTO;
+import com.viaje.viaje.dto.LikeResponse;
 import com.viaje.viaje.dto.QuestionsDTO;
 import com.viaje.viaje.model.*;
 import com.viaje.viaje.repository.OrdersItemRepository;
 import com.viaje.viaje.repository.PlanDetailRepository;
 import com.viaje.viaje.service.*;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -27,6 +31,7 @@ public class BoardController {
     private final QnAService qnAService;
     private final OrdersItemRepository ordersItemRepository;
     private final TagsService tagsService;
+    private final LikeService likeService;
 
     public BoardController(BoardService boardService,
                            TravelPlansService travelPlansService,
@@ -34,7 +39,7 @@ public class BoardController {
                            CommentsController commentsController,
                            PlanDetailRepository planDetailRepository,
                            QnAService qnAService,
-                           OrdersItemRepository ordersItemRepository, TagsService tagsService) {
+                           OrdersItemRepository ordersItemRepository, TagsService tagsService, LikeService likeService) {
         this.boardService = boardService;
         this.travelPlansService = travelPlansService;
         this.userService = userService;
@@ -43,6 +48,7 @@ public class BoardController {
         this.qnAService = qnAService;
         this.ordersItemRepository = ordersItemRepository;
         this.tagsService = tagsService;
+        this.likeService = likeService;
     }
 
     @GetMapping("/products")
@@ -72,12 +78,15 @@ public class BoardController {
         List<Comments> comments = commentsController.getComments(id);
         List<PlanDetail> planDetails = planDetailRepository.findAllByTravelPlanOrderByPlanDateAscPlanTimeAsc(selectedPlan);
         List<Tags> planTags=tagsService.findTags(selectedPlan);
+        boolean isLike = likeService.isLikedByUser(user,selectedPlan);
         boardService.increaseViewCount(selectedPlan);
         session.setAttribute("selectedPlan",selectedPlan);
         model.addAttribute("selectedPlan", selectedPlan);
         model.addAttribute("user", user);
         model.addAttribute("comments",comments);
         model.addAttribute("tagsList", planTags);
+        boolean isLiked = likeService.isLikedByUser( user, selectedPlan);
+        model.addAttribute("isLiked", isLiked);
 
         boolean alreadyPurchased = ordersItemRepository.existsByOrders_UserAndTravelPlans(user, selectedPlan);
         if (alreadyPurchased || selectedPlan.getUser().getEmail().equals(session.getAttribute("user"))) {
@@ -107,6 +116,21 @@ public class BoardController {
         Users user = userService.findByEmail((String) session.getAttribute("user"));
         qnAService.addAnswer(answersDTO.getQuestionsId(),answersDTO.getContents(),user);
         return "redirect:/qnaBoard";
+    }
+
+    @PostMapping("/plan/{planId}/like")
+    public ResponseEntity<?> toggleLike(@PathVariable Long planId, HttpSession session) {
+        String useremail = (String) session.getAttribute("user");
+        if (useremail == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        Users user = userService.findByEmail(useremail);
+        TravelPlans plan = travelPlansService.getPlanById(planId);
+
+        boolean isLiked = likeService.toggleLike(plan, user);
+
+        return ResponseEntity.ok().body(new LikeResponse(isLiked));
     }
 
 

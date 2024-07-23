@@ -211,4 +211,8 @@ public class TravelPlansService {
     public List<PlanDetail> findPlanDetailByPlan(TravelPlans updatePlan) {
         return planDetailRepository.findAllByTravelPlanOrderByPlanDateAscPlanTimeAsc(updatePlan);
     }
+
+    public TravelPlans getPlanById(Long planId) {
+        return travelPlansRepository.findById(planId).orElseThrow();
+    }
 }
