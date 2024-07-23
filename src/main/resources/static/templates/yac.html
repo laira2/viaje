@@ -1,18 +1,26 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+  <!-- 문자 인코딩을 UTF-8로 설정 -->
   <meta charset="utf-8">
+  <!-- 페이지 제목 설정 -->
   <title>Viaje 약관</title>
+  <!-- 구글 폰트 서버와 연결을 최적화 -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Noto Sans KR 폰트 로드 -->
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+  <!-- 페이지 아이콘 설정 -->
   <link rel="icon" href="/static/images/icon/join.ico">
+  <!-- 사용자 정의 CSS 파일 링크 -->
   <link rel="stylesheet" href="../css/yac.css">
   <script>
+    // 페이지가 완전히 로드된 후 실행될 함수를 등록합니다.
     document.addEventListener('DOMContentLoaded', function() {
       const termsContent = document.getElementById('terms-content');
       const confirmButton = document.getElementById('confirm-button');
 
+      // checkScroll(): 약관 콘텐츠가 스크롤되었는지 확인하고, 스크롤이 끝에 도달하면 버튼을 활성화합니다.
       function checkScroll() {
         // 약간의 여유를 두고 계산 (1px 정도)
         if (termsContent.scrollTop + termsContent.clientHeight >= termsContent.scrollHeight - 1) {
@@ -27,9 +35,10 @@
       // 초기 로드 시 체크
       checkScroll();
 
-      // 스크롤 이벤트에 checkScroll 함수 연결
+      // 스크롤 이벤트가 발생할 때 checkScroll 함수를 호출하여 버튼 상태를 업데이트합니다.또한 스크롤 이벤트에 checkScroll 함수 연결
       termsContent.addEventListener('scroll', checkScroll);
 
+      // 버튼이 클릭되면 사용자를 '/join' 페이지로 리디렉션합니다.
       confirmButton.addEventListener('click', function() {
         window.location.href = '/join';
       });
@@ -42,12 +51,17 @@
   </script>
 </head>
 <body>
+<!-- 이용 약관 콘텐츠를 포함하는 주요 컨테이너 -->
 <div class="terms">
+  <!-- 페이지 제목 -->
   <h1 class="terms-title">이용 약관</h1>
+  <!-- 약관 설명 -->
   <p class="terms-description">
     Viaje에 오신걸 환영합니다. 아래 약관을 확인해주세요.
   </p>
+  <!-- 약관 내용 -->
   <div class="terms-content" id="terms-content">
+    <!-- 총칙 섹션 -->
     <h2 class="terms-content-heading">제1장 총칙</h2>
     <h3>제1조 (목적)</h3>
     <p>
@@ -75,6 +89,7 @@
     </p>
     <p>...</p>
   </div>
+  <!-- 확인 버튼 -->
   <button id="confirm-button" disabled>이용 약관을 확인 하였습니다.</button>
 </div>
 </body>

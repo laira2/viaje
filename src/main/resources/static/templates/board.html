@@ -1,50 +1,97 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<!-- HTML 문서가 한국어로 작성되었음을 선언하고, Thymeleaf 네임스페이스를 추가 -->
+
 <head>
   <meta charset="UTF-8">
+  <!-- 문서의 인코딩을 UTF-8로 설정 -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- 반응형 웹 디자인을 위해 viewport 설정 -->
   <title>Viaje - 여행 계획</title>
+  <!-- 문서의 제목 설정 -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <!-- 구글 폰트 Poppins을 로드 -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <!-- Font Awesome 아이콘 스타일 시트를 로드 -->
   <link rel="icon" href="/static/images/icon/board.ico">
+  <!-- 파비콘 설정 -->
   <link rel="stylesheet" href="/static/css/board.css">
+  <!-- CSS 파일 로드 -->
 </head>
+
 <body>
 <div class="container">
+  <!-- 전체 컨텐츠를 담는 컨테이너 -->
+
   <div class="back-btn" onclick="history.back()">
     <img src="/static/images/backback.png" alt="뒤로 가기">
+    <!-- 뒤로 가기 버튼, 클릭 시 이전 페이지로 이동 -->
   </div>
+
   <div class="board-container">
+    <!-- 게시판 컨테이너 -->
+
     <div class="board-header">
+      <!-- 게시판 헤더 -->
+
       <h1 th:if="${type==null}">Viaje 여행 계획</h1>
+      <!-- type이 null일 경우 표시할 제목 -->
       <h1 th:if="${type!=null}" th:text="'Viaje #' + ${type}"></h1>
+      <!-- type이 null이 아닐 경우 표시할 제목 -->
+
       <p if="${session.isAdmin != true or session.isAdmin ==null }">여행 경험을 공유해보세요</p>
+      <!-- 관리자가 아닌 경우 표시할 문구 -->
       <p th:if="${session.isAdmin == true}">관리자용 페이지 입니다. pending상태의 게시글만 보입니다.</p>
+      <!-- 관리자일 경우 표시할 문구 -->
     </div>
+
     <div class="board-content">
+      <!-- 게시판 컨텐츠 -->
+
       <div class="card-grid">
+        <!-- 카드 그리드 -->
+
         <div class="card" th:each="board : ${boardList}">
+          <!-- boardList를 반복하여 각 보드를 카드로 표시 -->
+
           <img class="card-image" th:src="@{'../uploads/plan/'+ ${board.travelPlans.imagePaths[0]}}" th:alt="'uploads/plan/'">
+          <!-- 여행 계획의 첫 번째 이미지 경로를 사용하여 이미지를 표시 -->
+
           <div class="card-body">
+            <!-- 카드 본문 -->
+
             <a th:if="${session.isAdmin == true}" th:href="@{/product_detail/admin/{id}(id=${board.travelPlans.planId})}" >
               <h3 class="card-title" th:text="${board.travelPlans.title}"></h3>
             </a>
+            <!-- 관리자일 경우 상세 페이지 링크 -->
+
             <a th:if="${session.isAdmin != true or session.isAdmin ==null }" th:href="@{/product_detail/{id}(id=${board.travelPlans.planId})}">
               <h3 class="card-title" th:text="${board.travelPlans.title}"></h3>
             </a>
-            <p class="card-info">
-              <span class="card-date" th:text="${#temporals.format(board.createdAt, 'yyyy-MM-dd')}"></span>
-              <span class="card-views"><i class="fas fa-eye"></i> <span th:text="${board.viewCount}"></span></span>
-            </p>
+            <!-- 관리자가 아닐 경우 상세 페이지 링크 -->
 
+            <p class="card-info">
+              <!-- 카드 정보 -->
+
+              <span class="card-date" th:text="${#temporals.format(board.createdAt, 'yyyy-MM-dd')}"></span>
+              <!-- 작성 날짜를 표시 -->
+
+              <span class="card-views"><i class="fas fa-eye"></i> <span th:text="${board.viewCount}"></span></span>
+              <!-- 조회 수를 표시 -->
+            </p>
 
           </div>
         </div>
+
       </div>
     </div>
+
     <div class="board-footer">
+      <!-- 게시판 푸터 -->
       <a th:href="@{/createPlan}" ><button class="write-btn">글쓰기 <i class="fas fa-pen"></i></button></a>
+      <!-- 글쓰기 버튼, 클릭 시 글쓰기 페이지로 이동 -->
     </div>
+
   </div>
 </div>
 </body>

@@ -1,59 +1,98 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <!-- 문자 인코딩을 설정합니다. -->
     <meta charset="UTF-8">
+    <!-- 모바일 화면에서의 뷰포트를 설정합니다. -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 브라우저 탭에 표시될 제목을 설정합니다. -->
     <title>Viaje - 마이페이지</title>
+    <!-- Font Awesome 아이콘을 포함하는 스타일시트를 추가합니다. -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- 사이트의 스타일을 정의하는 CSS 파일을 링크합니다. -->
     <link rel="stylesheet" href="/static/css/mypage.css">
 </head>
 
 <body style="background: url('/static/images/backgroundMypage.png') no-repeat center center fixed; background-size: cover;">
+<!-- 메인 컨테이너를 정의합니다. -->
 <div class="container">
+    <!-- 헤더 로고 영역 -->
     <div class="header-logo">
-        <h1><a th:href="@{/}" style="color: white; text-decoration: none;"><i class="fas fa-plane-departure"></i> Viaje</a></h1>
+        <!-- 로고와 사이트 제목을 표시하며, 클릭 시 홈 페이지로 이동합니다. -->
+        <h1>
+            <a th:href="@{/}" style="color: white; text-decoration: none;">
+                <i class="fas fa-plane-departure"></i> Viaje
+            </a>
+        </h1>
     </div>
+
+    <!-- 사용자 정보 섹션 -->
     <div class="user-info">
+        <!-- 사용자 아바타를 표시합니다. -->
         <div class="user-avatar">
             <img id="avatarPreview" src="https://via.placeholder.com/150" alt="User Avatar">
         </div>
+        <!-- 사용자 세부정보를 표시합니다. -->
         <div class="user-details">
+            <!-- 사용자 이름을 환영 메시지와 함께 표시합니다. -->
             <h2 style="color: white;">안녕하세요, <span id="userName" th:text="${user.userName}"></span>님!</h2>
-            <p class="mileage" style="color: white;"><i class="fas fa-coins"></i> <a th:href="@{/pointcharge}" id="userMileageLink" style="color: white; text-decoration: none;">마일리지: <span id="userMileage" th:text="${user.point}"></span>점</a></p>
+            <!-- 사용자 마일리지 정보를 표시합니다. -->
+            <p class="mileage" style="color: white;">
+                <i class="fas fa-coins"></i>
+                <a th:href="@{/pointcharge}" id="userMileageLink" style="color: white; text-decoration: none;">
+                    마일리지: <span id="userMileage" th:text="${user.point}"></span>점
+                </a>
+            </p>
+            <!-- 프로필 사진 변경 및 프로필 수정 버튼 -->
             <div class="button-group">
-                <label for="avatarUpload" class="btn btn-change-photo"><i class="fas fa-camera"></i> 사진 변경</label>
+                <!-- 아바타 업로드를 위한 버튼 -->
+                <label for="avatarUpload" class="btn btn-change-photo">
+                    <i class="fas fa-camera"></i> 사진 변경
+                </label>
+                <!-- 파일 입력 요소, 숨겨져 있으며 버튼 클릭 시 활성화됩니다. -->
                 <input type="file" id="avatarUpload" style="display: none;">
-                <a href="#" class="btn btn-edit-profile"><i class="fas fa-user-edit"></i> 프로필 수정</a>
+                <!-- 프로필 수정 버튼 -->
+                <a href="#" class="btn btn-edit-profile">
+                    <i class="fas fa-user-edit"></i> 프로필 수정
+                </a>
             </div>
         </div>
     </div>
 
+    <!-- 섹션 버튼 그룹 -->
     <div class="section-buttons">
+        <!-- 각 버튼은 특정 섹션으로 이동하도록 설계되어 있습니다. -->
         <button class="section-btn" data-target="pointChargeHistory" data-title="포인트 충전 내역">포인트 충전 내역</button>
         <button class="section-btn" data-target="purchasedPlans" data-title="내가 구입한 계획">내가 구입한 계획</button>
         <button class="section-btn" data-target="soldPlans" data-title="내가 판매한 계획">내가 판매한 계획</button>
     </div>
 </div>
 
+<!-- 오른쪽 컨테이너 영역 -->
 <div class="right-container">
-    <!-- 오른쪽 영역의 최상단에 버튼 이름을 표시할 영역 -->
+    <!-- 정보 제목을 표시할 영역 -->
     <div id="infoHeader" class="info-header">정보 제목</div>
 
-    <!-- 버튼 클릭 시 관련 내용을 표시할 영역 -->
+    <!-- 포인트 충전 내역 섹션 -->
     <div id="pointChargeHistory" class="section-content">
+        <!-- 포인트 충전 내역이 있는 경우 목록을 표시합니다. -->
         <ul class="contents-list" th:if="${not #lists.isEmpty(transactions)}">
             <li th:each="transaction : ${transactions}" class="contents-card">
                 <div class="transaction-icon">
+                    <!-- 거래 유형에 따라 아이콘 색상을 변경합니다. -->
                     <i class="fas fa-coins" th:style="${transaction.transactionType == 'CREDIT' ? 'color: #4CAF50;' : 'color: #F44336;'}"></i>
                 </div>
                 <div class="transaction-details">
+                    <!-- 거래 포인트 및 유형을 표시합니다. -->
                     <p class="transaction-point" style="color: white;">
                         <span th:text="${transaction.chargePoint}"></span> 포인트
                         <span class="transaction-type" th:text="${transaction.transactionType}"></span>
                     </p>
+                    <!-- 거래 상태를 표시합니다. -->
                     <p class="transaction-status" style="color: white;">
                         상태: <span th:text="${transaction.transactionStatus}" th:class="${transaction.transactionStatus == 'COMPLETED' ? 'status-completed' : 'status-pending'}"></span>
                     </p>
+                    <!-- 거래 날짜를 표시합니다. -->
                     <p class="transaction-date" style="color: white;">
                         <i class="far fa-calendar-alt"></i>
                         <span th:text="${#temporals.format(transaction.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></span>
@@ -61,26 +100,33 @@
                 </div>
             </li>
         </ul>
+        <!-- 거래 내역이 없는 경우 표시되는 메시지 -->
         <div class="no-data" th:if="${#lists.isEmpty(transactions)}">
             <i class="fas fa-exclamation-circle" style="color: white;"></i>
             <span style="color: white;">충전 내역이 없습니다.</span>
         </div>
     </div>
+
+    <!-- 내가 구입한 계획 섹션 -->
     <div id="purchasedPlans" class="section-content">
+        <!-- 내가 구입한 계획이 있는 경우 목록을 표시합니다. -->
         <ul class="contents-list" th:if="${not #lists.isEmpty(oderBoardList)}">
             <li th:each="orderboard : ${oderBoardList}" class="contents-card">
                 <div class="plan-icon">
                     <i class="fas fa-map-marked-alt"></i>
                 </div>
                 <div class="plan-details">
+                    <!-- 계획 제목을 표시하고, 클릭 시 상세 페이지로 이동합니다. -->
                     <h3 class="plan-title">
                         <a th:href="@{/product_detail/{id}(id=${orderboard.travelPlans.planId})}" th:text="${orderboard.travelPlans.title}" style="color: white;"></a>
                     </h3>
+                    <!-- 계획 정보(조회수, 좋아요 수 등)를 표시합니다. -->
                     <p class="plan-info" style="color: white;">
                         <span><i class="fas fa-eye"></i> <th:block th:text="${orderboard.viewCount}"></th:block></span>
                         <span><i class="fas fa-heart"></i> <th:block th:text="${orderboard.likeCount}"></th:block></span>
                         <span class="plan-status" th:text="${orderboard.boardStatus}"></span>
                     </p>
+                    <!-- 계획 생성 날짜를 표시합니다. -->
                     <p class="plan-date" style="color: white;">
                         <i class="far fa-calendar-alt"></i>
                         <span th:text="${#temporals.format(orderboard.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></span>
@@ -88,26 +134,33 @@
                 </div>
             </li>
         </ul>
+        <!-- 구입 내역이 없는 경우 표시되는 메시지 -->
         <div class="no-data" th:if="${#lists.isEmpty(oderBoardList)}">
             <i class="fas fa-exclamation-circle" style="color: white;"></i>
             <span style="color: white;">구매 내역이 없습니다.</span>
         </div>
     </div>
+
+    <!-- 내가 판매한 계획 섹션 -->
     <div id="soldPlans" class="section-content">
+        <!-- 내가 판매한 계획이 있는 경우 목록을 표시합니다. -->
         <ul class="contents-list" th:if="${not #lists.isEmpty(boardList)}">
             <li th:each="board : ${boardList}" class="contents-card">
                 <div class="plan-icon">
                     <i class="fas fa-map-marked-alt"></i>
                 </div>
                 <div class="plan-details">
+                    <!-- 계획 제목을 표시하고, 클릭 시 상세 페이지로 이동합니다. -->
                     <h3 class="plan-title">
                         <a th:href="@{/product_detail/{id}(id=${board.travelPlans.planId})}" th:text="${board.travelPlans.title}" style="color: white;"></a>
                     </h3>
+                    <!-- 계획 정보(조회수, 좋아요 수 등)를 표시합니다. -->
                     <p class="plan-info" style="color: white;">
                         <span><i class="fas fa-eye"></i> <th:block th:text="${board.viewCount}"></th:block></span>
                         <span><i class="fas fa-heart"></i> <th:block th:text="${board.likeCount}"></th:block></span>
                         <span class="plan-status" th:text="${board.boardStatus}"></span>
                     </p>
+                    <!-- 계획 생성 날짜를 표시합니다. -->
                     <p class="plan-date" style="color: white;">
                         <i class="far fa-calendar-alt"></i>
                         <span th:text="${#temporals.format(board.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></span>
@@ -115,6 +168,7 @@
                 </div>
             </li>
         </ul>
+        <!-- 판매 내역이 없는 경우 표시되는 메시지 -->
         <div class="no-data" th:if="${#lists.isEmpty(boardList)}">
             <i class="fas fa-exclamation-circle" style="color: white;"></i>
             <span style="color: white;">판매 내역이 없습니다.</span>
@@ -122,6 +176,7 @@
     </div>
 </div>
 
+<!-- 페이지의 하단에 자바스크립트 파일을 포함합니다. -->
 <script src="/static/js/mypage.js"></script>
 </body>
 </html>
